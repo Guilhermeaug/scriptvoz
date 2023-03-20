@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .separator-line {
+    @apply mx-auto my-3 h-[2px] max-w-sm border-none
+  }
+}
+
+@layer utilities {
+  .polygon-tr {
+    clip-path: polygon(0 1%, 100% 0%, 44% 100%, 0 100%);
+  }
+
+  .polygon-bl {
+    clip-path: polygon(44% 0, 100% 0%, 100% 100%, 0 100%);
+  }
+}
