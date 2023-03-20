@@ -31,11 +31,11 @@ export default async function EvaluationStep() {
             className='border-none'
             description={attributes.summary}
           />
-          <hr className='separator-line space-y-4 bg-diagnostic' />
           <p className='prose mb-6 p-2'>
-            A partir dos dados das avaliações fonoaudiológica e
-            otorrinolaringológica do paciente, clique abaixo nos itens que
-            compõem os seus diagnósticos de manifestação.
+            <hr className='separator-line bg-diagnostic' />A partir dos dados
+            das avaliações fonoaudiológica e otorrinolaringológica do paciente,
+            clique abaixo nos itens que compõem os seus diagnósticos de
+            manifestação.
           </p>
           <Diagnostics answers={answers} />
         </main>

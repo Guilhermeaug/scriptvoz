@@ -31,10 +31,10 @@ export default async function TherapeuticStep() {
             className='border-none'
             description={attributes.summary}
           />
-          <hr className='separator-line space-y-4 bg-therapeutic' />
           <p className='prose mb-6 p-2'>
-            A partir do diagnóstico de manifestação, defina as condutas
-            terapêuticas do paciente. Clique nos itens que constituem condutas.
+            <hr className='separator-line space-y-4 bg-therapeutic' />A partir
+            do diagnóstico de manifestação, defina as condutas terapêuticas do
+            paciente. Clique nos itens que constituem condutas.
           </p>
           <Diagnostics answers={answers} />
         </main>
