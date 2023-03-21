@@ -7,6 +7,7 @@ export async function getData({ path }: { path: string }) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
+    cache: 'no-cache',
   });
 
   if (!res.ok) {
