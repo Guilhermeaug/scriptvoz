@@ -11,18 +11,16 @@ export interface Media {
 
 export interface QuestionType {
   id: number;
-  attributes: {
-    question: string;
-    A: string;
-    B: string;
-    C: string;
-    D: string;
-    feedback_a: string;
-    feedback_b: string;
-    feedback_c: string;
-    feedback_d: string;
-    answer: number;
-  };
+  question: string;
+  A: string;
+  B: string;
+  C: string;
+  D: string;
+  feedback_a: string;
+  feedback_b: string;
+  feedback_c: string;
+  feedback_d: string;
+  answer: number;
 }
 
 interface EvaluationAttributes {
@@ -50,9 +48,7 @@ interface EvaluationAttributes {
     data: Media;
   };
 
-  questions: {
-    data: QuestionType[];
-  };
+  questions: QuestionType[];
 
   createdAt: string;
   updatedAt: string;
@@ -63,5 +59,30 @@ export interface EvaluationData {
   data: {
     id: number;
     attributes: EvaluationAttributes;
+  };
+}
+
+export interface EvaluationPage {
+  data: {
+    id: number;
+    attributes: {
+      header: string;
+      anamnesis: string;
+      personal_data: string;
+      history: string;
+      complaint: string;
+      behavior: string;
+      symptoms: string;
+      investigation: string;
+      voice_samples: string;
+      breathing: string;
+      cpfa: string;
+      larynx_analysis: string;
+      self_evaluation: string;
+      acoustic_analysis: string;
+      videolaryngostroboscopy: string;
+      orl_report: string;
+      call_to_action: string;
+    };
   };
 }

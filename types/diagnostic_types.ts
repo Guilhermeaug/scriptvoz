@@ -1,11 +1,8 @@
-export interface Answers {
-  diagnostics: Array<{ name: string; feedback: string }>;
-  correct: number[];
-}
+import { Pill } from "./therapeutic_types";
 
 interface DiagnosticAttributes {
   summary: string;
-  answers: Answers;
+  pills: Pill[];
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
@@ -15,5 +12,16 @@ export interface DiagnosticData {
   data: {
     id: number;
     attributes: DiagnosticAttributes;
+  };
+}
+
+export interface DiagnosticPage {
+  data: {
+    id: number;
+    attributes: {
+      header: string;
+      summary: string;
+      call_to_action: string;
+    };
   };
 }

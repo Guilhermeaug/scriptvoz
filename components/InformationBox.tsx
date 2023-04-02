@@ -25,7 +25,7 @@ export default function InformationBox({
           {title}
         </h3>
       )}
-      <div className='prose prose-slate p-2'>
+      <div className='p-2'>
         <Markdown>{description}</Markdown>
       </div>
     </div>

@@ -36,8 +36,19 @@ const MarkdownComponents: object = {
   },
 };
 
-export default function Markdown({ children }: { children: string }) {
+export default function Markdown({
+  children,
+  className,
+}: {
+  children: string;
+  className?: string;
+}) {
   return (
-    <ReactMarkdown components={MarkdownComponents}>{children}</ReactMarkdown>
+    <ReactMarkdown
+      className={`prose prose-slate ${className}`}
+      components={MarkdownComponents}
+    >
+      {children}
+    </ReactMarkdown>
   );
 }

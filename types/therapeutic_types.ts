@@ -1,19 +1,29 @@
-export interface Answers {
-  diagnostics: Array<{ name: string; feedback: string }>;
-  correct: number[];
+export interface Pill {
+  id: number;
+  title: string;
+  feedback: string;
+  correct: boolean;
 }
 
 interface TherapeuticAttributes {
   summary: string;
-  answers: Answers;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
+  pills: Pill[];
 }
 
 export interface TherapeuticData {
   data: {
     id: number;
     attributes: TherapeuticAttributes;
+  };
+}
+
+export interface TherapeuticPage {
+  data: {
+    id: number;
+    attributes: {
+      header: string;
+      summary: string;
+      call_to_action: string;
+    };
   };
 }

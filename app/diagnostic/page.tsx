@@ -4,7 +4,7 @@ import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
 import ThemeProvider from '@/contexts/ThemeProvider';
 import { getData } from '@/lib/data';
-import { DiagnosticData } from '@/types/diagnostic_types';
+import { DiagnosticData, DiagnosticPage } from '@/types/diagnostic_types';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
@@ -13,31 +13,34 @@ export const metadata = {
 
 export default async function EvaluationStep() {
   const { data }: DiagnosticData = await getData({
-    path: 'diagnostics/1?populate=deep',
+    path: 'diagnostics/1',
   });
   const { attributes } = data;
-  const { answers } = attributes;
+  const { pills } = attributes;
+
+  const { data: page }: DiagnosticPage = await getData({
+    path: 'diagnostic-page',
+  });
+  const { attributes: pageAttributes } = page;
 
   return (
     <ThemeProvider color='diagnostic'>
       <div className='container mx-auto p-7'>
         <ArrowNavigator href='/evaluation' direction='left' />
         <header>
-          <h1 className='text-center text-4xl'>Diagnóstico</h1>
+          <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
         </header>
         <main className='mt-6 flex flex-col items-center'>
-          <InformationHeader title='Resumo da avaliação' />
+          <InformationHeader title={pageAttributes.summary} />
           <InformationBox
             className='border-none'
             description={attributes.summary}
           />
           <p className='prose mb-6 p-2'>
-            <hr className='separator-line bg-diagnostic' />A partir dos dados
-            das avaliações fonoaudiológica e otorrinolaringológica do paciente,
-            clique abaixo nos itens que compõem os seus diagnósticos de
-            manifestação.
+            <hr className='separator-line bg-diagnostic' />
+            {pageAttributes.call_to_action}
           </p>
-          <Diagnostics answers={answers} />
+          <Diagnostics pills={pills} />
         </main>
         <ArrowNavigator href='/therapeutic' direction='right' />
       </div>

@@ -8,7 +8,12 @@ import AudioSample from '@/components/AudioSample';
 import Question from '@/components/Question';
 import ThemeProvider from '@/contexts/ThemeProvider';
 import { getData } from '@/lib/data';
-import { EvaluationData, Media, QuestionType } from '@/types/evaluation_types';
+import {
+  EvaluationData,
+  EvaluationPage,
+  Media,
+  QuestionType,
+} from '@/types/evaluation_types';
 import Image from 'next/image';
 
 export const metadata = {
@@ -18,75 +23,82 @@ export const metadata = {
 
 export default async function EvaluationStep() {
   const { data }: EvaluationData = await getData({
-    path: 'assessments/1?populate=deep',
+    path: 'assessments/1',
   });
   const { attributes } = data;
+
+  const { data: page }: EvaluationPage = await getData({
+    path: 'evaluation-page',
+  });
+  const { attributes: pageAttributes } = page;
 
   return (
     <ThemeProvider color='evaluation'>
       <div className='container mx-auto p-7'>
         <ArrowNavigator href='/' direction='left' />
         <header>
-          <h1 className='text-center text-4xl'>Avaliação Fonoaudiológica</h1>
+          <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
         </header>
         <main>
           <section className='mt-10 space-y-4'>
             <article className='space-y-4'>
-              <InformationHeader title='Anamnese' />
+              <InformationHeader title={pageAttributes.anamnesis} />
               <InformationBox
-                title='Dados Pessoais'
+                title={pageAttributes.personal_data}
                 description={attributes.personal_data}
               />
               <InformationBox
-                title='História Pregressa da Disfonia'
+                title={pageAttributes.history}
                 description={attributes.history}
               />
               <InformationBox
-                title='Queixa'
+                title={pageAttributes.complaint}
                 description={attributes.complaint}
               />
               <InformationBox
-                title='Comportamentos Vocais'
+                title={pageAttributes.behavior}
                 description={attributes.behavior}
               />
               <InformationBox
-                title='Sintomas'
+                title={pageAttributes.symptoms}
                 description={attributes.symptoms}
               />
               <InformationBox
-                title='Investigação complementar'
+                title={pageAttributes.investigation}
                 description={attributes.investigation}
               />
             </article>
 
             <article className='space-y-4'>
-              <InformationHeader title='Amostras Vocais' />
+              <InformationHeader title={pageAttributes.voice_samples} />
               <AudioSamples audios={attributes.audio_files.data} />
               <InformationBox
-                title='Respiração'
+                title={pageAttributes.breathing}
                 description={attributes.breathing}
               />
               <InformationBox
-                title='Coordenação Pneumofonoarticulátoria'
+                title={pageAttributes.cpfa}
                 description={attributes.cpfa}
               />
               <InformationBox
-                title='Avaliação Palpatória da Laringe'
+                title={pageAttributes.larynx_analysis}
                 description={attributes.larynx_analysis}
               />
               <InformationBox
-                title='Autoavaliação Vocal'
+                title={pageAttributes.self_evaluation}
                 description={attributes.self_evaluation}
               />
             </article>
 
             <article>
-              <InformationHeader title='Análise Acústica' />
+              <InformationHeader title={pageAttributes.acoustic_analysis} />
               <ComplementaryFiles files={attributes.complementary_files.data} />
             </article>
 
             <article>
-              <InformationHeader title='Videolaringoestroboscopia' />
+              <InformationHeader
+                title={pageAttributes.videolaryngostroboscopy}
+              />
               <div className='mx-auto flex flex-col items-center justify-center gap-6 lg:w-10/12 lg:flex-row'>
                 <VideoPlayer url={attributes.exam_video.data.attributes.url} />
                 <InformationBox
@@ -98,8 +110,8 @@ export default async function EvaluationStep() {
           </section>
 
           <section className='space-y-4'>
-            <InformationHeader title='Vamos treinar o raciocínio lógico relacionado à avaliação?' />
-            <Questions questions={attributes.questions.data} />
+            <InformationHeader title={pageAttributes.call_to_action} />
+            <Questions questions={attributes.questions} />
           </section>
         </main>
         <ArrowNavigator href='/diagnostic' direction='right' />
@@ -146,26 +158,20 @@ function Questions({ questions }: { questions: QuestionType[] }) {
   return (
     <>
       {questions.map((question) => {
-        const { attributes } = question;
-        const answers = [
-          attributes.A,
-          attributes.B,
-          attributes.C,
-          attributes.D,
-        ];
+        const answers = [question.A, question.B, question.C, question.D];
         const feedbacks = [
-          attributes.feedback_a,
-          attributes.feedback_b,
-          attributes.feedback_c,
-          attributes.feedback_d,
+          question.feedback_a,
+          question.feedback_b,
+          question.feedback_c,
+          question.feedback_d,
         ];
         return (
           <Question
             key={question.id}
-            question={attributes.question}
+            question={question.question}
             answers={answers}
             feedbacks={feedbacks}
-            correctAnswer={attributes.answer}
+            correctAnswer={question.answer}
           />
         );
       })}

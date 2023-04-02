@@ -1,7 +1,7 @@
 import 'server-only';
 
 export async function getData({ path }: { path: string }) {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/${path}`;
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/${path}?populate=deep`;
   const res = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',

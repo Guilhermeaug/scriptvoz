@@ -4,7 +4,7 @@ import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
 import ThemeProvider from '@/contexts/ThemeProvider';
 import { getData } from '@/lib/data';
-import { TherapeuticData } from '@/types/therapeutic_types';
+import { TherapeuticData, TherapeuticPage } from '@/types/therapeutic_types';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
@@ -13,30 +13,34 @@ export const metadata = {
 
 export default async function TherapeuticStep() {
   const { data }: TherapeuticData = await getData({
-    path: 'therapeutics/1?populate=deep',
+    path: 'therapeutics/1',
   });
   const { attributes } = data;
-  const { answers } = attributes;
+  const { pills } = attributes;
+
+  const { data: page }: TherapeuticPage = await getData({
+    path: 'therapeutic-page',
+  });
+  const { attributes: pageAttributes } = page;
 
   return (
     <ThemeProvider color='therapeutic'>
       <div className='container mx-auto p-7'>
         <ArrowNavigator href='/diagnostic' direction='left' />
         <header>
-          <h1 className='text-center text-4xl'>Decisão terapêutica</h1>
+          <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
         </header>
         <main className='mt-6 flex flex-col items-center'>
-          <InformationHeader title='Resumo do diagnóstico de manifestação' />
+          <InformationHeader title={pageAttributes.summary} />
           <InformationBox
             className='border-none'
             description={attributes.summary}
           />
           <p className='prose mb-6 p-2'>
-            <hr className='separator-line space-y-4 bg-therapeutic' />A partir
-            do diagnóstico de manifestação, defina as condutas terapêuticas do
-            paciente. Clique nos itens que constituem condutas.
+            <hr className='separator-line space-y-4 bg-therapeutic' />
+            {pageAttributes.call_to_action}
           </p>
-          <Diagnostics answers={answers} />
+          <Diagnostics pills={pills} />
         </main>
       </div>
     </ThemeProvider>
