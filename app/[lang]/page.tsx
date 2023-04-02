@@ -1,3 +1,4 @@
+import LocaleSwitcher from '@/components/LocaleSwitcher';
 import Markdown from '@/components/Markdown';
 import { getData } from '@/lib/data';
 import { HomePage } from '@/types/home_types';
@@ -9,14 +10,29 @@ export const metadata = {
   description: 'Projeto de pesquisa em Fonoaudiologia',
 };
 
-export default async function Home() {
+export default async function Home({
+  params: { lang },
+}: {
+  params: { lang: string };
+}) {
   const { data: page }: HomePage = await getData({
     path: 'home-page',
+    locale: lang,
   });
   const { attributes: pageAttributes } = page;
 
   return (
     <div className='container mx-auto p-7'>
+      <header className='navbar rounded-lg bg-neutral text-neutral-content'>
+        <div className='flex-1'>
+          <Link className='btn-ghost btn text-xl normal-case' href='/'>
+            ScriptVoz
+          </Link>
+        </div>
+        <div className='navbar-end'>
+          <LocaleSwitcher />
+        </div>
+      </header>
       <main className='mt-3'>
         <div className='card bg-[#004172] shadow-xl lg:card-side'>
           <Image
@@ -33,8 +49,10 @@ export default async function Home() {
             </Markdown>
             <Markdown className='prose-xl'>{pageAttributes.call_text}</Markdown>
             <div className='card-actions justify-end'>
-              <Link href='/evaluation'>
-                <button className='btn-primary btn'>{pageAttributes.button_text}</button>
+              <Link href={`${lang}/evaluation`}>
+                <button className='btn-primary btn'>
+                  {pageAttributes.button_text}
+                </button>
               </Link>
             </div>
           </div>

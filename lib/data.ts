@@ -1,7 +1,7 @@
 import 'server-only';
 
-export async function getData({ path }: { path: string }) {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/${path}?populate=deep`;
+export async function getData({ path, locale }: { path: string, locale: string }) {
+  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/${path}?populate=deep&locale=${locale}`;
   const res = await fetch(url, {
     headers: {
       'Content-Type': 'application/json',

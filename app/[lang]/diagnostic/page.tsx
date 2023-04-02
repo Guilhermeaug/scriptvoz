@@ -4,29 +4,35 @@ import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
 import ThemeProvider from '@/contexts/ThemeProvider';
 import { getData } from '@/lib/data';
-import { TherapeuticData, TherapeuticPage } from '@/types/therapeutic_types';
+import { DiagnosticData, DiagnosticPage } from '@/types/diagnostic_types';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
   description: 'Projeto de pesquisa em Fonoaudiologia',
 };
 
-export default async function TherapeuticStep() {
-  const { data }: TherapeuticData = await getData({
-    path: 'therapeutics/1',
+export default async function EvaluationStep({
+  params: { lang },
+}: {
+  params: { lang: string };
+}) {
+  const { data }: DiagnosticData = await getData({
+    path: 'diagnostics/1',
+    locale: lang,
   });
   const { attributes } = data;
   const { pills } = attributes;
 
-  const { data: page }: TherapeuticPage = await getData({
-    path: 'therapeutic-page',
+  const { data: page }: DiagnosticPage = await getData({
+    path: 'diagnostic-page',
+    locale: lang,
   });
   const { attributes: pageAttributes } = page;
 
   return (
-    <ThemeProvider color='therapeutic'>
+    <ThemeProvider color='diagnostic'>
       <div className='container mx-auto p-7'>
-        <ArrowNavigator href='/diagnostic' direction='left' />
+        <ArrowNavigator href={`${lang}/evaluation`} direction='left' />
         <header>
           <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
         </header>
@@ -37,11 +43,12 @@ export default async function TherapeuticStep() {
             description={attributes.summary}
           />
           <p className='prose mb-6 p-2'>
-            <hr className='separator-line space-y-4 bg-therapeutic' />
+            <hr className='separator-line bg-diagnostic' />
             {pageAttributes.call_to_action}
           </p>
           <Diagnostics pills={pills} />
         </main>
+        <ArrowNavigator href={`${lang}/therapeutic`} direction='right' />
       </div>
     </ThemeProvider>
   );
