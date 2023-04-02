@@ -1,3 +1,4 @@
+import { i18n } from '@/i18n-config';
 import './globals.css';
 
 import { Inter } from 'next/font/google';
@@ -11,13 +12,19 @@ const inter = Inter({
   subsets: ['latin'],
 });
 
+export async function generateStaticParams() {
+  return i18n.locales.map((locale) => ({ lang: locale }));
+}
+
 export default function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: { lang: string };
 }) {
   return (
-    <html lang='pt-br' className={inter.className}>
+    <html lang={params.lang} className={inter.className}>
       <body>{children}</body>
     </html>
   );

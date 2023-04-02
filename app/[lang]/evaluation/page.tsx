@@ -21,21 +21,27 @@ export const metadata = {
   description: 'Projeto de pesquisa em Fonoaudiologia',
 };
 
-export default async function EvaluationStep() {
+export default async function EvaluationStep({
+  params: { lang },
+}: {
+  params: { lang: string };
+}) {
   const { data }: EvaluationData = await getData({
     path: 'assessments/1',
+    locale: lang,
   });
   const { attributes } = data;
 
   const { data: page }: EvaluationPage = await getData({
     path: 'evaluation-page',
+    locale: lang,
   });
   const { attributes: pageAttributes } = page;
 
   return (
     <ThemeProvider color='evaluation'>
       <div className='container mx-auto p-7'>
-        <ArrowNavigator href='/' direction='left' />
+        <ArrowNavigator href={`/${lang}`} direction='left' />
         <header>
           <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
         </header>
@@ -114,7 +120,7 @@ export default async function EvaluationStep() {
             <Questions questions={attributes.questions} />
           </section>
         </main>
-        <ArrowNavigator href='/diagnostic' direction='right' />
+        <ArrowNavigator href={`${lang}/diagnostic`} direction='right' />
       </div>
     </ThemeProvider>
   );
