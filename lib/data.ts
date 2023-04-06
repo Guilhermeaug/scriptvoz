@@ -24,16 +24,3 @@ export async function getData({
 
   return res.json();
 }
-
-export async function getAvailableLocales(): Promise<Locale[]> {
-  const url = `${process.env.NEXT_PUBLIC_API_URL}/api/i18n/locales`;
-  const res = await fetch(url, {
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.BEARER}`,
-    },
-    cache: 'no-cache',
-  });
-
-  return res.json();
-}
