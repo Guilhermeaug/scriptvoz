@@ -83,6 +83,7 @@ export interface EvaluationPage {
       videolaryngostroboscopy: string;
       orl_report: string;
       call_to_action: string;
+      collapse_text: string;
     };
   };
 }

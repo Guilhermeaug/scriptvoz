@@ -25,7 +25,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang={params.lang} className={inter.className}>
-      <body>{children}</body>
+      <body className='container mx-auto p-7'>{children}</body>
     </html>
   );
 }

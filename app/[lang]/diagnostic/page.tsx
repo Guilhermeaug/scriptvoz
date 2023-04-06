@@ -31,25 +31,23 @@ export default async function EvaluationStep({
 
   return (
     <ThemeProvider color='diagnostic'>
-      <div className='container mx-auto p-7'>
-        <ArrowNavigator href={`${lang}/evaluation`} direction='left' />
-        <header>
-          <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
-        </header>
-        <main className='mt-6 flex flex-col items-center'>
-          <InformationHeader title={pageAttributes.summary} />
-          <InformationBox
-            className='border-none'
-            description={attributes.summary}
-          />
-          <p className='prose mb-6 p-2'>
-            <hr className='separator-line bg-diagnostic' />
-            {pageAttributes.call_to_action}
-          </p>
-          <Diagnostics pills={pills} />
-        </main>
-        <ArrowNavigator href={`${lang}/therapeutic`} direction='right' />
-      </div>
+      <ArrowNavigator href={`${lang}/evaluation`} direction='left' />
+      <header>
+        <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
+      </header>
+      <main className='mt-6 flex flex-col items-center'>
+        <InformationHeader title={pageAttributes.summary} />
+        <InformationBox
+          className='border-none'
+          description={attributes.summary}
+        />
+        <p className='prose mb-6 p-2'>
+          <hr className='separator-line bg-diagnostic' />
+          {pageAttributes.call_to_action}
+        </p>
+        <Diagnostics pills={pills} />
+      </main>
+      <ArrowNavigator href={`${lang}/therapeutic`} direction='right' />
     </ThemeProvider>
   );
 }

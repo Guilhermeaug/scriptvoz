@@ -31,24 +31,22 @@ export default async function TherapeuticStep({
 
   return (
     <ThemeProvider color='therapeutic'>
-      <div className='container mx-auto p-7'>
-        <ArrowNavigator href={`${lang}/diagnostic`} direction='left' />
-        <header>
-          <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
-        </header>
-        <main className='mt-6 flex flex-col items-center'>
-          <InformationHeader title={pageAttributes.summary} />
-          <InformationBox
-            className='border-none'
-            description={attributes.summary}
-          />
-          <p className='prose mb-6 p-2'>
-            <hr className='separator-line space-y-4 bg-therapeutic' />
-            {pageAttributes.call_to_action}
-          </p>
-          <Diagnostics pills={pills} />
-        </main>
-      </div>
+      <ArrowNavigator href={`${lang}/diagnostic`} direction='left' />
+      <header>
+        <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
+      </header>
+      <main className='mt-6 flex flex-col items-center'>
+        <InformationHeader title={pageAttributes.summary} />
+        <InformationBox
+          className='border-none'
+          description={attributes.summary}
+        />
+        <p className='prose mb-6 p-2'>
+          <hr className='separator-line space-y-4 bg-therapeutic' />
+          {pageAttributes.call_to_action}
+        </p>
+        <Diagnostics pills={pills} />
+      </main>
     </ThemeProvider>
   );
 }

@@ -22,7 +22,7 @@ export default async function Home({
   const { attributes: pageAttributes } = page;
 
   return (
-    <div className='container mx-auto p-7'>
+    <>
       <header className='navbar rounded-lg bg-neutral text-neutral-content'>
         <div className='flex-1'>
           <Link className='btn-ghost btn text-xl normal-case' href='/'>
@@ -102,6 +102,6 @@ export default async function Home({
           </a>
         </div>
       </footer>
-    </div>
+    </>
   );
 }
