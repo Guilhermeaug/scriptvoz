@@ -1,5 +1,5 @@
 import ArrowNavigator from '@/components/ArrowNavigator';
-import Diagnostics from '@/components/Diagnostics';
+import Pills from '@/components/Pills';
 import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
 import ThemeProvider from '@/contexts/ThemeProvider';
@@ -41,11 +41,12 @@ export default async function TherapeuticStep({
           className='border-none'
           description={attributes.summary}
         />
-        <p className='prose mb-6 p-2'>
-          <hr className='separator-line space-y-4 bg-therapeutic' />
-          {pageAttributes.call_to_action}
-        </p>
-        <Diagnostics pills={pills} />
+        <hr className='separator-line bg-therapeutic w-full' />
+        <InformationBox
+          className='border-none'
+          description={pageAttributes.call_to_action}
+        />
+        <Pills pills={pills} />
       </main>
     </ThemeProvider>
   );

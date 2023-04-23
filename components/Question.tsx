@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import InformationBox from './InformationBox';
 
 interface QuestionProps {
   question: string;
@@ -52,11 +53,7 @@ export default function Question({
           </button>
         ))}
       </div>
-      {answered && (
-        <p className='text-slate mt-4 text-sm font-medium'>
-          {feedbacks[selectedAnswer!]}
-        </p>
-      )}
+      {answered && <InformationBox description={feedbacks[selectedAnswer!]} className='mt-3' />}
     </article>
   );
 }

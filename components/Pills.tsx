@@ -8,7 +8,7 @@ interface DiagnosticsProps {
   pills: Pill[];
 }
 
-export default function Diagnostics({ pills }: DiagnosticsProps) {
+export default function Pills({ pills }: DiagnosticsProps) {
   const [selected, setSelected] = useState<number>(-1);
   const selectedDiagnostic = pills[selected];
 
@@ -26,14 +26,13 @@ export default function Diagnostics({ pills }: DiagnosticsProps) {
   }
 
   return (
-    <div className='space-y-6'>
-      <div className='grid grid-cols-2 gap-6 md:grid-cols-4 md:gap-8'>
+    <div className='mt-6 space-y-6'>
+      <div className='grid grid-cols-2 justify-between gap-4'>
         {pills.map((pill, index) => {
           const { id, title } = pill;
-
           return (
             <button
-              className='btn-rounded btn text-xs'
+              className='btn-rounded btn basis-1/2 '
               key={id}
               data-index={index}
               onClick={handleAnswer}

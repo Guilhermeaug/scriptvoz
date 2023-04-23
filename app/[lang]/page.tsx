@@ -49,7 +49,7 @@ export default async function Home({
             </Markdown>
             <Markdown className='prose-xl'>{pageAttributes.call_text}</Markdown>
             <div className='card-actions justify-end'>
-              <Link href={`${lang}/evaluation`}>
+              <Link href={`${lang}/patients`}>
                 <button className='btn-primary btn'>
                   {pageAttributes.button_text}
                 </button>

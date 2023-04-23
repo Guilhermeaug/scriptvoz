@@ -45,7 +45,7 @@ export default function Markdown({
 }) {
   return (
     <ReactMarkdown
-      className={`prose prose-slate ${className}`}
+      className={`prose prose-slate max-w-4xl ${className}`}
       components={MarkdownComponents}
     >
       {children}

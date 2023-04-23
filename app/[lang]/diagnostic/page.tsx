@@ -41,10 +41,11 @@ export default async function EvaluationStep({
           className='border-none'
           description={attributes.summary}
         />
-        <p className='prose mb-6 p-2'>
-          <hr className='separator-line bg-diagnostic' />
-          {pageAttributes.call_to_action}
-        </p>
+        <hr className='separator-line bg-diagnostic w-full' />
+        <InformationBox
+          className='border-none'
+          description={pageAttributes.call_to_action}
+        />
         <Diagnostics pills={pills} />
       </main>
       <ArrowNavigator href={`${lang}/therapeutic`} direction='right' />
