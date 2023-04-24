@@ -31,7 +31,7 @@ export default async function TherapeuticStep({
 
   return (
     <ThemeProvider color='therapeutic'>
-      <ArrowNavigator href={`${lang}/diagnostic`} direction='left' />
+      <ArrowNavigator href={`${lang}/patients/diagnostic`} direction='left' />
       <header>
         <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
       </header>

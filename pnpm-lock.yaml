@@ -16,6 +16,9 @@ dependencies:
   '@types/react-dom':
     specifier: 18.0.11
     version: 18.0.11
+  array-shuffle:
+    specifier: ^3.0.0
+    version: 3.0.0
   classnames:
     specifier: ^2.3.2
     version: 2.3.2
@@ -571,6 +574,11 @@ packages:
       es-abstract: 1.21.2
       get-intrinsic: 1.2.0
       is-string: 1.0.7
+    dev: false
+
+  /array-shuffle@3.0.0:
+    resolution: {integrity: sha512-rogEGxHOQPhslOhpg12LJkB+bbAl484/s2AJq0BxtzQDQfKl76fS2u9zWgg3p3b9ENcuvE7K8A7l5ddiPjCRnw==}
+    engines: {node: '>=12.20'}
     dev: false
 
   /array-union@2.1.0:

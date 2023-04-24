@@ -23,6 +23,16 @@ export default async function Patients({
   });
   const { attributes: pageAttributes } = page;
 
+  function PatientItem({ title }: { title: string }) {
+    return (
+      <Link href={`${lang}/patients/evaluation`}>
+        <div className='bg-primary text-primary-content text-center p-3 rounded-lg'>
+          <h2>{title}</h2>
+        </div>
+      </Link>
+    );
+  }
+
   return (
     <>
       <header>
@@ -39,12 +49,4 @@ export default async function Patients({
   );
 }
 
-function PatientItem({ title }: { title: string }) {
-  return (
-    <Link href=''>
-      <div className='bg-primary text-primary-content text-center p-3 rounded-lg'>
-        <h2>{title}</h2>
-      </div>
-    </Link>
-  );
-}
+

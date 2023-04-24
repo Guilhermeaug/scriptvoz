@@ -1,7 +1,8 @@
 'use client';
 
 import { Pill } from '@/types/therapeutic_types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import arrayShuffle from 'array-shuffle';
 import InformationBox from './InformationBox';
 
 interface DiagnosticsProps {
@@ -9,15 +10,21 @@ interface DiagnosticsProps {
 }
 
 export default function Pills({ pills }: DiagnosticsProps) {
+  const [shuffledPills, setShuffledPills] = useState<Pill[]>([]);
+
+  useEffect(() => {
+    setShuffledPills(arrayShuffle(pills));
+  }, [pills]);
+
   const [selected, setSelected] = useState<number>(-1);
-  const selectedDiagnostic = pills[selected];
+  const selectedDiagnostic = shuffledPills[selected];
 
   function handleAnswer(e: React.MouseEvent<HTMLButtonElement>) {
     const selected = e.currentTarget;
     const selectedIndex = Number(selected.dataset.index);
     setSelected(selectedIndex);
 
-    const isCorrect = pills[selectedIndex].correct;
+    const isCorrect = shuffledPills[selectedIndex].correct;
     if (isCorrect) {
       selected.classList.add('btn-success');
     } else {
@@ -28,7 +35,7 @@ export default function Pills({ pills }: DiagnosticsProps) {
   return (
     <div className='mt-6 space-y-6'>
       <div className='grid grid-cols-2 justify-between gap-4'>
-        {pills.map((pill, index) => {
+        {shuffledPills.map((pill, index) => {
           const { id, title } = pill;
           return (
             <button

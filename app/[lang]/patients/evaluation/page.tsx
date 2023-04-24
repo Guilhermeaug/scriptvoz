@@ -22,9 +22,9 @@ export const metadata = {
 };
 
 export default async function EvaluationStep({
-  params: { lang },
+  params: { lang, id },
 }: {
-  params: { lang: string };
+  params: { lang: string; id: string };
 }) {
   const { data }: EvaluationData = await getData({
     path: 'evaluations/1',
@@ -125,7 +125,7 @@ export default async function EvaluationStep({
           <Questions questions={attributes.questions} />
         </section>
       </main>
-      <ArrowNavigator href={`${lang}/diagnostic`} direction='right' />
+      <ArrowNavigator href={`${lang}/patients/diagnostic`} direction='right' />
     </ThemeProvider>
   );
 }
