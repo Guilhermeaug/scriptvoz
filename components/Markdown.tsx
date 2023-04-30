@@ -1,10 +1,6 @@
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 
-interface MarkdownProps {
-  className?: string;
-}
-
 const MarkdownComponents: object = {
   p: (paragraph: { children?: boolean; node?: any }) => {
     const { node } = paragraph;
@@ -23,7 +19,7 @@ const MarkdownComponents: object = {
       return (
         <>
           <Image
-            src={`https://guilhermeaug.me${image.properties.src}`}
+            src={`${process.env.NEXT_PUBLIC_API_URL}${image.properties.src}`}
             width={width}
             height={height}
             alt={alt}

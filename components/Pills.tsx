@@ -1,9 +1,9 @@
 'use client';
 
-import { Pill } from '@/types/therapeutic_types';
 import { useEffect, useState } from 'react';
 import arrayShuffle from 'array-shuffle';
 import InformationBox from './InformationBox';
+import { Pill } from '@/types/global_types';
 
 interface DiagnosticsProps {
   pills: Pill[];
