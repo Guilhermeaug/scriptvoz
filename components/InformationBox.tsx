@@ -6,13 +6,13 @@ import Markdown from './Markdown';
 interface InformationBoxProps {
   className?: string;
   title?: string;
-  description: string;
+  children: React.ReactNode;
 }
 
 export default function InformationBox({
   className,
   title,
-  description,
+  children,
 }: InformationBoxProps) {
   const { color } = useContext(ThemeContext);
 
@@ -26,7 +26,7 @@ export default function InformationBox({
         </h3>
       )}
       <div className='p-2'>
-        <Markdown>{description}</Markdown>
+        {children}
       </div>
     </div>
   );

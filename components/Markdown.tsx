@@ -23,7 +23,7 @@ const MarkdownComponents: object = {
       return (
         <>
           <Image
-            src={`https://guilhermeaug.me${image.properties.src}`}
+            src={`${process.env.NEXT_PUBLIC_API_URL}${image.properties.src}`}
             width={width}
             height={height}
             alt={alt}

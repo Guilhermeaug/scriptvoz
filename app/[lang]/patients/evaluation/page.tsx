@@ -15,6 +15,7 @@ import {
   QuestionType,
 } from '@/types/evaluation_types';
 import Image from 'next/image';
+import Markdown from '@/components/Markdown';
 
 export const metadata = {
   title: 'Avaliação fonoaudiológica',
@@ -48,51 +49,41 @@ export default async function EvaluationStep({
         <section className='mt-10 space-y-4'>
           <article className='space-y-4'>
             <InformationHeader title={pageAttributes.anamnesis} />
-            <InformationBox
-              title={pageAttributes.personal_data}
-              description={attributes.personal_data}
-            />
-            <InformationBox
-              title={pageAttributes.history}
-              description={attributes.history}
-            />
-            <InformationBox
-              title={pageAttributes.complaint}
-              description={attributes.complaint}
-            />
-            <InformationBox
-              title={pageAttributes.behavior}
-              description={attributes.behavior}
-            />
-            <InformationBox
-              title={pageAttributes.symptoms}
-              description={attributes.symptoms}
-            />
-            <InformationBox
-              title={pageAttributes.investigation}
-              description={attributes.investigation}
-            />
+            <InformationBox title={pageAttributes.personal_data}>
+              <Markdown>{attributes.personal_data}</Markdown>
+            </InformationBox>
+            <InformationBox title={pageAttributes.history}>
+              <Markdown>{attributes.history}</Markdown>
+            </InformationBox>
+            <InformationBox title={pageAttributes.complaint}>
+              <Markdown>{attributes.complaint}</Markdown>
+            </InformationBox>
+            <InformationBox title={pageAttributes.behavior}>
+              <Markdown>{attributes.behavior}</Markdown>
+            </InformationBox>
+            <InformationBox title={pageAttributes.symptoms}>
+              <Markdown>{attributes.symptoms}</Markdown>
+            </InformationBox>
+            <InformationBox title={pageAttributes.investigation}>
+              <Markdown>{attributes.investigation}</Markdown>
+            </InformationBox>
           </article>
 
           <article className='space-y-4'>
             <InformationHeader title={pageAttributes.voice_samples} />
             <AudioSamples audios={attributes.audio_files.data} />
-            <InformationBox
-              title={pageAttributes.breathing}
-              description={attributes.breathing}
-            />
-            <InformationBox
-              title={pageAttributes.cpfa}
-              description={attributes.cpfa}
-            />
-            <InformationBox
-              title={pageAttributes.larynx_analysis}
-              description={attributes.larynx_analysis}
-            />
-            <InformationBox
-              title={pageAttributes.self_evaluation}
-              description={attributes.self_evaluation}
-            />
+            <InformationBox title={pageAttributes.breathing}>
+              <Markdown>{attributes.breathing}</Markdown>
+            </InformationBox>
+            <InformationBox title={pageAttributes.cpfa}>
+              <Markdown>{attributes.cpfa}</Markdown>
+            </InformationBox>
+            <InformationBox title={pageAttributes.larynx_analysis}>
+              <Markdown>{attributes.larynx_analysis}</Markdown>
+            </InformationBox>
+            <InformationBox title={pageAttributes.self_evaluation}>
+              <Markdown>{attributes.self_evaluation}</Markdown>
+            </InformationBox>
           </article>
 
           <article>
@@ -110,10 +101,9 @@ export default async function EvaluationStep({
                   {pageAttributes.collapse_text}
                 </div>
                 <div className='collapse-content'>
-                  <InformationBox
-                    title='Laudo ORL'
-                    description={attributes.orl_report}
-                  />
+                  <InformationBox title='Laudo ORL'>
+                    <Markdown>{attributes.orl_report}</Markdown>
+                  </InformationBox>
                 </div>
               </div>
             </div>

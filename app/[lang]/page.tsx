@@ -1,7 +1,9 @@
 import LocaleSwitcher from '@/components/LocaleSwitcher';
 import Markdown from '@/components/Markdown';
+import { authOptions } from '@/lib/auth';
 import { getData } from '@/lib/data';
 import { HomePage } from '@/types/home_types';
+import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -20,6 +22,9 @@ export default async function Home({
     locale: lang,
   });
   const { attributes: pageAttributes } = page;
+
+  const session = await getServerSession(authOptions);
+  console.log({session})
 
   return (
     <>

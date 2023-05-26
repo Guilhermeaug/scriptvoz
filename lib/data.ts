@@ -1,4 +1,3 @@
-import { Locale } from '@/types/home_types';
 import 'server-only';
 
 export async function getData({
@@ -14,9 +13,8 @@ export async function getData({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
-    cache: 'no-cache',
   });
-
+  
   if (!res.ok) {
     console.error(res.statusText);
     throw new Error('An error occurred while fetching the data.');
