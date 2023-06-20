@@ -1,20 +1,12 @@
-import { Pill } from "./therapeutic_types";
+import { Pill } from './global_types';
 
-interface DiagnosticAttributes {
+export interface DiagnosticAttributes {
   summary: string;
   pills: Pill[];
   createdAt: string;
   updatedAt: string;
   publishedAt: string;
 }
-
-export interface DiagnosticData {
-  data: {
-    id: number;
-    attributes: DiagnosticAttributes;
-  };
-}
-
 export interface DiagnosticPage {
   data: {
     id: number;

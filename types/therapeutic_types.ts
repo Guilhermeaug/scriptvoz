@@ -1,20 +1,8 @@
-export interface Pill {
-  id: number;
-  title: string;
-  feedback: string;
-  correct: boolean;
-}
+import { QuestionType } from './global_types';
 
-interface TherapeuticAttributes {
+export interface TherapeuticAttributes {
   summary: string;
-  pills: Pill[];
-}
-
-export interface TherapeuticData {
-  data: {
-    id: number;
-    attributes: TherapeuticAttributes;
-  };
+  questions: QuestionType[];
 }
 
 export interface TherapeuticPage {

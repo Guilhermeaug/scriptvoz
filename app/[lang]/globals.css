@@ -4,7 +4,7 @@
 
 @layer components {
   .separator-line {
-    @apply mx-auto my-3 h-[2px] max-w-sm border-none
+    @apply mx-auto my-3 h-[2px] max-w-md border-none
   }
 }
 

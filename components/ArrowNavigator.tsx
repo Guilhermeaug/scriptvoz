@@ -27,7 +27,7 @@ export default function ArrowNavigator({
 
   return (
     <nav className={navClasses}>
-      <Link href={href}>
+      <Link href={href}> 
         <button className='btn-ghost btn-square btn'>
           {direction == 'left' ? <ArrowLeftIcon /> : <ArrowRightIcon />}
         </button>

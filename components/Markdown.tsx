@@ -1,10 +1,6 @@
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 
-interface MarkdownProps {
-  className?: string;
-}
-
 const MarkdownComponents: object = {
   p: (paragraph: { children?: boolean; node?: any }) => {
     const { node } = paragraph;

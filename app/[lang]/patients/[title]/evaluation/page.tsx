@@ -5,43 +5,44 @@ import VideoPlayer from '@/components/VideoPlayer';
 
 import ArrowNavigator from '@/components/ArrowNavigator';
 import AudioSample from '@/components/AudioSample';
-import Question from '@/components/Question';
 import ThemeProvider from '@/contexts/ThemeProvider';
-import { getData } from '@/lib/data';
+import { getPageData, getPatientStep } from '@/lib/data';
 import {
-  EvaluationData,
+  EvaluationAttributes,
   EvaluationPage,
   Media,
-  QuestionType,
 } from '@/types/evaluation_types';
 import Image from 'next/image';
 import Markdown from '@/components/Markdown';
+import Questions from '@/components/Questions';
 
 export const metadata = {
   title: 'Avaliação fonoaudiológica',
   description: 'Projeto de pesquisa em Fonoaudiologia',
 };
 
+interface EvaluationStepProps {
+  params: { lang: string; title: string };
+}
+
 export default async function EvaluationStep({
-  params: { lang, id },
-}: {
-  params: { lang: string; id: string };
-}) {
-  const { data }: EvaluationData = await getData({
-    path: 'evaluations/1',
+  params: { lang, title },
+}: EvaluationStepProps) {
+  const patientPromise: Promise<EvaluationAttributes> = getPatientStep({
+    query: title,
+    path: 'evaluation',
     locale: lang,
   });
-  const { attributes } = data;
-
-  const { data: page }: EvaluationPage = await getData({
+  const pagePromise: Promise<EvaluationPage> = getPageData({
     path: 'evaluation-page',
     locale: lang,
   });
-  const { attributes: pageAttributes } = page;
+  const [patient, page] = await Promise.all([patientPromise, pagePromise]);
+  const pageAttributes = page.data.attributes;
 
   return (
     <ThemeProvider color='evaluation'>
-      <ArrowNavigator href={`/${lang}`} direction='left' />
+      <ArrowNavigator href={`/${lang}/patients`} direction='left' />
       <header>
         <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
       </header>
@@ -50,51 +51,51 @@ export default async function EvaluationStep({
           <article className='space-y-4'>
             <InformationHeader title={pageAttributes.anamnesis} />
             <InformationBox title={pageAttributes.personal_data}>
-              <Markdown>{attributes.personal_data}</Markdown>
+              <Markdown>{patient.personal_data}</Markdown>
             </InformationBox>
             <InformationBox title={pageAttributes.history}>
-              <Markdown>{attributes.history}</Markdown>
+              <Markdown>{patient.history}</Markdown>
             </InformationBox>
             <InformationBox title={pageAttributes.complaint}>
-              <Markdown>{attributes.complaint}</Markdown>
+              <Markdown>{patient.complaint}</Markdown>
             </InformationBox>
             <InformationBox title={pageAttributes.behavior}>
-              <Markdown>{attributes.behavior}</Markdown>
+              <Markdown>{patient.behavior}</Markdown>
             </InformationBox>
             <InformationBox title={pageAttributes.symptoms}>
-              <Markdown>{attributes.symptoms}</Markdown>
+              <Markdown>{patient.symptoms}</Markdown>
             </InformationBox>
             <InformationBox title={pageAttributes.investigation}>
-              <Markdown>{attributes.investigation}</Markdown>
+              <Markdown>{patient.investigation}</Markdown>
             </InformationBox>
           </article>
 
           <article className='space-y-4'>
             <InformationHeader title={pageAttributes.voice_samples} />
-            <AudioSamples audios={attributes.audio_files.data} />
+            <AudioSamples audios={patient.audio_files} />
             <InformationBox title={pageAttributes.breathing}>
-              <Markdown>{attributes.breathing}</Markdown>
+              <Markdown>{patient.breathing}</Markdown>
             </InformationBox>
             <InformationBox title={pageAttributes.cpfa}>
-              <Markdown>{attributes.cpfa}</Markdown>
+              <Markdown>{patient.cpfa}</Markdown>
             </InformationBox>
             <InformationBox title={pageAttributes.larynx_analysis}>
-              <Markdown>{attributes.larynx_analysis}</Markdown>
+              <Markdown>{patient.larynx_analysis}</Markdown>
             </InformationBox>
             <InformationBox title={pageAttributes.self_evaluation}>
-              <Markdown>{attributes.self_evaluation}</Markdown>
+              <Markdown>{patient.self_evaluation}</Markdown>
             </InformationBox>
           </article>
 
           <article>
             <InformationHeader title={pageAttributes.acoustic_analysis} />
-            <ComplementaryFiles files={attributes.complementary_files.data} />
+            <ComplementaryFiles files={patient.complementary_files} />
           </article>
 
           <article>
             <InformationHeader title={pageAttributes.videolaryngostroboscopy} />
             <div className='mx-auto flex max-w-screen-md flex-col items-center justify-center gap-6'>
-              <VideoPlayer url={attributes.exam_video.data.attributes.url} />
+              <VideoPlayer url={patient.exam_video.url} />
               <div className='collapse-arrow collapse'>
                 <input type='checkbox' />
                 <div className='collapse-title text-xl font-medium'>
@@ -102,7 +103,7 @@ export default async function EvaluationStep({
                 </div>
                 <div className='collapse-content'>
                   <InformationBox title='Laudo ORL'>
-                    <Markdown>{attributes.orl_report}</Markdown>
+                    <Markdown>{patient.orl_report}</Markdown>
                   </InformationBox>
                 </div>
               </div>
@@ -112,10 +113,13 @@ export default async function EvaluationStep({
 
         <section className='space-y-4'>
           <InformationHeader title={pageAttributes.call_to_action} />
-          <Questions questions={attributes.questions} />
+          <Questions questions={patient.questions} />
         </section>
       </main>
-      <ArrowNavigator href={`${lang}/patients/diagnostic`} direction='right' />
+      <ArrowNavigator
+        href={`/${lang}/patients/${title}/diagnostic`}
+        direction='right'
+      />
     </ThemeProvider>
   );
 }
@@ -124,11 +128,7 @@ function AudioSamples({ audios }: { audios: Media[] }) {
   return (
     <div className='flex flex-row flex-wrap justify-center gap-2'>
       {audios.map((audio) => (
-        <AudioSample
-          key={audio.id}
-          title={audio.attributes.caption}
-          audio={audio.attributes.url}
-        />
+        <AudioSample key={audio.id} title={audio.caption} audio={audio.url} />
       ))}
     </div>
   );
@@ -138,43 +138,17 @@ function ComplementaryFiles({ files }: { files: Media[] }) {
   return (
     <div className='mx-auto flex max-w-screen-md flex-col gap-4'>
       {files.map((file) => {
-        const { attributes } = file;
-        const url = `${process.env.NEXT_PUBLIC_API_URL}${attributes.url}`;
+        const url = `${process.env.NEXT_PUBLIC_API_URL}${file.url}`;
         return (
           <Image
             key={file.id}
             src={url}
-            alt={attributes.caption || ''}
-            width={attributes.width}
-            height={attributes.height}
+            alt={file.caption || ''}
+            width={file.width}
+            height={file.height}
           />
         );
       })}
     </div>
-  );
-}
-
-function Questions({ questions }: { questions: QuestionType[] }) {
-  return (
-    <>
-      {questions.map((question) => {
-        const answers = [question.A, question.B, question.C, question.D];
-        const feedbacks = [
-          question.feedback_a,
-          question.feedback_b,
-          question.feedback_c,
-          question.feedback_d,
-        ];
-        return (
-          <Question
-            key={question.id}
-            question={question.question}
-            answers={answers}
-            feedbacks={feedbacks}
-            correctAnswer={question.answer}
-          />
-        );
-      })}
-    </>
   );
 }

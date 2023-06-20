@@ -1,9 +1,10 @@
 'use client';
 
-import { Pill } from '@/types/therapeutic_types';
 import { useEffect, useState } from 'react';
 import arrayShuffle from 'array-shuffle';
 import InformationBox from './InformationBox';
+import { Pill } from '@/types/global_types';
+import Markdown from './Markdown';
 
 interface DiagnosticsProps {
   pills: Pill[];
@@ -50,10 +51,9 @@ export default function Pills({ pills }: DiagnosticsProps) {
         })}
       </div>
       {selectedDiagnostic && (
-        <InformationBox
-          title={selectedDiagnostic.title}
-          description={selectedDiagnostic.feedback}
-        />
+        <InformationBox title={selectedDiagnostic.title}>
+          <Markdown>{selectedDiagnostic.feedback}</Markdown>
+        </InformationBox>
       )}
     </div>
   );

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import InformationBox from './InformationBox';
+import Markdown from './Markdown';
 
 interface QuestionProps {
   question: string;
@@ -41,19 +42,23 @@ export default function Question({
   return (
     <article>
       <h3 className='text-xl font-semibold'>{question}</h3>
-      <div className='mt-3 flex flex-col gap-4 lg:flex-row'>
+      <div className='mt-3 flex flex-col gap-4'>
         {answers.map((answer, index) => (
           <button
             key={index}
             data-index={index}
             onClick={handleAnswer}
-            className='flex w-full flex-row items-center justify-between rounded-md border border-gray-300 px-4 py-2 text-left shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
+            className='rounded-md border border-gray-300 px-4 py-2 text-left shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2'
           >
             <p className='text-slate text-sm font-medium'>{answer}</p>
           </button>
         ))}
       </div>
-      {answered && <InformationBox title={question} description={feedbacks[selectedAnswer!]} className='mt-3' />}
+      {answered && (
+        <InformationBox title={question} className='mt-3'>
+          <Markdown>{feedbacks[selectedAnswer!]}</Markdown>
+        </InformationBox>
+      )}
     </article>
   );
 }

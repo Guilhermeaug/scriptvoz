@@ -1,14 +1,8 @@
-import 'server-only';
-
-import { NextAuthOptions, User } from 'next-auth';
+import { Auth, SignUp, SignUpError } from '@/types/auth_types';
+import { AuthOptions, NextAuthOptions, User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
-interface Auth {
-  jwt: string;
-  user: User;
-}
-
-export const authOptions: NextAuthOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       name: 'Email/Password',
@@ -17,8 +11,6 @@ export const authOptions: NextAuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        console.log('credentials', credentials);
-
         if (credentials == null) return null;
         try {
           const { user, jwt } = await signIn({
@@ -34,8 +26,8 @@ export const authOptions: NextAuthOptions = {
   ],
   callbacks: {
     session: async ({ session, token }) => {
-      session.id = token.id;
-      session.jwt = token.jwt;
+      session.user.id = token.id as string;
+      session.user.jwt = token.jwt as string;
       return Promise.resolve(session);
     },
     jwt: async ({ token, user }) => {
@@ -57,8 +49,13 @@ export async function signIn({
   email: string;
   password: string;
 }) {
-  const res = await fetch(`${process.env.STRAPI_URL}/api/auth/local`, {
+  const endpoint = `${process.env.STRAPI_URL}/api/auth/local`;
+  const res = await fetch(endpoint, {
     method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
     body: JSON.stringify({
       identifier: email,
       password: password,
@@ -66,4 +63,28 @@ export async function signIn({
   });
 
   return res.json() as Promise<Auth>;
+}
+
+export async function signUp({ username, email, password }: SignUp) {
+  const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`;
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username: username,
+      email: email,
+      password: password,
+    }),
+  });
+
+  const json = await res.json();
+  if (res.ok) {
+    return json as Auth;
+  } else {
+    const error = json as SignUpError;
+    return Promise.reject(error);
+  }
 }

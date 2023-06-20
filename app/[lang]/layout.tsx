@@ -2,6 +2,7 @@ import { i18n } from '@/i18n-config';
 import './globals.css';
 
 import { Inter } from 'next/font/google';
+import Footer from '@/components/Footer';
 
 export const metadata = {
   title: 'Simulador de casos clínicos',
@@ -10,7 +11,7 @@ export const metadata = {
 
 const inter = Inter({
   subsets: ['latin'],
-  display: 'swap'
+  display: 'swap',
 });
 
 export async function generateStaticParams() {
@@ -26,7 +27,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang={params.lang} className={inter.className}>
-      <body className='container mx-auto p-7'>{children}</body>
+      <body className='flex flex-col min-h-screen'>
+        <div id='content' className='flex-auto container mx-auto p-5 h-full'>
+          {children}
+        </div>
+        {/* <Footer lang={params.lang}/> */}
+      </body>
     </html>
   );
 }
