@@ -1,5 +1,10 @@
 import { Auth, SignUp, SignUpError } from '@/types/auth_types';
-import { AuthOptions, NextAuthOptions, User } from 'next-auth';
+import {
+  AuthOptions,
+  NextAuthOptions,
+  User,
+  getServerSession,
+} from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: AuthOptions = {
@@ -19,7 +24,8 @@ export const authOptions: AuthOptions = {
           });
           return { ...user, jwt };
         } catch (error) {
-          return null;
+          const { error: e } = error as SignUpError;
+          throw new Error(e.message);
         }
       },
     }),
@@ -35,6 +41,7 @@ export const authOptions: AuthOptions = {
       if (isSignIn) {
         token.id = user.id;
         token.jwt = user.jwt;
+        token.name = user.username;
       }
       return Promise.resolve(token);
     },
@@ -49,20 +56,25 @@ export async function signIn({
   email: string;
   password: string;
 }) {
-  const endpoint = `${process.env.STRAPI_URL}/api/auth/local`;
-  const res = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      identifier: email,
-      password: password,
-    }),
-  });
-
-  return res.json() as Promise<Auth>;
+    const endpoint = `${process.env.STRAPI_URL}/api/auth/local`;
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        identifier: email,
+        password: password,
+      }),
+    });
+    const json = await res.json();
+    if (res.ok) {
+      return json as Auth;
+    } else {
+      const error = json as SignUpError;
+      return Promise.reject(error);
+    }
 }
 
 export async function signUp({ username, email, password }: SignUp) {

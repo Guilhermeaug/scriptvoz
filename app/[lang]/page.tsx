@@ -1,11 +1,13 @@
 import LocaleSwitcher from '@/components/LocaleSwitcher';
 import Markdown from '@/components/Markdown';
-import { getPageData } from '@/lib/data';
 import { authOptions } from '@/lib/auth';
+import { getPageData } from '@/lib/data';
 import { HomePage } from '@/types/home_types';
-import { getServerSession } from 'next-auth/next';
+import { getServerSession } from 'next-auth';
+import { signOut } from 'next-auth/react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 
 export const metadata = {
   title: 'Script Voz',
@@ -24,10 +26,14 @@ export default async function Home({
   const { attributes: pageAttributes } = page;
 
   const session = await getServerSession(authOptions);
-  console.log({session})
+
+  if (!session) {
+    redirect('/sign-in');
+  }
 
   return (
     <>
+      <pre>{JSON.stringify(session, null, 0)}</pre>
       <header className='navbar rounded-lg bg-neutral text-neutral-content'>
         <div className='flex-1'>
           <Link className='btn-ghost btn text-xl normal-case' href='/'>

@@ -19,7 +19,11 @@ const FormSchema = z.object({
 
 type FormData = z.infer<typeof FormSchema>;
 
-export default function RegisterPage({ lang }: { lang: string }) {
+export default function RegisterPage({
+  params: { lang },
+}: {
+  params: { lang: string };
+}) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const registerForm = useForm<FormData>({
@@ -87,7 +91,7 @@ export default function RegisterPage({ lang }: { lang: string }) {
             </Form.Field>
             <Form.Field>
               <Form.Label htmlFor='password'>Qual sua senha?</Form.Label>
-              <Form.Input type='text' name='password' />
+              <Form.Input type='password' name='password' />
               <Form.ErrorMessage field='password' />
             </Form.Field>
             <button
