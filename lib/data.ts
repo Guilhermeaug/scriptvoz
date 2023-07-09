@@ -13,7 +13,6 @@ export async function getPatientStep({ query, locale, path }: Request) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
-    cache: 'no-cache',
   });
 
   if (!res.ok) {
@@ -38,7 +37,7 @@ export async function getPageData({
       Authorization: `Bearer ${process.env.BEARER}`,
     },
   });
-  
+
   if (!res.ok) {
     console.error(res.statusText);
     throw new Error('An error occurred while fetching the page data.');

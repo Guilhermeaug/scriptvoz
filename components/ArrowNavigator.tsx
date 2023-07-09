@@ -15,13 +15,14 @@ export default function ArrowNavigator({
   direction,
   href,
 }: ArrowNavigatorProps) {
-  const { color } = useContext(ThemeContext);
+  const { color, isCompleted } = useContext(ThemeContext);
 
   const navClasses = classNames(
     `w-24 rounded-br-lg bg-${color} p-2 text-white`,
     {
       'polygon-bl flex justify-end float-right mt-6': direction === 'right',
       'polygon-tr': direction === 'left',
+      'hidden': !isCompleted,
     }
   );
 

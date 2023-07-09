@@ -9,6 +9,7 @@ interface QuestionProps {
   answers: string[];
   feedbacks: string[];
   correctAnswer: number;
+  setAnsweredCorrect: () => void;
 }
 
 export default function Question({
@@ -16,6 +17,7 @@ export default function Question({
   answers,
   feedbacks,
   correctAnswer,
+  setAnsweredCorrect,
 }: QuestionProps) {
   const [answered, setAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
@@ -34,6 +36,7 @@ export default function Question({
         'border-green-300',
         'text-green-800'
       );
+      setAnsweredCorrect();
     } else {
       answer.classList.add('bg-red-100', 'border-red-300', 'text-red-800');
     }
