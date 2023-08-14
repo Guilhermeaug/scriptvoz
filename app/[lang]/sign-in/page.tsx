@@ -71,12 +71,12 @@ export default function RegisterPage({
       <InformationBox title='Dados'>
         <FormProvider {...registerForm}>
           <form onSubmit={handleSubmit(onSubmit)} className='p-8'>
-            <Form.Field>
+            <Form.Field size={2}>
               <Form.Label htmlFor='email'>Qual seu email?</Form.Label>
               <Form.Input type='email' name='email' />
               <Form.ErrorMessage field='email' />
             </Form.Field>
-            <Form.Field>
+            <Form.Field size={3}>
               <Form.Label htmlFor='password'>Qual sua senha?</Form.Label>
               <Form.Input type='password' name='password' />
               <Form.ErrorMessage field='password' />

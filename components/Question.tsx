@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InformationBox from './InformationBox';
 import Markdown from './Markdown';
 
@@ -10,6 +10,7 @@ interface QuestionProps {
   feedbacks: string[];
   correctAnswer: number;
   setAnsweredCorrect: () => void;
+  status: boolean;
 }
 
 export default function Question({
@@ -18,9 +19,17 @@ export default function Question({
   feedbacks,
   correctAnswer,
   setAnsweredCorrect,
+  status
 }: QuestionProps) {
   const [answered, setAnswered] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (status) {
+      setAnswered(true);
+      setSelectedAnswer(correctAnswer);
+    }
+  }, [status]);
 
   function handleAnswer(e: React.MouseEvent<HTMLButtonElement>) {
     setAnswered(true);

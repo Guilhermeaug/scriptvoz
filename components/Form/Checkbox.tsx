@@ -3,15 +3,18 @@ import { useFormContext } from 'react-hook-form';
 import { get } from './ErrorMessage';
 import classNames from 'classnames';
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface SelectProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
 
-export default function Input(props: InputProps) {
-  const { register, formState: { errors } } = useFormContext();
+export default function Checkbox(props: SelectProps) {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   const fieldError = get(errors, props.name);
-  const style = classNames('input input-bordered input-primary w-full', {
-    'input-error': Boolean(fieldError),
+  const style = classNames('checkbox checkbox-primary', {
+    'checkbox-error': Boolean(fieldError),
   });
 
   return (
@@ -20,6 +23,8 @@ export default function Input(props: InputProps) {
       className={style}
       {...register(props.name)}
       {...props}
-    />
+    >
+      {props.children}
+    </input>
   );
 }

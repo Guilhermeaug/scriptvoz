@@ -1,6 +1,6 @@
 'use client';
 
-import { ThemeContext } from '@/contexts/ThemeProvider';
+import { ProviderContext } from '@/contexts/Provider';
 import { useContext } from 'react';
 
 interface SectionHeaderProps {
@@ -8,7 +8,7 @@ interface SectionHeaderProps {
 }
 
 export default function InformationHeader({ title }: SectionHeaderProps) {
-  const { color } = useContext(ThemeContext);
+  const { color } = useContext(ProviderContext);
 
   return (
     <div className='my-4'>

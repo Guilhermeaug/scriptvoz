@@ -5,7 +5,6 @@ import VideoPlayer from '@/components/VideoPlayer';
 
 import ArrowNavigator from '@/components/ArrowNavigator';
 import AudioSample from '@/components/AudioSample';
-import ThemeProvider from '@/contexts/ThemeProvider';
 import { getPageData, getPatientStep } from '@/lib/data';
 import {
   EvaluationAttributes,
@@ -15,6 +14,7 @@ import {
 import Image from 'next/image';
 import Markdown from '@/components/Markdown';
 import Questions from '@/components/Questions';
+import Provider from '@/contexts/Provider';
 
 export const metadata = {
   title: 'Avaliação fonoaudiológica',
@@ -41,7 +41,7 @@ export default async function EvaluationStep({
   const pageAttributes = page.data.attributes;
 
   return (
-    <ThemeProvider color='evaluation'>
+    <Provider color='evaluation'>
       <ArrowNavigator href={`/${lang}/patients`} direction='left' />
       <header>
         <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
@@ -120,7 +120,7 @@ export default async function EvaluationStep({
         href={`/${lang}/patients/${title}/diagnostic`}
         direction='right'
       />
-    </ThemeProvider>
+    </Provider>
   );
 }
 

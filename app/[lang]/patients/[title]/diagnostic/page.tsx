@@ -2,10 +2,10 @@ import ArrowNavigator from '@/components/ArrowNavigator';
 import Pills from '@/components/Pills';
 import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
-import ThemeProvider from '@/contexts/ThemeProvider';
 import { getPageData, getPatientStep } from '@/lib/data';
 import { DiagnosticAttributes, DiagnosticPage } from '@/types/diagnostic_types';
 import Markdown from '@/components/Markdown';
+import Provider from '@/contexts/Provider';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
@@ -32,7 +32,7 @@ export default async function EvaluationStep({
   const pageAttributes = page.data.attributes;
 
   return (
-    <ThemeProvider color='diagnostic'>
+    <Provider color='diagnostic'>
       <ArrowNavigator
         href={`/${lang}/patients/${title}/evaluation`}
         direction='left'
@@ -61,6 +61,6 @@ export default async function EvaluationStep({
         href={`/${lang}/patients/${title}/therapeutic`}
         direction='right'
       />
-    </ThemeProvider>
+    </Provider>
   );
 }

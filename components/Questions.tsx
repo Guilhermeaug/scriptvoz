@@ -2,8 +2,9 @@
 
 import { QuestionType } from '@/types/global_types';
 import Question from './Question';
-import { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from '@/contexts/ThemeProvider';
+import { useContext, useEffect } from 'react';
+import { ProviderContext } from '@/contexts/Provider';
+import { useLocalStorage } from 'usehooks-ts';
 
 interface QuestionStatus {
   id: number;
@@ -15,20 +16,34 @@ export default function Questions({
 }: {
   questions: QuestionType[];
 }) {
-  const { setQuestionsStatus: canGoNext } = useContext(ThemeContext);
-  const [questionsStatus, setQuestionsStatus] = useState<QuestionStatus[]>([]);
+  const { setQuestionsStatus: canGoNext } = useContext(ProviderContext);
+  const [questionsStatus, saveQuestions] = useLocalStorage<QuestionStatus[]>(
+    'questions',
+    [],
+  );
+
   useEffect(() => {
-    const questionsStatus = questions.map((question) => {
-      return {
-        id: question.id,
-        answered: false,
-      };
+    const loadedQuestionsStatus = [...questionsStatus];
+    questions.forEach((question) => {
+      if (
+        !loadedQuestionsStatus.find(
+          (questionStatus) => questionStatus.id === question.id,
+        )
+      ) {
+        loadedQuestionsStatus.push({
+          id: question.id,
+          answered: false,
+        });
+      }
     });
-    setQuestionsStatus(questionsStatus);
-    return () => {
-      setQuestionsStatus([]);
-    };
-  }, [questions]);
+    const questionsFromThisStep = loadedQuestionsStatus.filter((question) =>
+      questions.find((q) => q.id === question.id),
+    );
+    if (questionsFromThisStep.every((question) => question.answered)) {
+      canGoNext(true);
+    }
+    saveQuestions(loadedQuestionsStatus);
+  }, []);
 
   function setAnswered(questionId: number) {
     const questionIndex = questionsStatus.findIndex(
@@ -36,10 +51,11 @@ export default function Questions({
     );
     const newQuestionsStatus = [...questionsStatus];
     newQuestionsStatus[questionIndex].answered = true;
-    setQuestionsStatus(newQuestionsStatus);
+    saveQuestions(newQuestionsStatus);
     if (newQuestionsStatus.every((question) => question.answered)) {
       canGoNext(true);
     }
+    saveQuestions(newQuestionsStatus);
   }
 
   return (
@@ -52,6 +68,10 @@ export default function Questions({
           question.feedback_c,
           question.feedback_d,
         ];
+        const questionStatus =
+          questionsStatus.find(
+            (questionStatus) => questionStatus.id === question.id,
+          )?.answered ?? false;
         return (
           <Question
             key={question.id}
@@ -60,6 +80,7 @@ export default function Questions({
             feedbacks={feedbacks}
             correctAnswer={question.answer}
             setAnsweredCorrect={() => setAnswered(question.id)}
+            status={questionStatus}
           />
         );
       })}

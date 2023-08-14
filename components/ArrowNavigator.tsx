@@ -1,6 +1,6 @@
-'use client'
+'use client';
 
-import { ThemeContext } from '@/contexts/ThemeProvider';
+import { ProviderContext } from '@/contexts/Provider';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
 import Link from 'next/link';
@@ -15,20 +15,20 @@ export default function ArrowNavigator({
   direction,
   href,
 }: ArrowNavigatorProps) {
-  const { color, isCompleted } = useContext(ThemeContext);
+  const { color, isCompleted } = useContext(ProviderContext);
 
   const navClasses = classNames(
     `w-24 rounded-br-lg bg-${color} p-2 text-white`,
     {
       'polygon-bl flex justify-end float-right mt-6': direction === 'right',
       'polygon-tr': direction === 'left',
-      'hidden': !isCompleted,
-    }
+      hidden: !isCompleted,
+    },
   );
 
   return (
     <nav className={navClasses}>
-      <Link href={href}> 
+      <Link href={href}>
         <button className='btn-ghost btn-square btn'>
           {direction == 'left' ? <ArrowLeftIcon /> : <ArrowRightIcon />}
         </button>

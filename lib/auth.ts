@@ -56,29 +56,7 @@ export async function signIn({
   email: string;
   password: string;
 }) {
-    const endpoint = `${process.env.STRAPI_URL}/api/auth/local`;
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        identifier: email,
-        password: password,
-      }),
-    });
-    const json = await res.json();
-    if (res.ok) {
-      return json as Auth;
-    } else {
-      const error = json as SignUpError;
-      return Promise.reject(error);
-    }
-}
-
-export async function signUp({ username, email, password }: SignUp) {
-  const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`;
+  const endpoint = `${process.env.STRAPI_URL}/api/auth/local`;
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: {
@@ -86,12 +64,10 @@ export async function signUp({ username, email, password }: SignUp) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      username: username,
-      email: email,
+      identifier: email,
       password: password,
     }),
   });
-
   const json = await res.json();
   if (res.ok) {
     return json as Auth;
@@ -99,4 +75,91 @@ export async function signUp({ username, email, password }: SignUp) {
     const error = json as SignUpError;
     return Promise.reject(error);
   }
+}
+
+export async function signUp(
+  { username, email, password, isTeacher }: SignUp,
+  rest: any,
+) {
+  async function createUser() {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`;
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: username,
+        email: email,
+        password: password,
+        isTeacher: isTeacher,
+      }),
+    });
+
+    const json = await res.json();
+    if (res.ok) {
+      return json as Auth;
+    } else {
+      const error = json as SignUpError;
+      return Promise.reject(error);
+    }
+  }
+
+  async function createAdditionalData() {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/additional-datas`;
+    const res = await fetch(endpoint, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER}`,
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        data: {
+          ...rest,
+        },
+      }),
+    });
+
+    const json = await res.json();
+    if (res.ok) {
+      console.log(json.data.id);
+      return {
+        id: json.data.id as string,
+      };
+    } else {
+      const error = await res.json();
+      return Promise.reject(error);
+    }
+  }
+
+  async function connectUserToData(userId: string, dataId: string) {
+    console.log(userId, dataId);
+
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`;
+    const res = await fetch(endpoint, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER}`,
+      },
+      method: 'PUT',
+      body: JSON.stringify({
+        additionalData: {
+          connect: [dataId],
+        },
+      }),
+    });
+
+    const json = await res.json();
+    console.log(json);
+
+    if (!res.ok) {
+      console.error(res.statusText);
+      throw new Error('Could not connect data to user');
+    }
+  }
+
+  const user = await createUser();
+  const additionalData = await createAdditionalData();
+  await connectUserToData(user.user.id, additionalData.id);
 }

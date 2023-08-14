@@ -2,27 +2,27 @@
 
 import { createContext, useEffect, useState } from 'react';
 
-interface ThemeProvider {
-  color: 'evaluation' | 'diagnostic' | 'therapeutic';
+interface Provider {
+  color: 'evaluation' | 'diagnostic' | 'therapeutic' | 'standard';
   isCompleted: boolean;
   setIsCompleted: (isCompleted: boolean) => void;
   setQuestionsStatus: (questionsStatus: boolean) => void;
   setPillStatus: (pillStatus: boolean) => void;
 }
 
-export const ThemeContext = createContext<ThemeProvider>({
-  color: 'evaluation',
+export const ProviderContext = createContext<Provider>({
+  color: 'standard',
   isCompleted: false,
   setIsCompleted: () => {},
   setQuestionsStatus: () => {},
   setPillStatus: () => {},
 });
 
-export default function ThemeProvider({
+export default function Provider({
   color,
   children,
 }: {
-  color: 'evaluation' | 'diagnostic' | 'therapeutic';
+  color: 'evaluation' | 'diagnostic' | 'therapeutic' | 'standard';
   children: React.ReactNode;
 }) {
   const [questionsStatus, setQuestionsStatus] = useState<boolean>(false);
@@ -50,10 +50,16 @@ export default function ThemeProvider({
   }, [questionsStatus, pillStatus, color]);
 
   return (
-    <ThemeContext.Provider
-      value={{ color, isCompleted, setIsCompleted, setQuestionsStatus, setPillStatus }}
+    <ProviderContext.Provider
+      value={{
+        color,
+        isCompleted,
+        setIsCompleted,
+        setQuestionsStatus,
+        setPillStatus,
+      }}
     >
       {children}
-    </ThemeContext.Provider>
+    </ProviderContext.Provider>
   );
 }

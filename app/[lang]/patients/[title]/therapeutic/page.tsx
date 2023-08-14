@@ -1,8 +1,6 @@
 import ArrowNavigator from '@/components/ArrowNavigator';
-import Pills from '@/components/Pills';
 import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
-import ThemeProvider from '@/contexts/ThemeProvider';
 import { getPageData, getPatientStep } from '@/lib/data';
 import {
   TherapeuticAttributes,
@@ -10,6 +8,7 @@ import {
 } from '@/types/therapeutic_types';
 import Questions from '@/components/Questions';
 import Markdown from '@/components/Markdown';
+import Provider from '@/contexts/Provider';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
@@ -36,7 +35,7 @@ export default async function TherapeuticStep({
   const pageAttributes = page.data.attributes;
 
   return (
-    <ThemeProvider color='therapeutic'>
+    <Provider color='therapeutic'>
       <ArrowNavigator
         href={`/${lang}/patients/${title}/diagnostic`}
         direction='left'
@@ -60,7 +59,11 @@ export default async function TherapeuticStep({
           </div>
           <Questions questions={patient.questions} />
         </section>
+        <ArrowNavigator
+          href={`/${lang}/patients/${title}/finished`}
+          direction='right'
+        />
       </main>
-    </ThemeProvider>
+    </Provider>
   );
 }

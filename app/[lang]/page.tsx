@@ -4,6 +4,7 @@ import { getPageData } from '@/lib/data';
 import { HomePage } from '@/types/home_types';
 import Link from 'next/link';
 import Image from 'next/image';
+import Footer from '@/components/Footer';
 
 export const metadata = {
   title: 'Script Voz',
@@ -58,6 +59,7 @@ export default async function Home({
           </div>
         </div>
       </main>
+      <Footer lang={lang} />
     </>
   );
 }

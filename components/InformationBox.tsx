@@ -1,8 +1,7 @@
 'use client';
 
-import { ThemeContext } from '@/contexts/ThemeProvider';
 import { useContext } from 'react';
-import Markdown from './Markdown';
+import { ProviderContext } from '@/contexts/Provider';
 interface InformationBoxProps {
   className?: string;
   title?: string;
@@ -14,20 +13,21 @@ export default function InformationBox({
   title,
   children,
 }: InformationBoxProps) {
-  const { color } = useContext(ThemeContext);
+  const { color } = useContext(ProviderContext);
 
+  const borderColor = `border-${color}`;
+  const bgColor = `bg-${color}`;
+  
   return (
-    <div className={`border border-${color} ${className}`}>
+    <div className={`border ${borderColor} ${className}`}>
       {title && (
         <h3
-          className={`w-3/4 rounded-tr-3xl bg-${color} p-1 text-xl text-white`}
+          className={`w-3/4 rounded-tr-3xl ${bgColor} p-1 text-xl text-white`}
         >
           {title}
         </h3>
       )}
-      <div className='p-2'>
-        {children}
-      </div>
+      <div className='p-2'>{children}</div>
     </div>
   );
 }

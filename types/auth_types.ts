@@ -9,6 +9,7 @@ export interface SignUp {
   username: string;
   email: string;
   password: string;
+  isTeacher: boolean;
 }
 
 export interface SignUpError {

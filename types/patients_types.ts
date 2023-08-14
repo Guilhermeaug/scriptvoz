@@ -7,7 +7,7 @@ export interface PatientsPage {
   };
 }
 
-interface PatientAttributes {
+export interface PatientAttributes {
   id: number;
   attributes: { title: string };
 }
