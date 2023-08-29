@@ -36,8 +36,6 @@
   .my-react-select-container .my-react-select__single-value {
     @apply text-neutral-600 dark:text-neutral-200;
   }
-
-  
 }
 
 @layer utilities {

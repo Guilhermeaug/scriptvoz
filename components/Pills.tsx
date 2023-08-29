@@ -25,27 +25,27 @@ export default function Pills({ pills }: DiagnosticsProps) {
   const [selected, setSelected] = useState<number>(-1);
   const selectedDiagnostic = shuffledPills[selected];
 
-  useEffect(() => {
-    setShuffledPills(arrayShuffle(pills));
-
-    const loadedPillsStatus = [...pillsStatus];
-    pills.forEach((pill) => {
-      const pillIndex = loadedPillsStatus.findIndex(
-        (loadedPill) => loadedPill.id === pill.id,
-      );
-      if (pillIndex === -1) {
-        loadedPillsStatus.push({
-          id: pill.id,
-          answered: false,
-          isCorrect: pill.correct,
-        });
-      }
-    });
-    if (loadedPillsStatus.filter((p) => p.isCorrect).every((p) => p.answered)) {
-      canGoNext(true);
-    }
-      savePills(loadedPillsStatus);
-  }, []);
+  // useEffect(() => {
+  //   setShuffledPills(arrayShuffle(pills));
+  //
+  //   const loadedPillsStatus = [...pillsStatus];
+  //   pills.forEach((pill) => {
+  //     const pillIndex = loadedPillsStatus.findIndex(
+  //       (loadedPill) => loadedPill.id === pill.id,
+  //     );
+  //     if (pillIndex === -1) {
+  //       loadedPillsStatus.push({
+  //         id: pill.id,
+  //         answered: false,
+  //         isCorrect: pill.correct,
+  //       });
+  //     }
+  //   });
+  //   if (loadedPillsStatus.filter((p) => p.isCorrect).every((p) => p.answered)) {
+  //     canGoNext(true);
+  //   }
+  //     savePills(loadedPillsStatus);
+  // }, [canGoNext, pills, pillsStatus, savePills]);
 
   function handleAnswer(e: React.MouseEvent<HTMLButtonElement>) {
     const selected = e.currentTarget;

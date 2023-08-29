@@ -109,6 +109,13 @@ export default async function EvaluationStep({
               </div>
             </div>
           </article>
+
+          <article>
+            <InformationHeader title={'Vídeo Pessoal'} />
+            <div className='mx-auto flex max-w-screen-md h-80 flex-col items-center justify-center gap-6'>
+              <VideoPlayer url={patient.personal_video.url} />
+            </div>
+          </article>
         </section>
 
         <section className='space-y-4'>

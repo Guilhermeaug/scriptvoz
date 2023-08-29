@@ -9,6 +9,7 @@ export async function getPatients({ locale }: { locale: string }) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
+    cache: 'no-cache',
   });
 
   if (!res.ok) {
@@ -34,6 +35,7 @@ export async function getPatientStep({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
+    cache: 'no-cache',
   });
 
   if (!res.ok) {

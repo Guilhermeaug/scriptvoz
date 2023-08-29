@@ -6,7 +6,6 @@ import { Group } from '@/types/group_types';
 import StudentStatus from '@/components/StudentStatus';
 import { ClipboardIcon } from '@heroicons/react/24/solid';
 import { applyStudent } from '@/lib/group';
-import { SubscribeButton } from '@/components/SubscribeButton';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',

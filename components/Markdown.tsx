@@ -1,5 +1,7 @@
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw'
 
 const MarkdownComponents: object = {
   p: (paragraph: { children?: boolean; node?: any }) => {
@@ -30,6 +32,15 @@ const MarkdownComponents: object = {
     }
     return <p>{paragraph.children}</p>;
   },
+  table: (table: { children?: boolean; node?: any }) => {
+    const { children } = table;
+
+    return (
+      <div className='overflow-x-auto'>
+        <table className='table'>{children}</table>
+      </div>
+    );
+  },
 };
 
 export default function Markdown({
@@ -43,6 +54,8 @@ export default function Markdown({
     <ReactMarkdown
       className={`prose prose-slate max-w-4xl ${className}`}
       components={MarkdownComponents}
+      remarkPlugins={[remarkGfm]}
+      rehypePlugins={[rehypeRaw]}
     >
       {children}
     </ReactMarkdown>

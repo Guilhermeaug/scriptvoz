@@ -29,25 +29,25 @@ export default function Provider({
   const [pillStatus, setPillStatus] = useState<boolean>(false);
   const [isCompleted, setIsCompleted] = useState(false);
 
-  useEffect(() => {
-    switch (color) {
-      case 'evaluation':
-        if (questionsStatus) {
-          setIsCompleted(true);
-        }
-        break;
-      case 'diagnostic':
-        if (pillStatus) {
-          setIsCompleted(true);
-        }
-        break;
-      case 'therapeutic':
-        if (questionsStatus) {
-          setIsCompleted(true);
-        }
-        break;
-    }
-  }, [questionsStatus, pillStatus, color]);
+  // useEffect(() => {
+  //   switch (color) {
+  //     case 'evaluation':
+  //       if (questionsStatus) {
+  //         setIsCompleted(true);
+  //       }
+  //       break;
+  //     case 'diagnostic':
+  //       if (pillStatus) {
+  //         setIsCompleted(true);
+  //       }
+  //       break;
+  //     case 'therapeutic':
+  //       if (questionsStatus) {
+  //         setIsCompleted(true);
+  //       }
+  //       break;
+  //   }
+  // }, [questionsStatus, pillStatus, color]);
 
   return (
     <ProviderContext.Provider
