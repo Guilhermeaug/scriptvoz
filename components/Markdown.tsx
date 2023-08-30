@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import rehypeRaw from 'rehype-raw'
 
 const MarkdownComponents: object = {
   p: (paragraph: { children?: boolean; node?: any }) => {
@@ -55,7 +54,7 @@ export default function Markdown({
       className={`prose prose-slate max-w-4xl ${className}`}
       components={MarkdownComponents}
       remarkPlugins={[remarkGfm]}
-      rehypePlugins={[rehypeRaw]}
+      // rehypePlugins={[rehypeRaw]}
     >
       {children}
     </ReactMarkdown>
