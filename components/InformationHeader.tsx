@@ -1,14 +1,13 @@
 'use client';
 
-import { ProviderContext } from '@/contexts/Provider';
-import { useContext } from 'react';
+import { useProvider } from '@/contexts/Provider';
 
 interface SectionHeaderProps {
   title: string;
 }
 
 export default function InformationHeader({ title }: SectionHeaderProps) {
-  const { color } = useContext(ProviderContext);
+  const { color } = useProvider();
 
   return (
     <div className='my-4'>

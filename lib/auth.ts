@@ -151,7 +151,6 @@ export async function signUp(
     });
 
     const json = await res.json();
-    console.log(json);
 
     if (!res.ok) {
       console.error(res.statusText);

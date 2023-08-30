@@ -6,6 +6,7 @@ import { getPageData, getPatientStep } from '@/lib/data';
 import { DiagnosticAttributes, DiagnosticPage } from '@/types/diagnostic_types';
 import Markdown from '@/components/Markdown';
 import Provider from '@/contexts/Provider';
+import arrayShuffle from 'array-shuffle';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
@@ -54,7 +55,7 @@ export default async function EvaluationStep({
               <Markdown>{pageAttributes.call_to_action}</Markdown>
             </InformationBox>
           </div>
-          <Pills pills={patient.pills} />
+          <Pills pills={arrayShuffle(patient.pills)} />
         </section>
       </main>
       <ArrowNavigator

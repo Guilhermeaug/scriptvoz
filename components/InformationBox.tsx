@@ -1,7 +1,7 @@
 'use client';
 
-import { useContext } from 'react';
-import { ProviderContext } from '@/contexts/Provider';
+import { useProvider } from '@/contexts/Provider';
+
 interface InformationBoxProps {
   className?: string;
   title?: string;
@@ -13,11 +13,11 @@ export default function InformationBox({
   title,
   children,
 }: InformationBoxProps) {
-  const { color } = useContext(ProviderContext);
+  const { color } = useProvider();
 
   const borderColor = `border-${color}`;
   const bgColor = `bg-${color}`;
-  
+
   return (
     <div className={`border ${borderColor} ${className}`}>
       {title && (

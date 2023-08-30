@@ -1,10 +1,9 @@
 'use client';
 
-import { ProviderContext } from '@/contexts/Provider';
+import { useProvider } from '@/contexts/Provider';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
 import classNames from 'classnames';
 import Link from 'next/link';
-import { useContext } from 'react';
 
 interface ArrowNavigatorProps {
   direction: 'left' | 'right';
@@ -15,7 +14,7 @@ export default function ArrowNavigator({
   direction,
   href,
 }: ArrowNavigatorProps) {
-  const { color, isCompleted } = useContext(ProviderContext);
+  const { color, isCompleted } = useProvider();
 
   const navClasses = classNames(
     `w-24 rounded-br-lg bg-${color} p-2 text-white`,

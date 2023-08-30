@@ -18,6 +18,11 @@ module.exports = {
       },
     },
   },
+  safelist: [
+    {
+      pattern: /(bg|text|border)-(standard|evaluation|diagnostic|therapeutic)/,
+    },
+  ],
   daisyui: {
     themes: ['light', 'dark'],
   },

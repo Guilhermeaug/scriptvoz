@@ -12,7 +12,8 @@ export interface Attributes {
   updatedAt: Date;
   publishedAt: Date;
   locale: string;
-  fields: Field[];
+  studentFields: Field[];
+  teacherFields: Field[];
 }
 
 export interface Field {

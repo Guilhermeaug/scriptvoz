@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import InformationBox from './InformationBox';
 import Markdown from './Markdown';
 import { twMerge } from 'tailwind-merge';
-import { useLocalStorage, useSessionStorage } from 'usehooks-ts';
+import { useLocalStorage } from 'usehooks-ts';
 import classNames from 'classnames';
+import { useProvider } from '@/contexts/Provider';
 
 export interface QuestionStatus {
   id: number;
@@ -34,6 +35,7 @@ export default function Question({
   feedbacks,
   correctAnswer,
 }: QuestionProps) {
+  const { setIsCompleted } = useProvider();
   const [questionsStatus, saveQuestions] = useLocalStorage<QuestionStatus[]>(
     'questions',
     [],
@@ -42,14 +44,19 @@ export default function Question({
 
   useEffect(() => {
     setStatus(questionsStatus.find((question) => question.id === id));
-  }, [questionsStatus]);
+    const everyQuestionAnsweredCorrectly = questionsStatus.every(
+      (question) => question.answered,
+    );
+    setIsCompleted(everyQuestionAnsweredCorrectly);
+  }, [id, questionsStatus, setIsCompleted]);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
 
   function handleAnswer(e: React.MouseEvent<HTMLButtonElement>) {
     setSelectedAnswer(Number(e.currentTarget.dataset.index));
     const answer = e.currentTarget;
     const answerIndex = Number(answer.dataset.index);
-    updateQuestionStatus(id, true, answerIndex);
+    const isCorrect = answerIndex === correctAnswer;
+    updateQuestionStatus(id, isCorrect, answerIndex);
   }
 
   function updateQuestionStatus(
