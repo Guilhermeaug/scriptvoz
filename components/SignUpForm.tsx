@@ -77,13 +77,24 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
                     ? z.boolean()
                     : z.boolean().optional(),
                 };
-              default:
+              default: {
+                const validation = options.validation || '';
+                const dataType = options.data_type || 'text';
+                if (dataType === 'number') {
+                  return {
+                    ...acc,
+                    [field.name]: options.required
+                      ? z.number().min(0, validation)
+                      : z.number().optional(),
+                  };
+                }
                 return {
                   ...acc,
                   [field.name]: options.required
-                    ? z.string().min(3, options.validation || '')
+                    ? z.string().min(3, validation)
                     : z.string().optional(),
                 };
+              }
             }
           }, {}),
           fullName: z.string().min(3, 'Escreva seu nome completo'),

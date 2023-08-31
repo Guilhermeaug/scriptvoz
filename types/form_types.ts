@@ -31,6 +31,7 @@ export interface Options {
   required: boolean;
   size: number;
   validation?: string;
+  data_type: string;
 }
 
 export interface Values {
