@@ -34,14 +34,16 @@ export const authOptions: AuthOptions = {
     session: async ({ session, token }) => {
       session.user.id = token.id as string;
       session.user.jwt = token.jwt as string;
+      session.user.name = token.name as string;
       return Promise.resolve(session);
     },
     jwt: async ({ token, user }) => {
-      const isSignIn = user ? true : false;
+      const isSignIn = !!user;
       if (isSignIn) {
         token.id = user.id;
         token.jwt = user.jwt;
         token.name = user.username;
+        token.fullName = user.fullName;
       }
       return Promise.resolve(token);
     },
@@ -78,7 +80,7 @@ export async function signIn({
 }
 
 export async function signUp(
-  { username, email, password, isTeacher }: SignUp,
+  { username, email, password, isTeacher, fullName }: SignUp,
   rest: any,
 ) {
   async function createUser() {
@@ -94,6 +96,7 @@ export async function signUp(
         email: email,
         password: password,
         isTeacher: isTeacher,
+        fullName: fullName,
       }),
     });
 

@@ -12,7 +12,8 @@ declare module 'next-auth' {
   }
 
   interface User {
-    jwt: string
-    username: string
+    jwt: string;
+    username: string;
+    fullName: string;
   }
 }

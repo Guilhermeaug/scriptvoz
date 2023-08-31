@@ -43,6 +43,8 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
       email: z.string().email('Escreva um email válido'),
       password: z.string().min(8, 'A senha deve ter no mínimo 8 caracteres'),
       isTeacher: z.boolean(),
+      fullName: z.string().min(3, 'Escreva seu nome completo'),
+      username: z.string().min(3, 'Escreva seu nome de usuário'),
     }),
   );
   type FormData = z.infer<typeof FormSchema>;
@@ -84,7 +86,8 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
                 };
             }
           }, {}),
-          name: z.string().min(3, 'Escreva seu nome completo'),
+          fullName: z.string().min(3, 'Escreva seu nome completo'),
+          username: z.string().min(3, 'Escreva seu nome de usuário'),
         }),
       );
     } else {
@@ -114,7 +117,8 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
                 };
             }
           }, {}),
-          name: z.string().min(3, 'Escreva seu nome completo'),
+          fullName: z.string().min(3, 'Escreva seu nome completo'),
+          username: z.string().min(3, 'Escreva seu nome de usuário'),
         }),
       );
     }
@@ -127,7 +131,8 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
     try {
       await signUp(
         {
-          username: data.name,
+          username: data.username,
+          fullName: data.fullName,
           email: data.email,
           password: data.password,
           isTeacher: data.isTeacher,
@@ -176,9 +181,16 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
             className='grid grid-cols-3 gap-2'
           >
             <Form.Field size={2}>
-              <Form.Label htmlFor='name'>Qual seu nome?</Form.Label>
-              <Form.Input type='text' name='name' />
-              <Form.ErrorMessage field='name' />
+              <Form.Label htmlFor='fullName'>Qual seu nome?</Form.Label>
+              <Form.Input type='text' name='fullName' />
+              <Form.ErrorMessage field='fullName' />
+            </Form.Field>
+            <Form.Field size={2}>
+              <Form.Label htmlFor='username'>
+                Escolha um nome de usuário
+              </Form.Label>
+              <Form.Input type='text' name='username' />
+              <Form.ErrorMessage field='username' />
             </Form.Field>
             <Form.Field size={1}>
               <Form.Label htmlFor='email'>Qual seu email?</Form.Label>
