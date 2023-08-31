@@ -16,7 +16,7 @@ function renderFormElement(field: Field) {
   switch (field.type) {
     case 'text': {
       if (field.options.data_type === 'number')
-        return <Form.Input type='number' name={field.name} />;
+        return <Form.Input type='number' name={field.name} isNumber={true} />;
       return <Form.Input type='text' name={field.name} />;
     }
     case 'select':

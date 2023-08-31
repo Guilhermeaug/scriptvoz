@@ -5,10 +5,14 @@ import classNames from 'classnames';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
+  isNumber?: boolean;
 }
 
 export default function Input(props: InputProps) {
-  const { register, formState: { errors } } = useFormContext();
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext();
   const fieldError = get(errors, props.name);
   const style = classNames('input input-bordered input-primary w-full', {
     'input-error': Boolean(fieldError),
@@ -18,7 +22,7 @@ export default function Input(props: InputProps) {
     <input
       id={props.name}
       className={style}
-      {...register(props.name)}
+      {...register(props.name, { valueAsNumber: props.isNumber })}
       {...props}
     />
   );
