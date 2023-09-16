@@ -1,7 +1,6 @@
 'use client';
 
 import { FormProvider, useForm } from 'react-hook-form';
-import InformationBox from './InformationBox';
 import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signUp } from '@/lib/auth';
@@ -13,15 +12,20 @@ import { ZodObject, z } from 'zod';
 import { Data, Field } from '@/types/form_types';
 
 function renderFormElement(field: Field) {
+  const isNumber = field.options.data_type === 'number';
   switch (field.type) {
     case 'text': {
-      if (field.options.data_type === 'number')
-        return <Form.Input type='number' name={field.name} isNumber={true} />;
-      return <Form.Input type='text' name={field.name} />;
+      return (
+        <Form.Input
+          type={isNumber ? 'number' : 'text'}
+          name={field.name}
+          isNumber={isNumber}
+        />
+      );
     }
     case 'select':
       return (
-        <Form.Select name={field.name}>
+        <Form.Select name={field.name} isNumber={isNumber}>
           {field.values.values.map((value) => {
             return (
               <option key={value} value={value}>
@@ -37,15 +41,28 @@ function renderFormElement(field: Field) {
 }
 
 interface SignUpFormProps {
-  additionalData: Data;
+  formData: Data;
 }
 
-export default function SignUpForm({ additionalData }: SignUpFormProps) {
+export default function SignUpForm({ formData }: SignUpFormProps) {
+  const {
+    attributes: {
+      email,
+      password,
+      fullName,
+      username,
+      role,
+      teacherFields,
+      studentFields,
+      professional,
+      commom,
+    },
+  } = formData;
   const [FormSchema, setFormSchema] = useState<ZodObject<any, any>>(
     z.object({
-      email: z.string().email('Escreva um email válido'),
+      email: z.string().email(),
       password: z.string().min(8, 'A senha deve ter no mínimo 8 caracteres'),
-      isTeacher: z.boolean(),
+      role: z.string(),
       fullName: z.string().min(3, 'Escreva seu nome completo'),
       username: z.string().min(3, 'Escreva seu nome de usuário'),
     }),
@@ -59,18 +76,106 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
     formState: { isSubmitting },
     watch,
   } = registerForm;
-  const isTeacher = watch('isTeacher');
+  const watch1 = watch('role');
 
   useEffect(() => {
-    if (isTeacher) {
+    if (!watch1) {
       setFormSchema(
         z.object({
           email: z.string().email('Escreva um email válido'),
           password: z
             .string()
             .min(8, 'A senha deve ter no mínimo 8 caracteres'),
-          isTeacher: z.boolean(),
-          ...additionalData.attributes.teacherFields.reduce((acc, field) => {
+          role: z.string(),
+          ...formData.attributes.studentFields.reduce((acc, field) => {
+            const options = field.options;
+            switch (field.type) {
+              case 'checkbox':
+                return {
+                  ...acc,
+                  [field.name]: options.required
+                    ? z.boolean()
+                    : z.boolean().optional(),
+                };
+              default: {
+                const validation = options.validation || '';
+                const dataType = options.data_type || 'text';
+                if (dataType === 'number') {
+                  return {
+                    ...acc,
+                    [field.name]: options.required
+                      ? z.number().min(0, validation)
+                      : z.number().optional(),
+                  };
+                }
+                return {
+                  ...acc,
+                  [field.name]: options.required
+                    ? z.string().min(3, validation)
+                    : z.string().optional(),
+                };
+              }
+            }
+          }, {}),
+          fullName: z.string().min(3, 'Escreva seu nome completo'),
+          username: z.string().min(3, 'Escreva seu nome de usuário'),
+        }),
+      );
+
+      return;
+    }
+
+    if (watch1.startsWith('3')) {
+      setFormSchema(
+        z.object({
+          email: z.string().email('Escreva um email válido'),
+          password: z
+            .string()
+            .min(8, 'A senha deve ter no mínimo 8 caracteres'),
+          role: z.string(),
+          ...formData.attributes.teacherFields.reduce((acc, field) => {
+            const options = field.options;
+            switch (field.type) {
+              case 'checkbox':
+                return {
+                  ...acc,
+                  [field.name]: options.required
+                    ? z.boolean()
+                    : z.boolean().optional(),
+                };
+              default: {
+                const validation = options.validation || '';
+                const dataType = options.data_type || 'text';
+                if (dataType === 'number') {
+                  return {
+                    ...acc,
+                    [field.name]: options.required
+                      ? z.number().min(0, validation)
+                      : z.number().optional(),
+                  };
+                }
+                return {
+                  ...acc,
+                  [field.name]: options.required
+                    ? z.string().min(3, validation)
+                    : z.string().optional(),
+                };
+              }
+            }
+          }, {}),
+          fullName: z.string().min(3, 'Escreva seu nome completo'),
+          username: z.string().min(3, 'Escreva seu nome de usuário'),
+        }),
+      );
+    } else if (watch1.startsWith('1')) {
+      setFormSchema(
+        z.object({
+          email: z.string().email('Escreva um email válido'),
+          password: z
+            .string()
+            .min(8, 'A senha deve ter no mínimo 8 caracteres'),
+          role: z.string(),
+          ...formData.attributes.studentFields.reduce((acc, field) => {
             const options = field.options;
             switch (field.type) {
               case 'checkbox':
@@ -111,8 +216,8 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
           password: z
             .string()
             .min(8, 'A senha deve ter no mínimo 8 caracteres'),
-          isTeacher: z.boolean(),
-          ...additionalData.attributes.studentFields.reduce((acc, field) => {
+          role: z.string(),
+          ...formData.attributes.professional.reduce((acc, field) => {
             const options = field.options;
             switch (field.type) {
               case 'checkbox':
@@ -147,7 +252,7 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
         }),
       );
     }
-  }, [additionalData, isTeacher]);
+  }, [formData, watch1]);
 
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
@@ -160,7 +265,7 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
           fullName: data.fullName,
           email: data.email,
           password: data.password,
-          isTeacher: data.isTeacher,
+          isTeacher: !!data.role.startsWith('3'),
         },
         data,
       );
@@ -169,11 +274,17 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
         email: data.email,
         password: data.password,
       });
-      router.push('/');
+      router.replace('/');
     } catch (error) {
       const { error: e } = error as SignUpError;
-      if (e.message === 'Email or Username are already taken') {
+      if (
+        e &&
+        e.message &&
+        e.message === 'Email or Username are already taken'
+      ) {
         setError('Email ou nome de usuário já estão em uso');
+      } else {
+        setError('Ocorreu um erro ao realizar o cadastro');
       }
     }
   }
@@ -199,91 +310,113 @@ export default function SignUpForm({ additionalData }: SignUpFormProps) {
           <span>{error}</span>
         </div>
       )}
-      <InformationBox title='Dados'>
-        <FormProvider {...registerForm}>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-            className='grid grid-cols-3 gap-2'
+
+      <FormProvider {...registerForm}>
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className='grid grid-cols-3 gap-2'
+        >
+          {fullName && (
+            <Form.Field size={fullName.options.size}>
+              <Form.Label htmlFor={fullName.name}>{fullName.label}</Form.Label>
+              {renderFormElement(fullName)}
+              <Form.ErrorMessage field={fullName.name} />
+            </Form.Field>
+          )}
+          {username && (
+            <Form.Field size={username.options.size}>
+              <Form.Label htmlFor={username.name}>{username.label}</Form.Label>
+              {renderFormElement(username)}
+              <Form.ErrorMessage field={username.name} />
+            </Form.Field>
+          )}
+          {email && (
+            <Form.Field size={email.options.size}>
+              <Form.Label htmlFor={email.name}>{email.label}</Form.Label>
+              {renderFormElement(email)}
+              <Form.ErrorMessage field={email.name} />
+            </Form.Field>
+          )}
+          {password && (
+            <Form.Field size={password.options.size}>
+              <Form.Label htmlFor={password.name}>{password.label}</Form.Label>
+              <Form.Input type='password' name={password.name} />
+              <Form.ErrorMessage field={password.name} />
+            </Form.Field>
+          )}
+          {role && (
+            <Form.Field size={role.options.size}>
+              <Form.Label htmlFor={role.name}>{role.label}</Form.Label>
+              {renderFormElement(role)}
+              <Form.ErrorMessage field={role.name} />
+            </Form.Field>
+          )}
+          {commom &&
+            commom.map((field, index) => (
+              <Form.Field size={field.options.size} key={index}>
+                <Form.Label htmlFor={field.name}>{field.label}</Form.Label>
+                {renderFormElement(field)}
+                <Form.ErrorMessage field={field.name} />
+              </Form.Field>
+            ))}
+          {watch1 && (
+            <>
+              <h2 className='text-center font-bold text-3xl col-span-3 mt-4'>
+                Informações adicionais
+              </h2>
+              {watch1.startsWith('1') && (
+                <>
+                  {studentFields &&
+                    studentFields.map((field, index) => (
+                      <Form.Field size={field.options.size} key={index}>
+                        <Form.Label htmlFor={field.name}>
+                          {field.label}
+                        </Form.Label>
+                        {renderFormElement(field)}
+                        <Form.ErrorMessage field={field.name} />
+                      </Form.Field>
+                    ))}
+                </>
+              )}
+              {watch1.startsWith('2') && (
+                <>
+                  {professional &&
+                    professional.map((field, index) => (
+                      <Form.Field size={field.options.size} key={index}>
+                        <Form.Label htmlFor={field.name}>
+                          {field.label}
+                        </Form.Label>
+                        {renderFormElement(field)}
+                        <Form.ErrorMessage field={field.name} />
+                      </Form.Field>
+                    ))}
+                </>
+              )}
+              {watch1.startsWith('3') && (
+                <>
+                  {teacherFields &&
+                    teacherFields.map((field, index) => (
+                      <Form.Field size={field.options.size} key={index}>
+                        <Form.Label htmlFor={field.name}>
+                          {field.label}
+                        </Form.Label>
+                        {renderFormElement(field)}
+                        <Form.ErrorMessage field={field.name} />
+                      </Form.Field>
+                    ))}
+                </>
+              )}
+            </>
+          )}
+          <button
+            type='submit'
+            disabled={isSubmitting}
+            className='btn btn-primary mt-4 btn-block col-span-3'
           >
-            <Form.Field size={2}>
-              <Form.Label htmlFor='fullName'>Qual seu nome?</Form.Label>
-              <Form.Input type='text' name='fullName' />
-              <Form.ErrorMessage field='fullName' />
-            </Form.Field>
-            <Form.Field size={2}>
-              <Form.Label htmlFor='username'>
-                Escolha um nome de usuário
-              </Form.Label>
-              <Form.Input type='text' name='username' />
-              <Form.ErrorMessage field='username' />
-            </Form.Field>
-            <Form.Field size={1}>
-              <Form.Label htmlFor='email'>Qual seu email?</Form.Label>
-              <Form.Input type='email' name='email' />
-              <Form.ErrorMessage field='email' />
-            </Form.Field>
-            <Form.Field>
-              <Form.Label htmlFor='password'>Qual sua senha?</Form.Label>
-              <Form.Input type='password' name='password' />
-              <Form.ErrorMessage field='password' />
-            </Form.Field>
-            <Form.Field>
-              <Form.Label htmlFor='isTeacher'>
-                Marque se for professor
-              </Form.Label>
-              <Form.Checkbox type='checkbox' name='isTeacher' />
-              <Form.ErrorMessage field='isTeacher' />
-            </Form.Field>
-            {isTeacher &&
-              additionalData &&
-              additionalData.attributes.teacherFields.length > 0 && (
-                <>
-                  <h2 className='text-center font-bold text-3xl col-span-3 mt-4'>
-                    Informações adicionais
-                  </h2>
-                  {additionalData.attributes.teacherFields.map(
-                    (field, index) => (
-                      <Form.Field size={field.options.size} key={index}>
-                        <Form.Label htmlFor={field.name}>
-                          {field.label}
-                        </Form.Label>
-                        {renderFormElement(field)}
-                        <Form.ErrorMessage field={field.name} />
-                      </Form.Field>
-                    ),
-                  )}
-                </>
-              )}
-            {!isTeacher &&
-              additionalData &&
-              additionalData.attributes.studentFields.length > 0 && (
-                <>
-                  <h2 className='text-center font-bold text-3xl col-span-3 mt-4'>
-                    Informações adicionais
-                  </h2>
-                  {additionalData.attributes.studentFields.map(
-                    (field, index) => (
-                      <Form.Field size={field.options.size} key={index}>
-                        <Form.Label htmlFor={field.name}>
-                          {field.label}
-                        </Form.Label>
-                        {renderFormElement(field)}
-                        <Form.ErrorMessage field={field.name} />
-                      </Form.Field>
-                    ),
-                  )}
-                </>
-              )}
-            <button
-              type='submit'
-              disabled={isSubmitting}
-              className='btn btn-primary mt-4 btn-block col-span-3'
-            >
-              Cadastrar
-            </button>
-          </form>
-        </FormProvider>
-      </InformationBox>
+            Cadastrar
+          </button>
+        </form>
+      </FormProvider>
     </main>
   );
 }

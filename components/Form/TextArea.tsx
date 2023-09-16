@@ -3,29 +3,30 @@ import { useFormContext } from 'react-hook-form';
 import { get } from './ErrorMessage';
 import classNames from 'classnames';
 
-interface SelectProps extends InputHTMLAttributes<HTMLSelectElement> {
+interface InputProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   name: string;
   isNumber?: boolean;
 }
 
-export default function Select(props: SelectProps) {
+export default function TextArea(props: InputProps) {
   const {
     register,
     formState: { errors },
   } = useFormContext();
   const fieldError = get(errors, props.name);
-  const style = classNames('select select-bordered select-primary w-full', {
-    'select-error': Boolean(fieldError),
-  });
+  const style = classNames(
+    'textarea textarea-bordered textarea-primary w-full',
+    {
+      'input-error': Boolean(fieldError),
+    },
+  );
 
   return (
-    <select
+    <textarea
       id={props.name}
       className={style}
       {...register(props.name, { valueAsNumber: props.isNumber })}
       {...props}
-    >
-      {props.children}
-    </select>
+    />
   );
 }

@@ -1,6 +1,6 @@
 import SignUpForm from '@/components/SignUpForm';
 import Provider from '@/contexts/Provider';
-import { getPageData } from '@/lib/data';
+import { getPageData } from '@/lib/page_data';
 import { SignUpForm as SignUpFormType } from '@/types/form_types';
 
 export default async function RegisterPage({
@@ -15,7 +15,7 @@ export default async function RegisterPage({
 
   return (
     <Provider color='standard'>
-      <SignUpForm additionalData={formData} />
+      <SignUpForm formData={formData} />
     </Provider>
   );
 }

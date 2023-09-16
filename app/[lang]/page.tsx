@@ -1,28 +1,27 @@
 import LocaleSwitcher from '@/components/LocaleSwitcher';
 import Markdown from '@/components/Markdown';
-import { getPageData } from '@/lib/data';
+import { getPageData } from '@/lib/page_data';
 import { HomePage } from '@/types/home_types';
 import Link from 'next/link';
 import Image from 'next/image';
-import Footer from '@/components/Footer';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
+import SignOutButton from '@/components/SignOutButton';
+import Footer from '@/components/Footer';
 
-export const metadata = {
-  title: 'Script Voz',
-  description: 'Projeto de pesquisa em Fonoaudiologia',
-};
-
-export default async function Home({
+export default async function HomePage({
   params: { lang },
 }: {
   params: { lang: string };
 }) {
-  const { data: page }: HomePage = await getPageData({
+  const {
+    data: { attributes: pageAttributes },
+  }: HomePage = await getPageData({
     path: 'home-page',
     locale: lang,
   });
-  const { attributes: pageAttributes } = page;
+
+  const session = await getServerSession(authOptions);
 
   return (
     <>
@@ -32,12 +31,20 @@ export default async function Home({
             ScriptVoz
           </Link>
         </div>
-        <div className='navbar-end'>
+        <div className={'navbar-end space-x-4 mx-4'}>
+          {session && <SignOutButton />}
           <LocaleSwitcher />
         </div>
       </header>
-      <main className='mt-3'>
-        <div className='card bg-[#004172] shadow-xl lg:card-side'>
+      <main className='mt-3 space-y-8'>
+        {session && (
+          <section>
+            <h2 className={'text-center text-xl font-medium'}>
+              Seja bem vindo de volta, {session!.user.name}
+            </h2>
+          </section>
+        )}
+        <section className='card bg-[#004172] shadow-xl lg:card-side'>
           <Image
             src='/raciocinio_clinico.png'
             alt='Cérebro humano'
@@ -45,21 +52,36 @@ export default async function Home({
             height={325}
             className='self-center'
           />
-          <div className='card-body bg-base-100'>
+          <article className='card-body bg-base-100'>
             <h2 className='text-6xl font-bold'>Script Voz</h2>
-            <Markdown className='prose-xl'>
+            <Markdown className='prose prose-xl'>
               {pageAttributes.front_text}
             </Markdown>
-            <Markdown className='prose-xl'>{pageAttributes.call_text}</Markdown>
+            <Markdown className='prose prose-xl'>
+              {pageAttributes.call_text}
+            </Markdown>
             <div className='card-actions justify-end'>
-              <Link href={`${lang}/patients`}>
-                <button className='btn-primary btn'>
-                  {pageAttributes.button_text}
-                </button>
-              </Link>
+              {session ? (
+                <>
+                  {session.user.isTeacher && (
+                    <Link href={'groups'} locale={lang}>
+                      <button className='btn-primary btn'>TURMAS</button>
+                    </Link>
+                  )}
+                  <Link href={'patients'} locale={lang}>
+                    <button className='btn-primary btn'>
+                      {pageAttributes.button_text}
+                    </button>
+                  </Link>
+                </>
+              ) : (
+                <Link href={'sign-in'} locale={lang}>
+                  <button className='btn-primary btn'>Fazer login</button>
+                </Link>
+              )}
             </div>
-          </div>
-        </div>
+          </article>
+        </section>
       </main>
       <Footer lang={lang} />
     </>

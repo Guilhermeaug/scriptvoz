@@ -2,14 +2,17 @@ import { QuestionType } from './global_types';
 
 export interface Media {
   id: number;
-  name: string;
-  url: string;
-  caption: string;
-  width: number;
-  height: number;
+  attributes: {
+    name: string;
+    url: string;
+    caption: string;
+    width: number;
+    height: number;
+  };
 }
 
 export interface EvaluationAttributes {
+  id: number;
   personal_data: string;
   history: string;
   complaint: string;
@@ -21,10 +24,18 @@ export interface EvaluationAttributes {
   self_evaluation: string;
   breathing: string;
   cpfa: string;
-  audio_files: Media[];
-  complementary_files: Media[];
-  exam_video: Media;
-  personal_video: Media;
+  audio_files: {
+    data: Media[];
+  };
+  complementary_files: {
+    data: Media[];
+  };
+  exam_video: {
+    data: Media;
+  };
+  personal_video: {
+    data: Media;
+  };
   questions: QuestionType[];
   createdAt: string;
   updatedAt: string;

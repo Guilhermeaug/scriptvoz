@@ -4,17 +4,21 @@ import Link from 'next/link';
 interface GroupCardProps {
   description: string;
   slug: string;
+  id: number;
+  href: string;
 }
 
 export default function GroupCard({
   description,
   slug,
+  id,
+  href,
 }: GroupCardProps) {
   return (
-    <Link href={`groups/${slug}`} className='card w-72 bg-base-100 shadow-xl'>
+    <Link href={href} className='card w-72 bg-base-100 shadow-xl'>
       <figure>
         <Image
-          src='https://picsum.photos/id/1005/400/250'
+          src={`https://picsum.photos/seed/${slug}-${id}/400/250`}
           alt='Man'
           width={300}
           height={300}

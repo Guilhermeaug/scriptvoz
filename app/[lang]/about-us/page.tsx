@@ -1,4 +1,8 @@
-export default async function AboutUs() {
+export default async function AboutUs({
+  params: { lang },
+}: {
+  params: { lang: string };
+}) {
   return (
     <>
       <header className='text-3xl'>

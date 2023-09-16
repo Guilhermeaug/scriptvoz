@@ -1,10 +1,5 @@
 import { Auth, SignUp, SignUpError } from '@/types/auth_types';
-import {
-  AuthOptions,
-  NextAuthOptions,
-  User,
-  getServerSession,
-} from 'next-auth';
+import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 export const authOptions: AuthOptions = {
@@ -35,6 +30,7 @@ export const authOptions: AuthOptions = {
       session.user.id = token.id as string;
       session.user.jwt = token.jwt as string;
       session.user.name = token.name as string;
+      session.user.isTeacher = token.isTeacher as boolean;
       return Promise.resolve(session);
     },
     jwt: async ({ token, user }) => {
@@ -44,6 +40,7 @@ export const authOptions: AuthOptions = {
         token.jwt = user.jwt;
         token.name = user.username;
         token.fullName = user.fullName;
+        token.isTeacher = user.isTeacher;
       }
       return Promise.resolve(token);
     },
@@ -92,11 +89,11 @@ export async function signUp(
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: username,
-        email: email,
-        password: password,
-        isTeacher: isTeacher,
-        fullName: fullName,
+        username,
+        email,
+        password,
+        isTeacher,
+        fullName,
       }),
     });
 
@@ -126,19 +123,16 @@ export async function signUp(
 
     const json = await res.json();
     if (res.ok) {
-      console.log(json.data.id);
       return {
         id: json.data.id as string,
       };
     } else {
-      const error = await res.json();
+      const error = json as SignUpError;
       return Promise.reject(error);
     }
   }
 
   async function connectUserToData(userId: string, dataId: string) {
-    console.log(userId, dataId);
-
     const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`;
     const res = await fetch(endpoint, {
       headers: {
@@ -154,14 +148,39 @@ export async function signUp(
     });
 
     const json = await res.json();
-
     if (!res.ok) {
-      console.error(res.statusText);
-      throw new Error('Could not connect data to user');
+      const error = json as SignUpError;
+      return Promise.reject(error);
+    }
+  }
+
+  async function changeUserRole(id: string, role: 'Student' | 'Teacher') {
+    const rolesMap = {
+      Student: 3,
+      Teacher: 4,
+    };
+
+    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}`;
+    const res = await fetch(endpoint, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER}`,
+      },
+      method: 'PUT',
+      body: JSON.stringify({
+        role: rolesMap[role],
+      }),
+    });
+
+    const json = await res.json();
+    if (!res.ok) {
+      const error = json as SignUpError;
+      return Promise.reject(error);
     }
   }
 
   const user = await createUser();
   const additionalData = await createAdditionalData();
   await connectUserToData(user.user.id, additionalData.id);
+  await changeUserRole(user.user.id, isTeacher ? 'Teacher' : 'Student');
 }

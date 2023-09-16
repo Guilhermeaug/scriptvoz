@@ -1,46 +1,55 @@
 import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
-import { getGroupData, getPageData, getPatientStep } from '@/lib/data';
 import Provider from '@/contexts/Provider';
 import { Group } from '@/types/group_types';
 import StudentStatus from '@/components/StudentStatus';
-import { ClipboardIcon } from '@heroicons/react/24/solid';
-
-export const metadata = {
-  title: 'Diagnóstico fonoaudiológico',
-  description: 'Projeto de pesquisa em Fonoaudiologia',
-};
+import { BookmarkSlashIcon, ClipboardIcon } from '@heroicons/react/24/solid';
+import { getGroupData, toggleGroup } from '@/lib/groups';
+import { redirect } from 'next/navigation';
 
 interface GroupProps {
-  params: { lang: string; searchTitle: string };
+  params: { lang: string; slug: string };
 }
 
-export default async function Group({
-  params: { lang, searchTitle },
-}: GroupProps) {
-  const { data }: Group = await getGroupData({
-    slug: searchTitle,
+export default async function Group({ params: { lang, slug } }: GroupProps) {
+  const {
+    data: {
+      id,
+      attributes: { title, students, patients },
+    },
+  }: Group = await getGroupData({
+    slug,
   });
 
-  const attributes = data.attributes;
-  const { students, teacher, patients } = attributes;
   const patientsIds = patients.data.map((patient) => patient.id);
+  const inviteButtonHref = `/${lang}/invite/${slug}`;
 
-  const inviteButtonHref = `/${lang}/invite/${searchTitle}`;
+  async function disableGroup() {
+    'use server';
+
+    try {
+      await toggleGroup({ id, active: false });
+    } catch (e) {}
+
+    redirect('groups');
+  }
 
   return (
-    <Provider color='evaluation'>
+    <Provider color='standard'>
       <header className='flex flex-row justify-between items-center p-5'>
         <section>
-          <h1 className='text-3xl'>{attributes.description}</h1>
-          <h2 className='text-3xl'>
-            Docente: {teacher.data.attributes.username}
-          </h2>
+          <h1 className='text-3xl'>{title}</h1>
         </section>
-        <a className='btn btn-primary' href={inviteButtonHref}>
-          Link de Convite
-          <ClipboardIcon className='w-6 h-6' />
-        </a>
+        <form className={'space-x-2'}>
+          <a className='btn btn-primary' href={inviteButtonHref}>
+            Link de Convite
+            <ClipboardIcon className='w-6 h-6' />
+          </a>
+          <button className='btn btn-secondary' formAction={disableGroup}>
+            Desativar turma
+            <BookmarkSlashIcon className='w-6 h-6' />
+          </button>
+        </form>
       </header>
       <main className='mt-6'>
         <section>

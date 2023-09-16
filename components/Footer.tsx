@@ -1,19 +1,11 @@
-'use client';
-
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { themeChange } from 'theme-change';
 
 interface FooterProps {
   lang: string;
 }
 
 export default function Footer({ lang }: FooterProps) {
-  useEffect(() => {
-    themeChange(false);
-  }, []);
-
   return (
     <footer className='w-full bg-neutral text-neutral-content shadow mt-10 p-4'>
       <div className='sm:flex sm:items-center sm:justify-between'>

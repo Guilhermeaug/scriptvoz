@@ -1,24 +1,8 @@
-export interface GroupAttributes {
-  personal_data: string;
-  history: string;
-  complaint: string;
-  behavior: string;
-  symptoms: string;
-  investigation: string;
-  orl_report: string;
-  larynx_analysis: string;
-  self_evaluation: string;
-  breathing: string;
-  cpfa: string;
-  createdAt: string;
-  updatedAt: string;
-  publishedAt: string;
-}
-
 export interface User {
   id: number;
   attributes: {
     username: string;
+    fullName: string;
     email: string;
     provider: string;
     confirmed: boolean;
@@ -41,6 +25,7 @@ export interface Group {
     id: number;
     attributes: {
       description: string;
+      title: string;
       createdAt: string;
       updatedAt: string;
       publishedAt: string;

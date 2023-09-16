@@ -8,6 +8,7 @@ declare module 'next-auth' {
     user: {
       id: string;
       jwt: string;
+      isTeacher: boolean;
     } & DefaultSession['user'];
   }
 
@@ -15,5 +16,6 @@ declare module 'next-auth' {
     jwt: string;
     username: string;
     fullName: string;
+    isTeacher: boolean;
   }
 }

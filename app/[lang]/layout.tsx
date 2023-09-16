@@ -2,6 +2,8 @@ import './globals.css';
 
 import { i18n } from '@/i18n-config';
 import { Inter } from 'next/font/google';
+import { NextAuthProvider } from '@/contexts/SessionProvider';
+import { ReactNode } from 'react';
 
 export const metadata = {
   title: 'Simulador de casos clínicos',
@@ -10,7 +12,7 @@ export const metadata = {
 
 const inter = Inter({
   subsets: ['latin'],
-  display: 'swap',
+  display: 'auto',
 });
 
 export async function generateStaticParams() {
@@ -21,12 +23,14 @@ export default function RootLayout({
   children,
   params,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
   params: { lang: string };
 }) {
   return (
     <html lang={params.lang} className={inter.className}>
-      <body className='container p-5 mx-auto'>{children}</body>
+      <body className='container p-3 mx-auto'>
+        <NextAuthProvider>{children}</NextAuthProvider>
+      </body>
     </html>
   );
 }
