@@ -35,7 +35,7 @@ export default function Question({
   feedbacks,
   correctAnswer,
 }: QuestionProps) {
-  const { setIsCompleted } = useProvider();
+  const { setIsCompleted, color } = useProvider();
   const [questionsStatus, saveQuestions] = useLocalStorage<QuestionStatus[]>(
     'questions',
     [],
@@ -117,7 +117,7 @@ export default function Question({
       </div>
       {selectedAnswer !== null && (
         <InformationBox title={question} className='mt-3'>
-          <Markdown>{feedbacks[selectedAnswer!]}</Markdown>
+          <Markdown className={'p-3'}>{feedbacks[selectedAnswer!]}</Markdown>
         </InformationBox>
       )}
     </article>

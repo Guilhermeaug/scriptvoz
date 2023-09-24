@@ -12,19 +12,35 @@ module.exports = {
     extend: {
       colors: {
         standard: '#00D1FF',
-        evaluation: '#097969',
-        diagnostic: '#ea580c',
-        therapeutic: '#FF66BE',
+        evaluation: '#0A054C',
+        diagnostic: '#870000',
+        therapeutic: '#C97215',
+        orange: '#C97215',
       },
     },
   },
   safelist: [
     {
-      pattern: /(bg|text|border)-(standard|evaluation|diagnostic|therapeutic)/,
+      pattern:
+        /(bg|text|border)-(standard|evaluation|diagnostic|therapeutic|orange)/,
     },
   ],
   daisyui: {
-    themes: ['light', 'dark'],
+    themes: [
+      {
+        scriptvoz: {
+          primary: '#C97215',
+          secondary: '#3fa517',
+          accent: '#a9f722',
+          neutral: '#232028',
+          'base-100': '#ffffff',
+          info: '#73ddf2',
+          success: '#22a586',
+          warning: '#f18d13',
+          error: '#e83f21',
+        },
+      },
+    ],
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
 };

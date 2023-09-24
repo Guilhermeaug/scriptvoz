@@ -8,6 +8,13 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import SignOutButton from '@/components/SignOutButton';
 import Footer from '@/components/Footer';
+import Provider from '@/contexts/Provider';
+import Header from '@/components/Header';
+
+import Logo from '@/public/cerebro.png';
+import CEFETMG from '@/public/logo_cefet.svg';
+import UFMG from '@/public/logo_ufmg.svg';
+import InformationBox from '@/components/InformationBox';
 
 export default async function HomePage({
   params: { lang },
@@ -24,43 +31,28 @@ export default async function HomePage({
   const session = await getServerSession(authOptions);
 
   return (
-    <>
-      <header className='navbar rounded-lg bg-neutral text-neutral-content'>
-        <div className='flex-1'>
-          <Link className='btn-ghost btn text-xl normal-case' href='/'>
-            ScriptVoz
-          </Link>
-        </div>
-        <div className={'navbar-end space-x-4 mx-4'}>
-          {session && <SignOutButton />}
-          <LocaleSwitcher />
-        </div>
-      </header>
-      <main className='mt-3 space-y-8'>
-        {session && (
-          <section>
-            <h2 className={'text-center text-xl font-medium'}>
-              Seja bem vindo de volta, {session!.user.name}
-            </h2>
-          </section>
-        )}
-        <section className='card bg-[#004172] shadow-xl lg:card-side'>
-          <Image
-            src='/raciocinio_clinico.png'
-            alt='Cérebro humano'
-            width={325}
-            height={325}
-            className='self-center'
-          />
-          <article className='card-body bg-base-100'>
-            <h2 className='text-6xl font-bold'>Script Voz</h2>
+    <Provider color={'evaluation'}>
+      <Header center={true} />
+      <main className='container mx-auto p-3 mt-3 space-y-8 flex flex-col items-center'>
+        <Image
+          src={Logo}
+          alt='Cérebro humano'
+          width={200}
+          className='self-center'
+        />
+        <InformationBox
+          title={'Script VOZ'}
+          color={'diagnostic'}
+          className={'max-w-3xl'}
+        >
+          <article className='p-4'>
             <Markdown className='prose prose-xl'>
               {pageAttributes.front_text}
             </Markdown>
             <Markdown className='prose prose-xl'>
               {pageAttributes.call_text}
             </Markdown>
-            <div className='card-actions justify-end'>
+            <div className='flex justify-end mt-4'>
               {session ? (
                 <>
                   {session.user.isTeacher && (
@@ -81,9 +73,12 @@ export default async function HomePage({
               )}
             </div>
           </article>
-        </section>
+        </InformationBox>
+        <div className={'flex gap-16'}>
+          <Image src={UFMG} alt={'Logo da UFMG'} width={150} />
+          <Image src={CEFETMG} alt={'Logo do CEFETMG'} width={150} />
+        </div>
       </main>
-      <Footer lang={lang} />
-    </>
+    </Provider>
   );
 }

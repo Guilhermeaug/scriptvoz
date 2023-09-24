@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Provider from '@/contexts/Provider';
 import Link from 'next/link';
+import Header from '@/components/Header';
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -49,14 +50,9 @@ export default function LoginPage({
   }
 
   return (
-    <Provider color={'standard'}>
-      <main className='space-y-8'>
-        <h1 className='text-center font-bold text-3xl'>Login</h1>
-        <section className={'text-center text-2xl underline'}>
-          <Link href={`sign-up`} locale={lang}>
-            Não possuo conta
-          </Link>
-        </section>
+    <Provider color={'diagnostic'}>
+      <Header color={'evaluation'} />
+      <main className='container mx-auto p-3 space-y-8 mt-16'>
         {error && (
           <div className='alert alert-error'>
             <svg
@@ -75,7 +71,7 @@ export default function LoginPage({
             <span>{error}</span>
           </div>
         )}
-        <InformationBox title='Dados'>
+        <InformationBox title='Login'>
           <FormProvider {...registerForm}>
             <form onSubmit={handleSubmit(onSubmit)} className='p-8'>
               <Form.Field size={2}>
@@ -98,6 +94,12 @@ export default function LoginPage({
             </form>
           </FormProvider>
         </InformationBox>
+        <section className={'text-center text-2xl'}>
+          <span>Não possui conta? </span>
+          <Link href={`sign-up`} locale={lang} className={'text-primary'}>
+            Cadastrar
+          </Link>
+        </section>
       </main>
     </Provider>
   );

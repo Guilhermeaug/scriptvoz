@@ -1,33 +1,39 @@
 'use client';
 
 import { useProvider } from '@/contexts/Provider';
+import { ReactNode } from 'react';
 
 interface InformationBoxProps {
   className?: string;
+  color?: string;
   title?: string;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export default function InformationBox({
   className,
+  color,
   title,
   children,
 }: InformationBoxProps) {
-  const { color } = useProvider();
-
-  const borderColor = `border-${color}`;
-  const bgColor = `bg-${color}`;
+  const { color: contextColor } = useProvider();
 
   return (
-    <div className={`border ${borderColor} ${className}`}>
+    <div
+      className={`rounded-xl border border-${
+        color || contextColor
+      } ${className}`}
+    >
       {title && (
-        <h3
-          className={`w-3/4 rounded-tr-3xl ${bgColor} p-1 text-xl text-white`}
+        <div
+          className={`rounded-tl-lg rounded-tr-lg rounded-br-none rounded-bl-none bg-${
+            color || contextColor
+          } text-center p-2 text-4xl text-white`}
         >
-          {title}
-        </h3>
+          <h3>{title}</h3>
+        </div>
       )}
-      <div className='p-2'>{children}</div>
+      {children}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 
 interface Provider {
   color: 'evaluation' | 'diagnostic' | 'therapeutic' | 'standard';
@@ -15,7 +15,7 @@ export default function Provider({
   children,
 }: {
   color: 'evaluation' | 'diagnostic' | 'therapeutic' | 'standard';
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   const [isCompleted, setIsCompleted] = useState(false);
 

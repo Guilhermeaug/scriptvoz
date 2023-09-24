@@ -8,6 +8,8 @@ import Markdown from '@/components/Markdown';
 import Provider from '@/contexts/Provider';
 import { getPatient } from '@/lib/patients';
 import { Patient } from '@/types/patients_types';
+import Header from '@/components/Header';
+import BreadCrumb from '@/components/Breadcrumb';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
@@ -42,29 +44,22 @@ export default async function TherapeuticStep({
 
   return (
     <Provider color='therapeutic'>
-      <ArrowNavigator
-        href={`/${lang}/patients/${slug}/diagnostic`}
-        direction='left'
-      />
-      <header>
-        <h1 className='text-center text-4xl'>{pageAttributes.header}</h1>
-      </header>
-      <main className='mt-6'>
-        <section className='flex flex-col items-center'>
-          <InformationHeader title={pageAttributes.summary} />
-          <InformationBox className='border-none'>
+      <Header />
+      <BreadCrumb />
+      <h1 className='text-center text-4xl mt-3'>{pageAttributes.header}</h1>
+      <main className='container mx-auto p-3'>
+        <InformationBox title={pageAttributes.summary}>
+          <section className='p-3'>
             <Markdown>{patient.summary}</Markdown>
-          </InformationBox>
-        </section>
-        <hr className='separator-line bg-therapeutic' />
-        <section>
-          <div className='flex flex-col items-center'>
-            <InformationBox className='border-none'>
-              <Markdown>{pageAttributes.call_to_action}</Markdown>
-            </InformationBox>
-          </div>
-          <Questions questions={patient.questions} />
-        </section>
+          </section>
+          <hr className='separator-line bg-therapeutic' />
+          <section>
+            <Markdown className={'mx-auto text-center'}>
+              {pageAttributes.call_to_action}
+            </Markdown>
+            <Questions questions={patient.questions} />
+          </section>
+        </InformationBox>
         <ArrowNavigator
           href={`/${lang}/patients/${slug}/finished`}
           direction='right'

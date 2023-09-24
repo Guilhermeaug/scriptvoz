@@ -10,6 +10,7 @@ import { SignUpError } from '@/types/auth_types';
 import { useEffect, useState } from 'react';
 import { ZodObject, z } from 'zod';
 import { Data, Field } from '@/types/form_types';
+import InformationBox from '@/components/InformationBox';
 
 function renderFormElement(field: Field) {
   const isNumber = field.options.data_type === 'number';
@@ -290,8 +291,7 @@ export default function SignUpForm({ formData }: SignUpFormProps) {
   }
 
   return (
-    <main className='space-y-8'>
-      <h1 className='text-center font-bold text-3xl'>Cadastro</h1>
+    <main className='container mx-auto p-3 space-y-8'>
       {error && (
         <div className='alert alert-error'>
           <svg
@@ -311,112 +311,120 @@ export default function SignUpForm({ formData }: SignUpFormProps) {
         </div>
       )}
 
-      <FormProvider {...registerForm}>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className='grid grid-cols-3 gap-2'
-        >
-          {fullName && (
-            <Form.Field size={fullName.options.size}>
-              <Form.Label htmlFor={fullName.name}>{fullName.label}</Form.Label>
-              {renderFormElement(fullName)}
-              <Form.ErrorMessage field={fullName.name} />
-            </Form.Field>
-          )}
-          {username && (
-            <Form.Field size={username.options.size}>
-              <Form.Label htmlFor={username.name}>{username.label}</Form.Label>
-              {renderFormElement(username)}
-              <Form.ErrorMessage field={username.name} />
-            </Form.Field>
-          )}
-          {email && (
-            <Form.Field size={email.options.size}>
-              <Form.Label htmlFor={email.name}>{email.label}</Form.Label>
-              {renderFormElement(email)}
-              <Form.ErrorMessage field={email.name} />
-            </Form.Field>
-          )}
-          {password && (
-            <Form.Field size={password.options.size}>
-              <Form.Label htmlFor={password.name}>{password.label}</Form.Label>
-              <Form.Input type='password' name={password.name} />
-              <Form.ErrorMessage field={password.name} />
-            </Form.Field>
-          )}
-          {role && (
-            <Form.Field size={role.options.size}>
-              <Form.Label htmlFor={role.name}>{role.label}</Form.Label>
-              {renderFormElement(role)}
-              <Form.ErrorMessage field={role.name} />
-            </Form.Field>
-          )}
-          {commom &&
-            commom.map((field, index) => (
-              <Form.Field size={field.options.size} key={index}>
-                <Form.Label htmlFor={field.name}>{field.label}</Form.Label>
-                {renderFormElement(field)}
-                <Form.ErrorMessage field={field.name} />
-              </Form.Field>
-            ))}
-          {watch1 && (
-            <>
-              <h2 className='text-center font-bold text-3xl col-span-3 mt-4'>
-                Informações adicionais
-              </h2>
-              {watch1.startsWith('1') && (
-                <>
-                  {studentFields &&
-                    studentFields.map((field, index) => (
-                      <Form.Field size={field.options.size} key={index}>
-                        <Form.Label htmlFor={field.name}>
-                          {field.label}
-                        </Form.Label>
-                        {renderFormElement(field)}
-                        <Form.ErrorMessage field={field.name} />
-                      </Form.Field>
-                    ))}
-                </>
-              )}
-              {watch1.startsWith('2') && (
-                <>
-                  {professional &&
-                    professional.map((field, index) => (
-                      <Form.Field size={field.options.size} key={index}>
-                        <Form.Label htmlFor={field.name}>
-                          {field.label}
-                        </Form.Label>
-                        {renderFormElement(field)}
-                        <Form.ErrorMessage field={field.name} />
-                      </Form.Field>
-                    ))}
-                </>
-              )}
-              {watch1.startsWith('3') && (
-                <>
-                  {teacherFields &&
-                    teacherFields.map((field, index) => (
-                      <Form.Field size={field.options.size} key={index}>
-                        <Form.Label htmlFor={field.name}>
-                          {field.label}
-                        </Form.Label>
-                        {renderFormElement(field)}
-                        <Form.ErrorMessage field={field.name} />
-                      </Form.Field>
-                    ))}
-                </>
-              )}
-            </>
-          )}
-          <button
-            type='submit'
-            disabled={isSubmitting}
-            className='btn btn-primary mt-4 btn-block col-span-3'
+      <InformationBox title={'Cadastro'}>
+        <FormProvider {...registerForm}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className='grid grid-cols-3 gap-2 p-3'
           >
-            Cadastrar
-          </button>
-        </form>
-      </FormProvider>
+            {fullName && (
+              <Form.Field size={fullName.options.size}>
+                <Form.Label htmlFor={fullName.name}>
+                  {fullName.label}
+                </Form.Label>
+                {renderFormElement(fullName)}
+                <Form.ErrorMessage field={fullName.name} />
+              </Form.Field>
+            )}
+            {username && (
+              <Form.Field size={username.options.size}>
+                <Form.Label htmlFor={username.name}>
+                  {username.label}
+                </Form.Label>
+                {renderFormElement(username)}
+                <Form.ErrorMessage field={username.name} />
+              </Form.Field>
+            )}
+            {email && (
+              <Form.Field size={email.options.size}>
+                <Form.Label htmlFor={email.name}>{email.label}</Form.Label>
+                {renderFormElement(email)}
+                <Form.ErrorMessage field={email.name} />
+              </Form.Field>
+            )}
+            {password && (
+              <Form.Field size={password.options.size}>
+                <Form.Label htmlFor={password.name}>
+                  {password.label}
+                </Form.Label>
+                <Form.Input type='password' name={password.name} />
+                <Form.ErrorMessage field={password.name} />
+              </Form.Field>
+            )}
+            {role && (
+              <Form.Field size={role.options.size}>
+                <Form.Label htmlFor={role.name}>{role.label}</Form.Label>
+                {renderFormElement(role)}
+                <Form.ErrorMessage field={role.name} />
+              </Form.Field>
+            )}
+            {commom &&
+              commom.map((field, index) => (
+                <Form.Field size={field.options.size} key={index}>
+                  <Form.Label htmlFor={field.name}>{field.label}</Form.Label>
+                  {renderFormElement(field)}
+                  <Form.ErrorMessage field={field.name} />
+                </Form.Field>
+              ))}
+            {watch1 && (
+              <>
+                <h2 className='text-center font-bold text-3xl col-span-3 mt-4'>
+                  Informações adicionais
+                </h2>
+                {watch1.startsWith('1') && (
+                  <>
+                    {studentFields &&
+                      studentFields.map((field, index) => (
+                        <Form.Field size={field.options.size} key={index}>
+                          <Form.Label htmlFor={field.name}>
+                            {field.label}
+                          </Form.Label>
+                          {renderFormElement(field)}
+                          <Form.ErrorMessage field={field.name} />
+                        </Form.Field>
+                      ))}
+                  </>
+                )}
+                {watch1.startsWith('2') && (
+                  <>
+                    {professional &&
+                      professional.map((field, index) => (
+                        <Form.Field size={field.options.size} key={index}>
+                          <Form.Label htmlFor={field.name}>
+                            {field.label}
+                          </Form.Label>
+                          {renderFormElement(field)}
+                          <Form.ErrorMessage field={field.name} />
+                        </Form.Field>
+                      ))}
+                  </>
+                )}
+                {watch1.startsWith('3') && (
+                  <>
+                    {teacherFields &&
+                      teacherFields.map((field, index) => (
+                        <Form.Field size={field.options.size} key={index}>
+                          <Form.Label htmlFor={field.name}>
+                            {field.label}
+                          </Form.Label>
+                          {renderFormElement(field)}
+                          <Form.ErrorMessage field={field.name} />
+                        </Form.Field>
+                      ))}
+                  </>
+                )}
+              </>
+            )}
+            <button
+              type='submit'
+              disabled={isSubmitting}
+              className='btn btn-primary mt-4 btn-block col-span-3 text-white'
+            >
+              Cadastrar
+            </button>
+          </form>
+        </FormProvider>
+      </InformationBox>
     </main>
   );
 }

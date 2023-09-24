@@ -67,8 +67,8 @@ export default function Pills({ pills }: PillsProps) {
   }
 
   return (
-    <div className='mt-6 space-y-6'>
-      <div className='grid grid-cols-2 justify-between gap-4'>
+    <div className='mt-6 space-y-6 p-3'>
+      <div className='grid grid-cols-2 gap-4 md:grid-cols-3 items-center'>
         {pills.map((pill, index) => {
           const { id, title, correct } = pill;
           const isAnswered =
@@ -93,7 +93,7 @@ export default function Pills({ pills }: PillsProps) {
       </div>
       {selectedDiagnostic && (
         <InformationBox title={selectedDiagnostic.title}>
-          <Markdown>{selectedDiagnostic.feedback}</Markdown>
+          <Markdown className={'p-3'}>{selectedDiagnostic.feedback}</Markdown>
         </InformationBox>
       )}
     </div>

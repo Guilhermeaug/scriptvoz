@@ -51,7 +51,7 @@ export default function Markdown({
 }) {
   return (
     <ReactMarkdown
-      className={`prose prose-slate max-w-4xl ${className}`}
+      className={`prose max-w-4xl text-lg ${className}`}
       components={MarkdownComponents}
       remarkPlugins={[remarkGfm]}
       // rehypePlugins={[rehypeRaw]}
