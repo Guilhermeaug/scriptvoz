@@ -159,7 +159,11 @@ function AudioSamples({ audios }: { audios: Media[] }) {
   return (
     <div className='flex flex-row flex-wrap gap-2'>
       {audios.map(({ attributes: audio, id }) => (
-        <AudioSample key={id} title={audio.caption} audio={audio.url} />
+        <AudioSample
+          key={id}
+          title={audio.caption || audio.name}
+          audio={audio.url}
+        />
       ))}
     </div>
   );
