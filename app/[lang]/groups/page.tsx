@@ -7,6 +7,8 @@ import { getPatients } from '@/lib/patients';
 import { getGroups } from '@/lib/groups';
 import { Groups } from '@/types/group_types';
 import { PatientData } from '@/types/patients_types';
+import Header from '@/components/Header';
+import Provider from '@/contexts/Provider';
 
 interface GroupProps {
   params: { lang: string };
@@ -29,11 +31,10 @@ export default async function GroupPage({ params: { lang } }: GroupProps) {
   ]);
 
   return (
-    <>
-      <header className='text-3xl'>
-        <h1>Suas turmas</h1>
-      </header>
-      <main className='flex flex-col space-y-4 mt-4'>
+    <Provider color={'evaluation'}>
+      <Header />
+      <h1 className={'text-4xl p-3'}>Suas turmas</h1>
+      <main className='container mx-auto p-3 flex flex-col space-y-4 mt-4'>
         <Link className={'self-end'} href={'groups/previous'}>
           <button className={'btn btn-ghost'}>Visualizar turmas antigas</button>
         </Link>
@@ -54,6 +55,6 @@ export default async function GroupPage({ params: { lang } }: GroupProps) {
         <h2 className='text-3xl'>Crie uma nova turma</h2>
         <CreateFormGroup patients={patients} />
       </main>
-    </>
+    </Provider>
   );
 }

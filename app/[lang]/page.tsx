@@ -52,7 +52,7 @@ export default async function HomePage({
             <Markdown className='prose prose-xl'>
               {pageAttributes.call_text}
             </Markdown>
-            <div className='flex justify-end mt-4'>
+            <div className='flex justify-end mt-4 gap-2'>
               {session ? (
                 <>
                   {session.user.isTeacher && (
