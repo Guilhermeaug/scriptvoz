@@ -24,7 +24,6 @@ export default function LoginPage({
 }: {
   params: { lang: string };
 }) {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const registerForm = useForm<FormData>({
     resolver: zodResolver(FormSchema),
@@ -36,7 +35,7 @@ export default function LoginPage({
 
   async function onSubmit(data: FormData) {
     const res = await signIn('credentials', {
-      redirect: false,
+      callbackUrl: '/',
       email: data.email,
       password: data.password,
     });
@@ -45,8 +44,6 @@ export default function LoginPage({
       setError(res.error);
       return;
     }
-    router.refresh();
-    router.replace('/');
   }
 
   return (

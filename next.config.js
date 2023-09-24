@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   experimental: {
-    serverActions: true
+    serverActions: true,
   },
   images: {
     remotePatterns: [
@@ -21,8 +21,12 @@ const nextConfig = {
       },
       {
         protocol: 'https',
-        hostname: 'picsum.photos'
-      }
+        hostname: 'picsum.photos',
+      },
+      {
+        protocol: 'http',
+        hostname: 'scriptvoz.medicina.ufmg.br',
+      },
     ],
   },
 };

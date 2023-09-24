@@ -255,7 +255,6 @@ export default function SignUpForm({ formData }: SignUpFormProps) {
     }
   }, [formData, watch1]);
 
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
   async function onSubmit(data: FormData) {
@@ -271,11 +270,10 @@ export default function SignUpForm({ formData }: SignUpFormProps) {
         data,
       );
       await signIn('credentials', {
-        redirect: false,
         email: data.email,
         password: data.password,
+        callbackUrl: '/',
       });
-      router.replace('/');
     } catch (error) {
       const { error: e } = error as SignUpError;
       if (

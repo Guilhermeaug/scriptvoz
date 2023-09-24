@@ -1,6 +1,7 @@
 import { Auth, SignUp, SignUpError } from '@/types/auth_types';
 import { AuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import { revalidatePath } from 'next/cache';
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -17,6 +18,7 @@ export const authOptions: AuthOptions = {
             email: credentials.email,
             password: credentials.password,
           });
+          revalidatePath('/');
           return { ...user, jwt };
         } catch (error) {
           const { error: e } = error as SignUpError;
