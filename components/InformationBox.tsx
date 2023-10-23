@@ -1,13 +1,13 @@
 'use client';
 
 import { useProvider } from '@/contexts/Provider';
-import { ReactNode } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 interface InformationBoxProps {
   className?: string;
   color?: string;
   title?: string;
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 export default function InformationBox({
@@ -20,9 +20,10 @@ export default function InformationBox({
 
   return (
     <div
-      className={`rounded-xl border border-${
-        color || contextColor
-      } ${className}`}
+      className={twMerge(
+        `rounded-xl border border-${color || contextColor}`,
+        className,
+      )}
     >
       {title && (
         <div

@@ -26,6 +26,7 @@ export interface Group {
     attributes: {
       description: string;
       title: string;
+      isActive: boolean;
       createdAt: string;
       updatedAt: string;
       publishedAt: string;
@@ -46,29 +47,20 @@ export interface Groups {
   data: {
     id: number;
     attributes: {
+      title: string;
       description: string;
       searchTitle: string;
       slug: string;
+      students: {
+        data: {
+          id: number;
+        }[];
+      };
       createdAt: string;
       updatedAt: string;
       publishedAt: string;
     };
   }[];
-}
-
-export interface UserProgressData {
-  data: {
-    id: number;
-    attributes: {
-      finished: boolean;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-      patient: {
-        data: Patient;
-      };
-    };
-  };
 }
 
 export interface UserProgress {

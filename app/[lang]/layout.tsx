@@ -3,7 +3,6 @@ import './globals.css';
 import { i18n } from '@/i18n-config';
 import { EB_Garamond } from 'next/font/google';
 import { NextAuthProvider } from '@/contexts/SessionProvider';
-import { ReactNode } from 'react';
 
 export const metadata = {
   title: 'Simulador de casos clínicos',
@@ -23,7 +22,7 @@ export default function RootLayout({
   children,
   params,
 }: {
-  children: ReactNode;
+  children: React.ReactNode;
   params: { lang: string };
 }) {
   return (

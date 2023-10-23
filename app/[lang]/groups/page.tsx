@@ -9,6 +9,7 @@ import { Groups } from '@/types/group_types';
 import { PatientData } from '@/types/patients_types';
 import Header from '@/components/Header';
 import Provider from '@/contexts/Provider';
+import InformationBox from '@/components/InformationBox';
 
 interface GroupProps {
   params: { lang: string };
@@ -33,27 +34,40 @@ export default async function GroupPage({ params: { lang } }: GroupProps) {
   return (
     <Provider color={'evaluation'}>
       <Header />
-      <h1 className={'text-4xl p-3'}>Suas turmas</h1>
-      <main className='container mx-auto p-3 flex flex-col space-y-4 mt-4'>
-        <Link className={'self-end'} href={'groups/previous'}>
-          <button className={'btn btn-ghost'}>Visualizar turmas antigas</button>
-        </Link>
-        <section className='flex flex-row flex-wrap gap-4 justify-center md:justify-start'>
-          {groups.map((group) => {
-            const { description, slug } = group.attributes;
-            return (
-              <GroupCard
-                key={group.id}
-                description={description}
-                slug={slug}
-                href={`groups/${slug}`}
-                id={group.id}
-              />
-            );
-          })}
-        </section>
-        <h2 className='text-3xl'>Crie uma nova turma</h2>
-        <CreateFormGroup patients={patients} />
+      <h1 className={'text-4xl p-3 text-center'}>Docente</h1>
+      <main className='mx-auto p-3 flex flex-col space-y-4 mt-4 max-w-screen-md'>
+        <InformationBox title={'Turmas'} color={'diagnostic'}>
+          <article className='p-4 space-y-14'>
+            <ul>
+              {groups.map((group) => {
+                const {
+                  slug,
+                  title,
+                  students: {
+                    data: { length: numberOfStudents },
+                  },
+                } = group.attributes;
+                return (
+                  <Link key={group.id} href={`groups/${slug}`}>
+                    <GroupCard
+                      title={title}
+                      numberOfStudents={numberOfStudents}
+                    />
+                  </Link>
+                );
+              })}
+            </ul>
+            <div className={'flex gap-4 justify-evenly'}>
+              <CreateFormGroup patients={patients} />
+              <Link
+                className={'btn btn-primary text-white'}
+                href={'groups/previous'}
+              >
+                Turmas anteriores
+              </Link>
+            </div>
+          </article>
+        </InformationBox>
       </main>
     </Provider>
   );

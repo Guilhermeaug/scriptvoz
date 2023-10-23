@@ -3,5 +3,5 @@ interface SectionHeaderProps {
 }
 
 export default function InformationHeader({ title }: SectionHeaderProps) {
-  return <h2 className='mt-6 break-words text-3xl font-medium'>{title}</h2>;
+  return <h2 className='break-words text-3xl font-bold'>{title}</h2>;
 }

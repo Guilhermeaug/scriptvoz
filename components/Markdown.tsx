@@ -34,11 +34,7 @@ const MarkdownComponents: object = {
   table: (table: { children?: boolean; node?: any }) => {
     const { children } = table;
 
-    return (
-      <div className='overflow-x-auto'>
-        <table className='table'>{children}</table>
-      </div>
-    );
+    return <table className='table overflow-x-auto'>{children}</table>;
   },
 };
 
@@ -54,7 +50,6 @@ export default function Markdown({
       className={`prose max-w-4xl text-lg ${className}`}
       components={MarkdownComponents}
       remarkPlugins={[remarkGfm]}
-      // rehypePlugins={[rehypeRaw]}
     >
       {children}
     </ReactMarkdown>

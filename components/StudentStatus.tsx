@@ -1,4 +1,4 @@
-import { User, UserProgress } from '@/types/group_types';
+import { User } from '@/types/group_types';
 import { getStudentStatus } from '@/lib/groups';
 
 interface StudentStatusProps {
@@ -22,7 +22,7 @@ export default async function StudentStatus({
   const total = data.length;
 
   return (
-    <div className='collapse bg-base-300'>
+    <div className='collapse join-item border border-diagnostic rounded-none'>
       <input type='checkbox' />
       <div className='collapse-title text-xl font-medium flex justify-between'>
         <span>{fullName}</span>

@@ -1,8 +1,6 @@
 'use client';
 
 import Link from 'next/link';
-import SignOutButton from '@/components/SignOutButton';
-import LocaleSwitcher from '@/components/LocaleSwitcher';
 import { useProvider } from '@/contexts/Provider';
 import Image from 'next/image';
 import CerebroBranco from '@/public/cerebro-branco.png';

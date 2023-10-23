@@ -1,5 +1,5 @@
 import qs from 'qs';
-import { UserProgress } from '@/types/group_types';
+import { UserProgress, Groups, Group } from '@/types/group_types';
 
 async function verifyIfHasPatient({
   studentId,
@@ -67,6 +67,11 @@ export async function getGroups({
           $eq: active,
         },
       },
+      populate: {
+        students: {
+          fields: ['id'],
+        },
+      },
     },
     {
       encodeValuesOnly: true,
@@ -126,16 +131,15 @@ export async function toggleGroup({
   active?: boolean;
 }) {
   const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/groups/${id}`;
+
   const res = await fetch(endpoint, {
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER}`,
+      Authorization: `Bearer ${process.env.BEARER}`,
     },
-    method: 'PUT',
+    method: 'put',
     body: JSON.stringify({
-      data: {
-        isActive: active,
-      },
+      data: { isActive: active },
     }),
   });
 
@@ -143,6 +147,8 @@ export async function toggleGroup({
     console.error(res.status);
     throw new Error('Could not update group.');
   }
+
+  return res.json();
 }
 
 export async function applyStudent({
@@ -160,13 +166,15 @@ export async function applyStudent({
 
   async function connectStudentToGroup() {
     const url = `${process.env.NEXT_PUBLIC_API_URL}/api/groups/${groupId}`;
-    console.log(url);
     const res = await fetch(url, {
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER}`,
       },
       method: 'PUT',
+      next: {
+        tags: ['groups'],
+      },
       body: JSON.stringify({
         data: {
           students: {

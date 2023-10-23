@@ -1,4 +1,3 @@
-import LocaleSwitcher from '@/components/LocaleSwitcher';
 import Markdown from '@/components/Markdown';
 import { getPageData } from '@/lib/page_data';
 import { HomePage } from '@/types/home_types';
@@ -6,8 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import SignOutButton from '@/components/SignOutButton';
-import Footer from '@/components/Footer';
 import Provider from '@/contexts/Provider';
 import Header from '@/components/Header';
 
@@ -33,18 +30,9 @@ export default async function HomePage({
   return (
     <Provider color={'evaluation'}>
       <Header center={true} />
-      <main className='container mx-auto p-3 mt-3 space-y-8 flex flex-col items-center'>
-        <Image
-          src={Logo}
-          alt='Cérebro humano'
-          width={200}
-          className='self-center'
-        />
-        <InformationBox
-          title={'Script VOZ'}
-          color={'diagnostic'}
-          className={'max-w-3xl'}
-        >
+      <main className='mx-auto p-3 mt-3 space-y-8 flex flex-col items-center max-w-screen-md'>
+        <Image src={Logo} alt='Cérebro humano' className='self-center' />
+        <InformationBox title={'Script VOZ'} color={'diagnostic'}>
           <article className='p-4'>
             <Markdown className='prose prose-xl'>
               {pageAttributes.front_text}
@@ -57,18 +45,22 @@ export default async function HomePage({
                 <>
                   {session.user.isTeacher && (
                     <Link href={'groups'} locale={lang}>
-                      <button className='btn-primary btn'>TURMAS</button>
+                      <button className='btn-primary btn text-white'>
+                        TURMAS
+                      </button>
                     </Link>
                   )}
                   <Link href={'patients'} locale={lang}>
-                    <button className='btn-primary btn'>
+                    <button className='btn-primary btn text-white'>
                       {pageAttributes.button_text}
                     </button>
                   </Link>
                 </>
               ) : (
                 <Link href={'sign-in'} locale={lang}>
-                  <button className='btn-primary btn'>Fazer login</button>
+                  <button className='btn-primary btn text-white'>
+                    Fazer login
+                  </button>
                 </Link>
               )}
             </div>

@@ -3,6 +3,10 @@ import { getServerSession } from 'next-auth';
 import GroupCard from '@/components/GroupCard';
 import { getGroups } from '@/lib/groups';
 import { Groups } from '@/types/group_types';
+import Header from '@/components/Header';
+import InformationBox from '@/components/InformationBox';
+import Provider from '@/contexts/Provider';
+import Link from 'next/link';
 
 interface GroupProps {
   params: { lang: string };
@@ -14,32 +18,41 @@ export default async function PreviousGroupsPage({
   const session = await getServerSession(authOptions);
   const user = session!.user;
 
-  const { data }: Groups = await getGroups({
+  const { data: groups }: Groups = await getGroups({
     teacherId: parseInt(user.id),
     active: false,
   });
 
   return (
-    <>
-      <header className='text-3xl'>
-        <h1>Turmas anteriores</h1>
-      </header>
-      <main className='flex flex-col space-y-4 mt-4'>
-        <section className='flex flex-row flex-wrap gap-4 justify-center md:justify-start'>
-          {data.map((group) => {
-            const { description, slug } = group.attributes;
-            return (
-              <GroupCard
-                key={group.id}
-                description={description}
-                slug={slug}
-                href={`previous/${slug}`}
-                id={group.id}
-              />
-            );
-          })}
-        </section>
+    <Provider color={'evaluation'}>
+      <Header />
+      <h1 className={'text-4xl p-3 text-center'}>Docente</h1>
+      <main className='mx-auto p-3 flex flex-col space-y-4 mt-4 max-w-screen-md'>
+        <InformationBox title={'Turmas Antigas'} color={'diagnostic'}>
+          <article className='p-4 space-y-14'>
+            <ul>
+              {groups.map((group) => {
+                const {
+                  slug,
+                  title,
+                  students: {
+                    data: { length: numberOfStudents },
+                  },
+                } = group.attributes;
+                return (
+                  <Link href={`${slug}`}>
+                    <GroupCard
+                      key={group.id}
+                      title={title}
+                      numberOfStudents={numberOfStudents}
+                    />
+                  </Link>
+                );
+              })}
+            </ul>
+          </article>
+        </InformationBox>
       </main>
-    </>
+    </Provider>
   );
 }

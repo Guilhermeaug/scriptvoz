@@ -1,11 +1,12 @@
 import InformationBox from '@/components/InformationBox';
-import InformationHeader from '@/components/InformationHeader';
 import Provider from '@/contexts/Provider';
 import { Group } from '@/types/group_types';
 import StudentStatus from '@/components/StudentStatus';
 import { BookmarkSlashIcon, ClipboardIcon } from '@heroicons/react/24/solid';
 import { getGroupData, toggleGroup } from '@/lib/groups';
 import { redirect } from 'next/navigation';
+import Header from '@/components/Header';
+import { revalidateTag } from 'next/cache';
 
 interface GroupProps {
   params: { lang: string; slug: string };
@@ -15,7 +16,7 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
   const {
     data: {
       id,
-      attributes: { title, students, patients },
+      attributes: { title, students, patients, isActive },
     },
   }: Group = await getGroupData({
     slug,
@@ -27,35 +28,19 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
   async function disableGroup() {
     'use server';
 
-    try {
-      await toggleGroup({ id, active: false });
-    } catch (e) {}
-
-    redirect('groups');
+    await toggleGroup({ id, active: !isActive });
+    revalidateTag('groups');
+    redirect('/groups');
   }
 
   return (
-    <Provider color='standard'>
-      <header className='flex flex-row justify-between items-center p-5'>
-        <section>
-          <h1 className='text-3xl'>{title}</h1>
-        </section>
-        <form className={'space-x-2'}>
-          <a className='btn btn-primary' href={inviteButtonHref}>
-            Link de Convite
-            <ClipboardIcon className='w-6 h-6' />
-          </a>
-          <button className='btn btn-secondary' formAction={disableGroup}>
-            Desativar turma
-            <BookmarkSlashIcon className='w-6 h-6' />
-          </button>
-        </form>
-      </header>
-      <main className='mt-6'>
-        <section>
-          <InformationHeader title='Relação dos estudantes' />
-          <InformationBox title='Alunos'>
-            <div className='space-y-4'>
+    <Provider color='diagnostic'>
+      <Header color={'evaluation'} />
+      <h1 className={'text-4xl p-3 text-center'}>Docente</h1>
+      <main className='mx-auto p-3 flex flex-col space-y-4 mt-4 max-w-screen-md'>
+        <InformationBox title='Alunos'>
+          <article className='p-4 space-y-14'>
+            <ul className={'join join-vertical w-full'}>
               {students.data.map((student) => {
                 return (
                   <StudentStatus
@@ -66,9 +51,24 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
                   />
                 );
               })}
+            </ul>
+            <div className={'flex gap-4 justify-evenly'}>
+              <a className='btn btn-primary text-white' href={inviteButtonHref}>
+                Link de Convite
+                <ClipboardIcon className='w-6 h-6' />
+              </a>
+              <form action={disableGroup}>
+                <button
+                  type={'submit'}
+                  className='btn btn-secondary text-white'
+                >
+                  {isActive ? 'Desativar Turma' : 'Ativar Turma'}
+                  <BookmarkSlashIcon className='w-6 h-6' />
+                </button>
+              </form>
             </div>
-          </InformationBox>
-        </section>
+          </article>
+        </InformationBox>
       </main>
     </Provider>
   );

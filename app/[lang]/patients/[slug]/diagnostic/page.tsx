@@ -48,7 +48,7 @@ export default async function EvaluationStep({
       <Header />
       <BreadCrumb />
       <h1 className='text-center text-4xl mt-3'>{pageAttributes.header}</h1>
-      <main className='container mx-auto p-3'>
+      <main className={'mx-auto p-3 max-w-screen-lg'}>
         <InformationBox title={pageAttributes.summary}>
           <section className='p-3'>
             <Markdown>{patient.summary}</Markdown>
