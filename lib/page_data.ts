@@ -11,6 +11,7 @@ export async function getPageData({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
+    cache: 'no-cache',
     next: {
       tags: ['page-data'],
     },

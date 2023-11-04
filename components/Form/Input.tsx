@@ -1,3 +1,5 @@
+'use client';
+
 import { InputHTMLAttributes } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { get } from './ErrorMessage';
@@ -8,21 +10,25 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   isNumber?: boolean;
 }
 
-export default function Input(props: InputProps) {
+export default function Input({
+  name,
+  isNumber = false,
+  ...props
+}: InputProps) {
   const {
     register,
     formState: { errors },
   } = useFormContext();
-  const fieldError = get(errors, props.name);
+  const fieldError = get(errors, name);
   const style = classNames('input input-bordered input-primary w-full', {
     'input-error': Boolean(fieldError),
   });
 
   return (
     <input
-      id={props.name}
+      id={name}
       className={style}
-      {...register(props.name, { valueAsNumber: props.isNumber })}
+      {...register(name, { valueAsNumber: isNumber })}
       {...props}
     />
   );
