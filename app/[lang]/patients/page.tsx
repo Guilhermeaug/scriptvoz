@@ -3,7 +3,6 @@ import { PatientData, PatientsPage } from '@/types/patients_types';
 import Link from 'next/link';
 import { getPatients } from '@/lib/patients';
 import InformationBox from '@/components/InformationBox';
-import Provider from '@/contexts/Provider';
 import Header from '@/components/Header';
 
 export const metadata = {
@@ -32,7 +31,7 @@ export default async function PatientsPage({
   ] = await Promise.all([patientsData, pageData]);
 
   return (
-    <Provider color={'diagnostic'}>
+    <>
       <Header color={'evaluation'} />
       <h1 className='text-4xl text-center mt-16 underline'>
         {pageAttributes.header}
@@ -50,7 +49,7 @@ export default async function PatientsPage({
           </section>
         </InformationBox>
       </main>
-    </Provider>
+    </>
   );
 }
 

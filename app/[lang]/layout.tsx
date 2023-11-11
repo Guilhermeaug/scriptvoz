@@ -3,6 +3,7 @@ import './globals.css';
 import { i18n } from '@/i18n-config';
 import { EB_Garamond } from 'next/font/google';
 import { NextAuthProvider } from '@/contexts/SessionProvider';
+import Provider from '@/contexts/Provider';
 
 export const metadata = {
   title: 'Simulador de casos clínicos',
@@ -28,7 +29,9 @@ export default function RootLayout({
   return (
     <html lang={params.lang} className={inter.className}>
       <body>
-        <NextAuthProvider>{children}</NextAuthProvider>
+        <NextAuthProvider>
+          <Provider>{children}</Provider>
+        </NextAuthProvider>
       </body>
     </html>
   );

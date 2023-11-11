@@ -1,6 +1,5 @@
 import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
-import Provider from '@/contexts/Provider';
 import { Group } from '@/types/group_types';
 import StudentStatus from '@/components/StudentStatus';
 import { BookmarkSlashIcon } from '@heroicons/react/24/solid';
@@ -34,7 +33,7 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
   }
 
   return (
-    <Provider color='standard'>
+    <>
       <header className='flex flex-row justify-between items-center p-5'>
         <section>
           <h1 className='text-3xl'>{title}</h1>
@@ -65,6 +64,6 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
           </InformationBox>
         </section>
       </main>
-    </Provider>
+    </>
   );
 }

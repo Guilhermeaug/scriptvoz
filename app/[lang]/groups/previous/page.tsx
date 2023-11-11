@@ -1,11 +1,10 @@
-import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
 import GroupCard from '@/components/GroupCard';
-import { getGroups } from '@/lib/groups';
-import { Groups } from '@/types/group_types';
 import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
-import Provider from '@/contexts/Provider';
+import { authOptions } from '@/lib/auth';
+import { getGroups } from '@/lib/groups';
+import { Groups } from '@/types/group_types';
+import { getServerSession } from 'next-auth';
 import Link from 'next/link';
 
 interface GroupProps {
@@ -24,12 +23,12 @@ export default async function PreviousGroupsPage({
   });
 
   return (
-    <Provider color={'evaluation'}>
+    <>
       <Header />
-      <h1 className={'text-4xl p-3 text-center'}>Docente</h1>
-      <main className='mx-auto p-3 flex flex-col space-y-4 mt-4 max-w-screen-md'>
+      <h1 className={'p-3 text-center text-4xl'}>Docente</h1>
+      <main className='mx-auto mt-4 flex max-w-screen-md flex-col space-y-4 p-3'>
         <InformationBox title={'Turmas Antigas'} color={'diagnostic'}>
-          <article className='p-4 space-y-14'>
+          <article className='space-y-14 p-4'>
             <ul>
               {groups.map((group) => {
                 const {
@@ -40,9 +39,8 @@ export default async function PreviousGroupsPage({
                   },
                 } = group.attributes;
                 return (
-                  <Link href={`${slug}`}>
+                  <Link key={group.id} href={`${slug}`}>
                     <GroupCard
-                      key={group.id}
                       title={title}
                       numberOfStudents={numberOfStudents}
                     />
@@ -53,6 +51,6 @@ export default async function PreviousGroupsPage({
           </article>
         </InformationBox>
       </main>
-    </Provider>
+    </>
   );
 }

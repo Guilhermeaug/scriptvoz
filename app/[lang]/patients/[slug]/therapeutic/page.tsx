@@ -5,7 +5,6 @@ import { getPageData } from '@/lib/page_data';
 import { TherapeuticPage } from '@/types/therapeutic_types';
 import Questions from '@/components/Questions';
 import Markdown from '@/components/Markdown';
-import Provider from '@/contexts/Provider';
 import { getPatient } from '@/lib/patients';
 import { Patient } from '@/types/patients_types';
 import Header from '@/components/Header';
@@ -43,11 +42,11 @@ export default async function TherapeuticStep({
   ] = await Promise.all([patientPromise, pagePromise]);
 
   return (
-    <Provider color='therapeutic'>
+    <>
       <Header />
       <BreadCrumb />
       <h1 className='text-center text-4xl mt-3'>{pageAttributes.header}</h1>
-      <main className={'mx-auto p-3 max-w-screen-lg'}>
+      <main className={'mx-auto p-3 max-w-screen-md'}>
         <InformationBox title={pageAttributes.summary}>
           <section className='p-3'>
             <Markdown>{patient.summary}</Markdown>
@@ -65,6 +64,6 @@ export default async function TherapeuticStep({
           direction='right'
         />
       </main>
-    </Provider>
+    </>
   );
 }

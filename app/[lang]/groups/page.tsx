@@ -1,15 +1,14 @@
 import CreateFormGroup from '@/components/CreateGroupForm';
 import GroupCard from '@/components/GroupCard';
-import { getServerSession } from 'next-auth';
+import Header from '@/components/Header';
+import InformationBox from '@/components/InformationBox';
 import { authOptions } from '@/lib/auth';
-import Link from 'next/link';
-import { getPatients } from '@/lib/patients';
 import { getGroups } from '@/lib/groups';
+import { getPatients } from '@/lib/patients';
 import { Groups } from '@/types/group_types';
 import { PatientData } from '@/types/patients_types';
-import Header from '@/components/Header';
-import Provider from '@/contexts/Provider';
-import InformationBox from '@/components/InformationBox';
+import { getServerSession } from 'next-auth';
+import Link from 'next/link';
 
 interface GroupProps {
   params: { lang: string };
@@ -17,6 +16,15 @@ interface GroupProps {
 
 export default async function GroupPage({ params: { lang } }: GroupProps) {
   const session = await getServerSession(authOptions);
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false,
+      },
+    };
+  }
   const user = session!.user;
 
   const groupsPromise: Promise<Groups> = getGroups({
@@ -32,12 +40,12 @@ export default async function GroupPage({ params: { lang } }: GroupProps) {
   ]);
 
   return (
-    <Provider color={'evaluation'}>
+    <>
       <Header />
-      <h1 className={'text-4xl p-3 text-center'}>Docente</h1>
-      <main className='mx-auto p-3 flex flex-col space-y-4 mt-4 max-w-screen-md'>
+      <h1 className={'p-3 text-center text-4xl'}>Docente</h1>
+      <main className='mx-auto mt-4 flex max-w-screen-md flex-col space-y-4 p-3'>
         <InformationBox title={'Turmas'} color={'diagnostic'}>
-          <article className='p-4 space-y-14'>
+          <article className='space-y-14 p-4'>
             <ul>
               {groups.map((group) => {
                 const {
@@ -56,8 +64,13 @@ export default async function GroupPage({ params: { lang } }: GroupProps) {
                   </Link>
                 );
               })}
+              {groups.length === 0 && (
+                <p className={'text-center text-lg text-gray-500'}>
+                  Você ainda não possui turmas.
+                </p>
+              )}
             </ul>
-            <div className={'flex gap-4 justify-evenly'}>
+            <div className={'flex justify-evenly gap-4'}>
               <CreateFormGroup patients={patients} />
               <Link
                 className={'btn btn-primary text-white'}
@@ -69,6 +82,6 @@ export default async function GroupPage({ params: { lang } }: GroupProps) {
           </article>
         </InformationBox>
       </main>
-    </Provider>
+    </>
   );
 }

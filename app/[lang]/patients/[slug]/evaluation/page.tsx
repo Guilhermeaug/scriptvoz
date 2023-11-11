@@ -10,7 +10,6 @@ import { EvaluationPage, Media } from '@/types/evaluation_types';
 import Image from 'next/image';
 import Markdown from '@/components/Markdown';
 import Questions from '@/components/Questions';
-import Provider from '@/contexts/Provider';
 import { getPatient } from '@/lib/patients';
 import { Patient } from '@/types/patients_types';
 import Header from '@/components/Header';
@@ -48,11 +47,11 @@ export default async function EvaluationStep({
   ] = await Promise.all([patientPromise, pagePromise]);
 
   return (
-    <Provider color='evaluation'>
+    <>
       <Header />
       <BreadCrumb />
       <h1 className='text-center text-4xl mt-2'>{pageAttributes.header}</h1>
-      <main className={'mx-auto p-3 max-w-screen-lg'}>
+      <main className={'m-auto p-3 max-w-screen-md'}>
         <InformationBox title={pageAttributes.anamnesis}>
           <section className='space-y-4 p-3'>
             <article className='space-y-4'>
@@ -151,7 +150,7 @@ export default async function EvaluationStep({
         href={`/${lang}/patients/${slug}/diagnostic`}
         direction='right'
       />
-    </Provider>
+    </>
   );
 }
 

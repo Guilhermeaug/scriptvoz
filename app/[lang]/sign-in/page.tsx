@@ -8,7 +8,6 @@ import { Form } from '@/components/Form';
 import { signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import Provider from '@/contexts/Provider';
 import Link from 'next/link';
 import Header from '@/components/Header';
 
@@ -47,9 +46,9 @@ export default function LoginPage({
   }
 
   return (
-    <Provider color={'diagnostic'}>
+    <>
       <Header color={'evaluation'} />
-      <main className='container mx-auto p-3 space-y-8 mt-16'>
+      <main className='m-auto p-3 mt-3 space-y-4 flex flex-col items-center max-w-screen-md'>
         {error && (
           <div className='alert alert-error'>
             <svg
@@ -68,10 +67,10 @@ export default function LoginPage({
             <span>{error}</span>
           </div>
         )}
-        <InformationBox title='Login'>
+        <InformationBox title='Login' className='w-full'>
           <FormProvider {...registerForm}>
             <form onSubmit={handleSubmit(onSubmit)} className='p-8'>
-              <Form.Field size={2}>
+              <Form.Field size={3}>
                 <Form.Label htmlFor='email'>Qual seu email?</Form.Label>
                 <Form.Input type='email' name='email' />
                 <Form.ErrorMessage field='email' />
@@ -98,6 +97,6 @@ export default function LoginPage({
           </Link>
         </section>
       </main>
-    </Provider>
+    </>
   );
 }

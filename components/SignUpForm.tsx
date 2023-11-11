@@ -12,20 +12,21 @@ import InformationBox from '@/components/InformationBox';
 import { Field, SignUpFormModified as SignUpForm } from '@/types/form_types';
 
 function renderFormElement(field: Field) {
-  const isNumber = field.options.data_type === 'number';
   switch (field.__component) {
     case 'form.input-text': {
       return (
         <Form.Input
-          type={isNumber ? 'number' : 'text'}
+          type={field.options.data_type}
           name={field.name}
-          isNumber={isNumber}
         />
       );
     }
     case 'form.select':
       return (
-        <Form.Select name={field.name} isNumber={isNumber}>
+        <Form.Select
+          name={field.name}
+          type={field.options.data_type}
+        >
           {field.values.values.map((value) => {
             return (
               <option key={value} value={value}>

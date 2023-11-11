@@ -7,28 +7,24 @@ import classNames from 'classnames';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
-  isNumber?: boolean;
 }
 
-export default function Input({
-  name,
-  isNumber = false,
-  ...props
-}: InputProps) {
+export default function Input(props: InputProps) {
   const {
     register,
     formState: { errors },
   } = useFormContext();
-  const fieldError = get(errors, name);
+  const fieldError = get(errors, props.name);
   const style = classNames('input input-bordered input-primary w-full', {
     'input-error': Boolean(fieldError),
   });
+  let isNumber = props.type === 'number';
 
   return (
     <input
-      id={name}
+      id={props.name}
       className={style}
-      {...register(name, { valueAsNumber: isNumber })}
+      {...register(props.name, { valueAsNumber: isNumber })}
       {...props}
     />
   );

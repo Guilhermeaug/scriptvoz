@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import Provider from '@/contexts/Provider';
 import Header from '@/components/Header';
 
 import Logo from '@/public/cerebro.png';
@@ -28,10 +27,10 @@ export default async function HomePage({
   const session = await getServerSession(authOptions);
 
   return (
-    <Provider color={'evaluation'}>
-      <Header center={true} />
-      <main className='mx-auto p-3 mt-3 space-y-8 flex flex-col items-center max-w-screen-md'>
-        <Image src={Logo} alt='Cérebro humano' className='self-center' />
+    <>
+      <Header center={true} color='evaluation' />
+      <main className='m-auto p-3 mt-1 space-y-1 flex flex-col items-center max-w-screen-md md:space-y-8'>
+        <Image src={Logo} alt='Cérebro humano' className='self-center w-40 md:w-52' />
         <InformationBox title={'Script VOZ'} color={'diagnostic'}>
           <article className='p-4'>
             <Markdown className='prose prose-xl'>
@@ -66,11 +65,11 @@ export default async function HomePage({
             </div>
           </article>
         </InformationBox>
-        <div className={'flex gap-16'}>
-          <Image src={UFMG} alt={'Logo da UFMG'} width={150} />
-          <Image src={CEFETMG} alt={'Logo do CEFETMG'} width={150} />
+        <div className={'flex gap-12'}>
+          <Image src={UFMG} alt={'Logo da UFMG'} className='w-20 md:w-32' />
+          <Image src={CEFETMG} alt={'Logo do CEFETMG'} className='w-20 md:w-32' />
         </div>
       </main>
-    </Provider>
+    </>
   );
 }

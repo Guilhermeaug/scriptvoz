@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Logo from '@/public/cerebro.png';
 import Header from '@/components/Header';
-import Provider from '@/contexts/Provider';
 import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
 
@@ -11,7 +10,7 @@ export default async function AboutUs({
   params: { lang: string };
 }) {
   return (
-    <Provider color={'diagnostic'}>
+    <>
       <Header color={'evaluation'} center />
       <main className='mx-auto p-3 mt-3 flex flex-col items-center max-w-screen-md'>
         <Image src={Logo} alt='Cérebro humano' />
@@ -51,6 +50,6 @@ export default async function AboutUs({
           </article>
         </InformationBox>
       </main>
-    </Provider>
+    </>
   );
 }

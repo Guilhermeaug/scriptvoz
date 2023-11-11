@@ -1,11 +1,9 @@
 import ArrowNavigator from '@/components/ArrowNavigator';
 import Pills from '@/components/Pills';
 import InformationBox from '@/components/InformationBox';
-import InformationHeader from '@/components/InformationHeader';
 import { getPageData } from '@/lib/page_data';
 import { DiagnosticPage } from '@/types/diagnostic_types';
 import Markdown from '@/components/Markdown';
-import Provider from '@/contexts/Provider';
 import arrayShuffle from 'array-shuffle';
 import { getPatient } from '@/lib/patients';
 import { Patient } from '@/types/patients_types';
@@ -44,11 +42,11 @@ export default async function EvaluationStep({
   ] = await Promise.all([patientPromise, pagePromise]);
 
   return (
-    <Provider color='diagnostic'>
+    <>
       <Header />
       <BreadCrumb />
       <h1 className='text-center text-4xl mt-3'>{pageAttributes.header}</h1>
-      <main className={'mx-auto p-3 max-w-screen-lg'}>
+      <main className={'mx-auto p-3 max-w-screen-md'}>
         <InformationBox title={pageAttributes.summary}>
           <section className='p-3'>
             <Markdown>{patient.summary}</Markdown>
@@ -66,6 +64,6 @@ export default async function EvaluationStep({
         href={`/${lang}/patients/${slug}/therapeutic`}
         direction='right'
       />
-    </Provider>
+    </>
   );
 }

@@ -1,12 +1,11 @@
 import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
 import Markdown from '@/components/Markdown';
-import Provider from '@/contexts/Provider';
 import { authOptions } from '@/lib/auth';
-import { getServerSession } from 'next-auth';
-import { Patient } from '@/types/patients_types';
-import { getPatient } from '@/lib/patients';
 import { endProgram } from '@/lib/groups';
+import { getPatient } from '@/lib/patients';
+import { Patient } from '@/types/patients_types';
+import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 
 interface Props {
@@ -36,8 +35,8 @@ export default async function FinishPage({ params: { lang, slug } }: Props) {
   }
 
   return (
-    <Provider color={'standard'}>
-      <div className='flex flex-col justify-center items-center h-screen'>
+    <>
+      <div className='flex h-screen flex-col items-center justify-center'>
         <header className='text-center text-3xl'>
           <h1>Parabéns por terminar o programa</h1>
         </header>
@@ -56,6 +55,6 @@ export default async function FinishPage({ params: { lang, slug } }: Props) {
           </form>
         </main>
       </div>
-    </Provider>
+    </>
   );
 }

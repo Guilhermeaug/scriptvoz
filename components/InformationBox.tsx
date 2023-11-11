@@ -3,11 +3,9 @@
 import { useProvider } from '@/contexts/Provider';
 import { twMerge } from 'tailwind-merge';
 
-interface InformationBoxProps {
-  className?: string;
+interface InformationBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: string;
   title?: string;
-  children: React.ReactNode;
 }
 
 export default function InformationBox({

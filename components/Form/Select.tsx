@@ -1,11 +1,9 @@
-import { InputHTMLAttributes } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { get } from './ErrorMessage';
 import classNames from 'classnames';
 
-interface SelectProps extends InputHTMLAttributes<HTMLSelectElement> {
+interface SelectProps extends React.InputHTMLAttributes<HTMLSelectElement> {
   name: string;
-  isNumber?: boolean;
 }
 
 export default function Select(props: SelectProps) {
@@ -17,12 +15,13 @@ export default function Select(props: SelectProps) {
   const style = classNames('select select-bordered select-primary w-full', {
     'select-error': Boolean(fieldError),
   });
+  let isNumber = props.type === 'number';
 
   return (
     <select
       id={props.name}
       className={style}
-      {...register(props.name, { valueAsNumber: props.isNumber })}
+      {...register(props.name, { valueAsNumber: isNumber })}
       {...props}
     >
       {props.children}

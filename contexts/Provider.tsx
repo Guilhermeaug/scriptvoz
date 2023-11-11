@@ -1,23 +1,29 @@
 'use client';
 
-import { createContext, ReactNode, useContext, useState } from 'react';
+import { usePathname } from 'next/navigation';
+import { createContext, useContext, useState } from 'react';
 
+type Color = 'evaluation' | 'diagnostic' | 'therapeutic' | 'standard';
 interface Provider {
-  color: 'evaluation' | 'diagnostic' | 'therapeutic' | 'standard';
+  color: Color;
   isCompleted: boolean;
   setIsCompleted: (isCompleted: boolean) => void;
 }
 
 const ProviderContext = createContext<Provider>({} as Provider);
 
-export default function Provider({
-  color,
-  children,
-}: {
-  color: 'evaluation' | 'diagnostic' | 'therapeutic' | 'standard';
-  children: ReactNode;
-}) {
+export default function Provider({ children }: { children: React.ReactNode }) {
   const [isCompleted, setIsCompleted] = useState(false);
+  let color: Color = 'standard';
+
+  const pathname = usePathname();
+  if (pathname.includes('evaluation')) {
+    color = 'evaluation';
+  } else if (pathname.includes('diagnostic')) {
+    color = 'diagnostic';
+  } else if (pathname.includes('therapeutic')) {
+    color = 'therapeutic';
+  }
 
   return (
     <ProviderContext.Provider

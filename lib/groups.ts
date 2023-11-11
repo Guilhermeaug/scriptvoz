@@ -137,10 +137,11 @@ export async function toggleGroup({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
-    method: 'put',
+    method: 'PUT',
     body: JSON.stringify({
       data: { isActive: active },
     }),
+    cache: 'no-cache',
   });
 
   if (!res.ok) {
@@ -171,7 +172,7 @@ export async function applyStudent({
         'Content-Type': 'application/json',
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER}`,
       },
-      method: 'PUT',
+      method: 'put',
       next: {
         tags: ['groups'],
       },

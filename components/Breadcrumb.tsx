@@ -4,29 +4,48 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 function buildCrumbs(p: string) {
-  const path = JSON.parse(JSON.stringify(p.split('/')));
+  const path: string[] = JSON.parse(JSON.stringify(p.split('/')));
   path.shift();
 
-  path[0] = 'Home';
-  path[1] = 'Casos Clínicos';
-  path[2] = path[2];
-  path[3] = 'Decisão Terapêutica';
+  const steps = {
+    evaluation: 'Avaliação Fonoaudiológica',
+    diagnostic: 'Diagnóstico',
+    therapeutic: 'Decisão Terapêutica',
+  };
+  const step = path[3] as keyof typeof steps;
 
-  return path;
+  const crumbs = [
+    {
+      path: '/',
+      text: 'Home',
+    },
+    {
+      path: '/patients',
+      text: 'Casos Clínicos',
+    },
+    {
+      path: '',
+      text: path[2].replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase()),
+    },
+    {
+      path: '',
+      text: steps[step],
+    },
+  ];
+
+  return crumbs;
 }
 
 export default function BreadCrumb() {
   const pathname = usePathname();
-
   const path = buildCrumbs(pathname);
-  console.log(path);
 
   return (
     <div className='text-lg breadcrumbs p-3'>
       <ul>
-        {path.map((crumb: string) => (
-          <li key={crumb}>
-            <Link href={''}>{crumb}</Link>
+        {path.map(({ path, text }, index) => (
+          <li key={index}>
+            <Link href={path}>{text}</Link>
           </li>
         ))}
       </ul>

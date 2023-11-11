@@ -1,4 +1,3 @@
-import Provider from '@/contexts/Provider';
 import { applyStudent, getGroupData } from '@/lib/groups';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
@@ -46,7 +45,7 @@ export default async function GroupInvite({
     <main
       className={'flex flex-col justify-center items-center h-screen gap-8'}
     >
-      <Provider color='evaluation'>
+      <>
         <header>
           <h1 className='text-2xl'>
             Você foi convidado a participar da turma {description}
@@ -57,7 +56,7 @@ export default async function GroupInvite({
             Clique para confirmar sua participação
           </button>
         </form>
-      </Provider>
+      </>
     </main>
   );
 }

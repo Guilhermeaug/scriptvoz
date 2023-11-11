@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 import SignUpForm from '@/components/SignUpForm';
-import Provider from '@/contexts/Provider';
 import { getPageData } from '@/lib/page_data';
 import { SignUpFormModified, SignUpFormDefault as SignUpFormType } from '@/types/form_types';
 import Header from '@/components/Header';
@@ -54,9 +53,9 @@ export default async function RegisterPage({
   const form = fixInput(formData);
 
   return (
-    <Provider color='diagnostic'>
+    <>
       <Header color={'evaluation'} />
       <SignUpForm formData={form} />
-    </Provider>
+    </>
   );
 }

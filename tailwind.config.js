@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        standard: '#00D1FF',
+        standard: '#0A054C',
         evaluation: '#0A054C',
         diagnostic: '#870000',
         therapeutic: '#C97215',
