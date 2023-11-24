@@ -74,7 +74,7 @@ export default function SignUpForm({ formData: { data } }: SignUpFormProps) {
   const professionalFieldsSchema = commomFieldsSchema.extend({
     role: z.literal(commom.role.values.values[1]),
     timeSinceGraduation: z
-      .number()
+      .string()
       .min(1, professional.timeSinceGraduation.options.validation),
   });
 
