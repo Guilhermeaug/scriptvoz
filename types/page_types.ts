@@ -9,6 +9,7 @@ interface HomePageAttributes {
   front_text: string;
   call_text: string;
   button_text: string;
+  title: string;
 }
 
 interface PatientsPageAttributes {
@@ -48,8 +49,21 @@ interface TherapeuticPageAttributes {
   call_to_action: string;
 }
 
+interface SignInPageAttributes {
+  title: string;
+  call_text: string;
+  signup: string;
+}
+
+interface SignUpPageAttributes {
+  title: string;
+  signup: string;
+}
+
 export type HomePage = Page<HomePageAttributes>;
 export type PatientsPage = Page<PatientsPageAttributes>;
 export type DiagnosticPage = Page<DiagnosticPageAttributes>;
 export type EvaluationPage = Page<EvaluationPageAttributes>;
 export type TherapeuticPage = Page<TherapeuticPageAttributes>;
+export type SignInPage = Page<SignInPageAttributes>;
+export type SignUpPage = Page<SignUpPageAttributes>;

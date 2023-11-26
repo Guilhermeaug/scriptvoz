@@ -1,7 +1,7 @@
 import Markdown from '@/components/Markdown';
 import { authOptions } from '@/lib/auth';
 import { getPageData } from '@/lib/page_data';
-import { HomePage } from '@/types/home_types';
+import { HomePage } from '@/types/page_types';
 import { getServerSession } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -32,10 +32,13 @@ export default async function HomePage({
         <h1 className='text-5xl text-white'>Script Voz</h1>
       </header>
       <main className='m-auto max-w-screen-md p-2'>
-        <InformationBox title={'O que é'} color={'diagnostic'}>
+        <InformationBox title={pageAttributes.title} color={'diagnostic'}>
           <article className='p-4'>
             <Markdown className='prose lg:prose-xl'>
               {pageAttributes.front_text}
+            </Markdown>
+            <Markdown className='prose lg:prose-xl'>
+              {pageAttributes.call_text}
             </Markdown>
             <div className='mt-2 flex justify-end gap-2'>
               {session ? (

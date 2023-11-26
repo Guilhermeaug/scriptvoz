@@ -161,7 +161,6 @@ export async function applyStudent({
   userId: number;
   patientsIds: number[];
 }) {
-  console.log({ groupId, userId, patientsIds });
   await connectStudentToGroup();
   await connectUserProgress();
 
@@ -374,8 +373,6 @@ export async function endProgram({
     patientId,
     studentId,
   });
-
-  console.log(data);
 
   if (!data) {
     throw new Error('Could not find user progress.');

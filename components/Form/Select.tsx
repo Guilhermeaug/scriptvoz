@@ -17,8 +17,6 @@ export default function Select(props: SelectProps) {
   });
   let isNumber = props.type === 'number';
 
-  console.log(props.name, props.type, isNumber);
-
   return (
     <select
       id={props.name}

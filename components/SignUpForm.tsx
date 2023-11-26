@@ -1,32 +1,25 @@
 'use client';
 
-import { FormProvider, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { signUp } from '@/lib/auth';
-import { signIn } from 'next-auth/react';
-import { Form } from './Form';
-import { SignUpError } from '@/types/auth_types';
-import { useState } from 'react';
-import { z } from 'zod';
 import InformationBox from '@/components/InformationBox';
+import { signUp } from '@/lib/auth';
+import { SignUpError } from '@/types/auth_types';
 import { Field, SignUpFormModified as SignUpForm } from '@/types/form_types';
+import { SignUpPage } from '@/types/page_types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Form } from './Form';
 
 function renderFormElement(field: Field) {
   switch (field.__component) {
     case 'form.input-text': {
-      return (
-        <Form.Input
-          type={field.options.data_type}
-          name={field.name}
-        />
-      );
+      return <Form.Input type={field.options.data_type} name={field.name} />;
     }
     case 'form.select':
       return (
-        <Form.Select
-          name={field.name}
-          type={field.options.data_type}
-        >
+        <Form.Select name={field.name} type={field.options.data_type}>
           {field.values.values.map((value) => {
             return (
               <option key={value} value={value}>
@@ -43,9 +36,13 @@ function renderFormElement(field: Field) {
 
 interface SignUpFormProps {
   formData: SignUpForm;
+  pageAttributes: SignUpPage['data']['attributes'];
 }
 
-export default function SignUpForm({ formData: { data } }: SignUpFormProps) {
+export default function SignUpForm({
+  formData: { data },
+  pageAttributes,
+}: SignUpFormProps) {
   const {
     attributes: { teacherFields, studentFields, professional, commom },
   } = data;
@@ -141,12 +138,12 @@ export default function SignUpForm({ formData: { data } }: SignUpFormProps) {
   }
 
   return (
-    <main className='mx-auto p-3 mt-3 space-y-4 flex flex-col items-center max-w-screen-md'>
+    <main className='mx-auto mt-3 flex max-w-screen-md flex-col items-center space-y-4 p-3'>
       {error && (
         <div className='alert alert-error'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
-            className='stroke-current shrink-0 h-6 w-6'
+            className='h-6 w-6 shrink-0 stroke-current'
             fill='none'
             viewBox='0 0 24 24'
           >
@@ -160,7 +157,7 @@ export default function SignUpForm({ formData: { data } }: SignUpFormProps) {
           <span>{error}</span>
         </div>
       )}
-      <InformationBox title={'Cadastro'} className='w-full'>
+      <InformationBox title={pageAttributes.title} className='w-full'>
         <FormProvider {...registerForm}>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -223,9 +220,9 @@ export default function SignUpForm({ formData: { data } }: SignUpFormProps) {
             <button
               type='submit'
               disabled={isSubmitting}
-              className='btn btn-primary mt-4 btn-block col-span-3 text-white'
+              className='btn btn-primary btn-block col-span-3 mt-4 text-white'
             >
-              Cadastrar
+              {pageAttributes.signup}
             </button>
           </form>
         </FormProvider>

@@ -7,6 +7,7 @@ import {
   SignUpFormModified,
   SignUpFormDefault as SignUpFormType,
 } from '@/types/form_types';
+import { SignUpPage } from '@/types/page_types';
 
 function fixInput(formData: SignUpFormType) {
   const copy = JSON.parse(JSON.stringify(formData)) as SignUpFormType;
@@ -48,13 +49,19 @@ export default async function RegisterPage({
     path: 'sign-up',
     locale: lang,
   });
+  const {
+    data: { attributes: pageAttributes },
+  }: SignUpPage = await getPageData({
+    path: 'sign-in-page',
+    locale: lang,
+  });
 
   const form = fixInput(formData);
 
   return (
     <>
       <Header color={'evaluation'} />
-      <SignUpForm formData={form} />
+      <SignUpForm formData={form} pageAttributes={pageAttributes} />
     </>
   );
 }
