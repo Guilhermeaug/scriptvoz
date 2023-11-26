@@ -8,13 +8,3 @@ export interface DiagnosticAttributes {
   updatedAt: string;
   publishedAt: string;
 }
-export interface DiagnosticPage {
-  data: {
-    id: number;
-    attributes: {
-      header: string;
-      summary: string;
-      call_to_action: string;
-    };
-  };
-}

@@ -1,15 +1,14 @@
 'use client';
 
+import { Form } from '@/components/Form';
+import Header from '@/components/Header';
+import InformationBox from '@/components/InformationBox';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+import Link from 'next/link';
+import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import InformationBox from '@/components/InformationBox';
-import { Form } from '@/components/Form';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import Link from 'next/link';
-import Header from '@/components/Header';
 
 const FormSchema = z.object({
   email: z.string().email(),
@@ -48,12 +47,12 @@ export default function LoginPage({
   return (
     <>
       <Header color={'evaluation'} />
-      <main className='m-auto p-3 mt-3 space-y-4 flex flex-col items-center max-w-screen-md'>
+      <main className='m-auto mt-3 flex max-w-screen-md flex-col items-center space-y-4 p-3'>
         {error && (
           <div className='alert alert-error'>
             <svg
               xmlns='http://www.w3.org/2000/svg'
-              className='stroke-current shrink-0 h-6 w-6'
+              className='h-6 w-6 shrink-0 stroke-current'
               fill='none'
               viewBox='0 0 24 24'
             >
@@ -83,7 +82,7 @@ export default function LoginPage({
               <button
                 type='submit'
                 disabled={isSubmitting}
-                className='btn btn-primary mt-4 btn-block'
+                className='btn btn-primary btn-block mt-4'
               >
                 Entrar
               </button>

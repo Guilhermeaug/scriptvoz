@@ -1,14 +1,14 @@
 import ArrowNavigator from '@/components/ArrowNavigator';
-import Pills from '@/components/Pills';
-import InformationBox from '@/components/InformationBox';
-import { getPageData } from '@/lib/page_data';
-import { DiagnosticPage } from '@/types/diagnostic_types';
-import Markdown from '@/components/Markdown';
-import arrayShuffle from 'array-shuffle';
-import { getPatient } from '@/lib/patients';
-import { Patient } from '@/types/patients_types';
-import Header from '@/components/Header';
 import BreadCrumb from '@/components/Breadcrumb';
+import Header from '@/components/Header';
+import InformationBox from '@/components/InformationBox';
+import Markdown from '@/components/Markdown';
+import Pills from '@/components/Pills';
+import { getPageData } from '@/lib/page_data';
+import { getPatient } from '@/lib/patients';
+import { DiagnosticPage } from '@/types/page_types';
+import { Patient } from '@/types/patients_types';
+import arrayShuffle from 'array-shuffle';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
@@ -45,8 +45,8 @@ export default async function EvaluationStep({
     <>
       <Header />
       <BreadCrumb />
-      <h1 className='text-center text-4xl mt-3'>{pageAttributes.header}</h1>
-      <main className={'mx-auto p-3 max-w-screen-md'}>
+      <h1 className='mt-3 text-center text-4xl'>{pageAttributes.header}</h1>
+      <main className={'mx-auto max-w-screen-md p-3'}>
         <InformationBox title={pageAttributes.summary}>
           <section className='p-3'>
             <Markdown>{patient.summary}</Markdown>

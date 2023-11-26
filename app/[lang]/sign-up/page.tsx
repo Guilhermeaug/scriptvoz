@@ -1,9 +1,12 @@
 // @ts-nocheck
 
+import Header from '@/components/Header';
 import SignUpForm from '@/components/SignUpForm';
 import { getPageData } from '@/lib/page_data';
-import { SignUpFormModified, SignUpFormDefault as SignUpFormType } from '@/types/form_types';
-import Header from '@/components/Header';
+import {
+  SignUpFormModified,
+  SignUpFormDefault as SignUpFormType,
+} from '@/types/form_types';
 
 function fixInput(formData: SignUpFormType) {
   const copy = JSON.parse(JSON.stringify(formData)) as SignUpFormType;
@@ -13,28 +16,24 @@ function fixInput(formData: SignUpFormType) {
       acc[field.name] = field;
       return acc;
     },
-    {}
+    {},
   );
-  copy.data.attributes.teacherFields = copy.data.attributes.teacherFields.reduce(
-    (acc, field) => {
+  copy.data.attributes.teacherFields =
+    copy.data.attributes.teacherFields.reduce((acc, field) => {
       acc[field.name] = field;
       return acc;
-    },
-    {}
-  );
-  copy.data.attributes.studentFields = copy.data.attributes.studentFields.reduce(
-    (acc, field) => {
+    }, {});
+  copy.data.attributes.studentFields =
+    copy.data.attributes.studentFields.reduce((acc, field) => {
       acc[field.name] = field;
       return acc;
-    },
-    {}
-  );
+    }, {});
   copy.data.attributes.professional = copy.data.attributes.professional.reduce(
     (acc, field) => {
       acc[field.name] = field;
       return acc;
     },
-    {}
+    {},
   );
 
   return copy as SignUpFormModified;

@@ -1,14 +1,13 @@
 import ArrowNavigator from '@/components/ArrowNavigator';
+import BreadCrumb from '@/components/Breadcrumb';
+import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
-import InformationHeader from '@/components/InformationHeader';
-import { getPageData } from '@/lib/page_data';
-import { TherapeuticPage } from '@/types/therapeutic_types';
-import Questions from '@/components/Questions';
 import Markdown from '@/components/Markdown';
+import Questions from '@/components/Questions';
+import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
 import { Patient } from '@/types/patients_types';
-import Header from '@/components/Header';
-import BreadCrumb from '@/components/Breadcrumb';
+import { TherapeuticPage } from '@/types/page_types';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
@@ -45,8 +44,8 @@ export default async function TherapeuticStep({
     <>
       <Header />
       <BreadCrumb />
-      <h1 className='text-center text-4xl mt-3'>{pageAttributes.header}</h1>
-      <main className={'mx-auto p-3 max-w-screen-md'}>
+      <h1 className='mt-3 text-center text-4xl'>{pageAttributes.header}</h1>
+      <main className={'mx-auto max-w-screen-md p-3'}>
         <InformationBox title={pageAttributes.summary}>
           <section className='p-3'>
             <Markdown>{patient.summary}</Markdown>

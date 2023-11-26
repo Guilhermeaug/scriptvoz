@@ -8,7 +8,6 @@ import { BookmarkSlashIcon } from '@heroicons/react/24/solid';
 import { revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 
-
 interface GroupProps {
   params: { lang: string; slug: string };
 }

@@ -1,8 +1,8 @@
-import { applyStudent, getGroupData } from '@/lib/groups';
-import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
-import { redirect } from 'next/navigation';
+import { applyStudent, getGroupData } from '@/lib/groups';
 import { Group } from '@/types/group_types';
+import { getServerSession } from 'next-auth';
+import { redirect } from 'next/navigation';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
@@ -43,7 +43,7 @@ export default async function GroupInvite({
 
   return (
     <main
-      className={'flex flex-col justify-center items-center h-screen gap-8'}
+      className={'flex h-screen flex-col items-center justify-center gap-8'}
     >
       <>
         <header>

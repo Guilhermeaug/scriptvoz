@@ -5,15 +5,16 @@ import VideoPlayer from '@/components/VideoPlayer';
 
 import ArrowNavigator from '@/components/ArrowNavigator';
 import AudioSample from '@/components/AudioSample';
-import { getPageData } from '@/lib/page_data';
-import { EvaluationPage, Media } from '@/types/evaluation_types';
-import Image from 'next/image';
+import BreadCrumb from '@/components/Breadcrumb';
+import Header from '@/components/Header';
 import Markdown from '@/components/Markdown';
 import Questions from '@/components/Questions';
+import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
+import { Media } from '@/types/evaluation_types';
+import { EvaluationPage } from '@/types/page_types';
 import { Patient } from '@/types/patients_types';
-import Header from '@/components/Header';
-import BreadCrumb from '@/components/Breadcrumb';
+import Image from 'next/image';
 
 export const metadata = {
   title: 'Avaliação fonoaudiológica',
@@ -50,8 +51,8 @@ export default async function EvaluationStep({
     <>
       <Header />
       <BreadCrumb />
-      <h1 className='text-center text-4xl mt-2'>{pageAttributes.header}</h1>
-      <main className={'m-auto p-3 max-w-screen-md'}>
+      <h1 className='mt-2 text-center text-4xl'>{pageAttributes.header}</h1>
+      <main className={'m-auto max-w-screen-md p-3'}>
         <InformationBox title={pageAttributes.anamnesis}>
           <section className='space-y-4 p-3'>
             <article className='space-y-4'>
@@ -114,7 +115,7 @@ export default async function EvaluationStep({
               <InformationHeader
                 title={pageAttributes.videolaryngostroboscopy}
               />
-              <div className='mx-auto flex max-w-screen-md flex-col items-center justify-center gap-6 mt-3'>
+              <div className='mx-auto mt-3 flex max-w-screen-md flex-col items-center justify-center gap-6'>
                 <div className={'flex items-center justify-center gap-4'}>
                   <div className={'w-[70%]'}>
                     <VideoPlayer url={patient.exam_video.data.attributes.url} />
@@ -125,7 +126,7 @@ export default async function EvaluationStep({
                     />
                   </div>
                 </div>
-                <div className='collapse-arrow collapse'>
+                <div className='collapse collapse-arrow'>
                   <input type='checkbox' />
                   <div className='collapse-title text-xl font-medium'>
                     {pageAttributes.collapse_text}
@@ -170,7 +171,7 @@ function AudioSamples({ audios }: { audios: Media[] }) {
 
 function ComplementaryFiles({ files }: { files: Media[] }) {
   return (
-    <div className='mx-auto flex max-w-screen-md flex-col gap-4 mt-3'>
+    <div className='mx-auto mt-3 flex max-w-screen-md flex-col gap-4'>
       {files.map(({ attributes: file }, id) => {
         const url = `${process.env.NEXT_PUBLIC_API_URL}${file.url}`;
         return (
