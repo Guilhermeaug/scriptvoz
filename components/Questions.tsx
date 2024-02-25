@@ -7,7 +7,7 @@ export default function Questions({
   questions: QuestionType[];
 }) {
   return (
-    <div className='p-2 space-y-8'>
+    <article className='space-y-8'>
       {questions.map((question) => {
         const answers = [question.A, question.B, question.C, question.D];
         const feedbacks = [
@@ -27,6 +27,6 @@ export default function Questions({
           />
         );
       })}
-    </div>
+    </article>
   );
 }

@@ -33,13 +33,13 @@ export default async function PatientsPage({
 
   return (
     <>
-      <Header color={'evaluation'} />
-      <h1 className='mt-16 text-center text-4xl underline'>
+      <Header color='evaluation' />
+      <h1 className='mt-6 text-center text-5xl'>
         {pageAttributes.header}
       </h1>
-      <main className={'container mx-auto mt-16 p-3'}>
-        <InformationBox title={'Casos Clínicos'}>
-          <section className='flex flex-row flex-wrap justify-center gap-3 p-4'>
+      <main className='container mx-auto mt-8 p-3 max-w-screen-md'>
+        <InformationBox title='Casos Clínicos'>
+          <section className='flex flex-wrap justify-center gap-2 p-4'>
             {patients.map((patient) => (
               <PatientItem
                 key={patient.id}

@@ -8,8 +8,8 @@ import Link from 'next/link';
 
 import InformationBox from '@/components/InformationBox';
 import Logo from '@/public/cerebro-branco.png';
-import CEFETMG from '@/public/logo_cefet.svg';
-import UFMG from '@/public/logo_ufmg.svg';
+import CEFETMG from '@/public/cefet.png';
+import UFMG from '@/public/logo-medicina.png';
 
 export default async function HomePage({
   params: { lang },
@@ -27,9 +27,15 @@ export default async function HomePage({
 
   return (
     <>
-      <header className='flex items-center justify-around bg-standard md:h-36 md:justify-center md:gap-8'>
-        <Image src={Logo} alt='Cérebro humano' className='w-28 bg-no-repeat' />
-        <h1 className='text-5xl text-white'>Script Voz</h1>
+      <header className='grid justify-items-center md:grid-cols-3 bg-standard p-1'>
+        <div className='md:col-span-2 flex items-center justify-center gap-2'>
+          <Image src={Logo} alt='Cérebro humano' className='hidden md:block max-w-full' />
+          <h1 className='text-center text-5xl md:text-6xl text-white'>Script Voz</h1>
+        </div>
+        <div className='flex items-center justify-end pr-4 gap-4'>
+          <Image src={UFMG} alt={'Logo da UFMG'} className='w-28 md:w-48' />
+          <Image src={CEFETMG} alt={'Logo do CEFETMG'} className='w-16 md:w-28' />
+        </div>
       </header>
       <main className='m-auto max-w-screen-md p-2'>
         <InformationBox title={pageAttributes.title} color={'diagnostic'}>
@@ -67,10 +73,9 @@ export default async function HomePage({
           </article>
         </InformationBox>
       </main>
-      <footer className={'flex items-center justify-center'}>
-        <Image src={UFMG} alt={'Logo da UFMG'} className='w-20 md:w-32' />
-        <Image src={CEFETMG} alt={'Logo do CEFETMG'} className='w-20 md:w-32' />
-      </footer>
+      {/* <footer className={'flex items-center justify-center'}>
+       
+      </footer> */}
     </>
   );
 }

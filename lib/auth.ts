@@ -6,7 +6,7 @@ import { revalidatePath } from 'next/cache';
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Email/Password',
+      name: 'credentials',
       credentials: {
         email: { label: 'Email', type: 'text' },
         password: { label: 'Password', type: 'password' },
@@ -14,7 +14,7 @@ export const authOptions: AuthOptions = {
       async authorize(credentials, req) {
         if (credentials == null) return null;
         try {
-          const { user, jwt } = await signIn({
+          const { user, jwt } = await login({
             email: credentials.email,
             password: credentials.password,
           });
@@ -50,7 +50,7 @@ export const authOptions: AuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
 };
 
-export async function signIn({
+export async function login({
   email,
   password,
 }: {
@@ -61,13 +61,13 @@ export async function signIn({
   const res = await fetch(endpoint, {
     method: 'POST',
     headers: {
-      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
       identifier: email,
       password: password,
     }),
+    cache: 'no-cache',
   });
   const json = await res.json();
   if (res.ok) {

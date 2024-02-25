@@ -6,6 +6,7 @@ export async function getPatients({ locale }: { locale: string }) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
+    cache: 'no-cache',
     next: {
       tags: ['patients'],
     },

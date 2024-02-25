@@ -8,27 +8,31 @@ import Link from 'next/link';
 interface ArrowNavigatorProps {
   direction: 'left' | 'right';
   href: string;
+  ids?: number[];
 }
 
 export default function ArrowNavigator({
   direction,
   href,
+  ids = [],
 }: ArrowNavigatorProps) {
-  const { color, isCompleted } = useProvider();
+  const { color, completionSet } = useProvider();
+
+  const isCompleted = ids.every((id) => completionSet.has(id));
 
   const navClasses = classNames(
     `w-24 rounded-br-lg bg-${color} p-2 text-white`,
     {
       'polygon-bl flex justify-end float-right mt-6': direction === 'right',
       'polygon-tr': direction === 'left',
-      hidden: !isCompleted,
+      hidden: !isCompleted && direction === 'right',
     },
   );
 
   return (
     <nav className={navClasses}>
       <Link href={href}>
-        <button className='btn-ghost btn-square btn'>
+        <button className='btn btn-square btn-ghost'>
           {direction == 'left' ? <ArrowLeftIcon /> : <ArrowRightIcon />}
         </button>
       </Link>

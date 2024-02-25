@@ -18,6 +18,8 @@ export interface EvaluationAttributes {
   complaint: string;
   behavior: string;
   symptoms: string;
+  other_symptoms: string;
+  risk_factors: string;
   investigation: string;
   orl_report: string;
   larynx_analysis: string;

@@ -6,11 +6,11 @@ import Markdown from '@/components/Markdown';
 import Questions from '@/components/Questions';
 import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
-import { Patient } from '@/types/patients_types';
 import { TherapeuticPage } from '@/types/page_types';
+import { Patient } from '@/types/patients_types';
 
 export const metadata = {
-  title: 'Diagnóstico fonoaudiológico',
+  title: 'Decisão Terapéutica',
   description: 'Projeto de pesquisa em Fonoaudiologia',
 };
 
@@ -51,18 +51,19 @@ export default async function TherapeuticStep({
             <Markdown>{patient.summary}</Markdown>
           </section>
           <hr className='separator-line bg-therapeutic' />
-          <section>
+          <section className='space-y-4 p-3'>
             <Markdown className={'mx-auto text-center'}>
               {pageAttributes.call_to_action}
             </Markdown>
             <Questions questions={patient.questions} />
           </section>
         </InformationBox>
-        <ArrowNavigator
-          href={`/${lang}/patients/${slug}/finished`}
-          direction='right'
-        />
       </main>
+      <ArrowNavigator
+        href={`/${lang}/patients/${slug}/finished`}
+        direction='right'
+        ids={patient.questions.map((q) => q.id)}
+      />
     </>
   );
 }

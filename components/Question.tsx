@@ -1,17 +1,16 @@
 'use client';
 
+import { useProvider } from '@/contexts/Provider';
+import { cn } from '@/util/cn';
 import { useEffect, useState } from 'react';
+import { useLocalStorage } from 'usehooks-ts';
 import InformationBox from './InformationBox';
 import Markdown from './Markdown';
-import { twMerge } from 'tailwind-merge';
-import { useLocalStorage } from 'usehooks-ts';
-import classNames from 'classnames';
-import { useProvider } from '@/contexts/Provider';
 
 export interface QuestionStatus {
   id: number;
-  answered: boolean;
   answers: boolean[];
+  isCorrect: boolean;
 }
 
 interface QuestionProps {
@@ -25,7 +24,7 @@ interface QuestionProps {
 const variations = {
   correct: 'bg-green-100 border-green-300 text-green-800',
   incorrect: 'bg-red-100 border-red-300 text-red-800',
-  neutral: '',
+  neutral: 'bg-white border-gray-300 text-gray-800',
 };
 
 export default function Question({
@@ -35,91 +34,98 @@ export default function Question({
   feedbacks,
   correctAnswer,
 }: QuestionProps) {
-  const { setIsCompleted, color } = useProvider();
-  const [questionsStatus, saveQuestions] = useLocalStorage<QuestionStatus[]>(
-    'questions',
-    [],
+  const { completionSet, setCompletionSet } = useProvider();
+  const [questionStatusStorage, saveQuestion] = useLocalStorage<QuestionStatus>(
+    `questions.${id}`,
+    {
+      id,
+      answers: Array(4).fill(false),
+      isCorrect: false,
+    } as QuestionStatus,
   );
-  const [status, setStatus] = useState<QuestionStatus | undefined>();
+  const [questionStatus, setQuestionStatus] = useState<QuestionStatus>();
+  const [selectedAnswer, setSelectedAnswer] = useState<number>();
 
   useEffect(() => {
-    setStatus(questionsStatus.find((question) => question.id === id));
-    const everyQuestionAnsweredCorrectly = questionsStatus.every(
-      (question) => question.answered,
-    );
-    setIsCompleted(everyQuestionAnsweredCorrectly);
-  }, [id, questionsStatus, setIsCompleted]);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
-
-  function handleAnswer(e: React.MouseEvent<HTMLButtonElement>) {
-    setSelectedAnswer(Number(e.currentTarget.dataset.index));
-    const answer = e.currentTarget;
-    const answerIndex = Number(answer.dataset.index);
-    const isCorrect = answerIndex === correctAnswer;
-    updateQuestionStatus(id, isCorrect, answerIndex);
-  }
-
-  function updateQuestionStatus(
-    questionId: number,
-    answered: boolean,
-    optionIndex: number,
-  ) {
-    const questionIndex = questionsStatus.findIndex(
-      (question) => question.id === questionId,
-    );
-
-    if (questionIndex === -1) {
-      const newQuestion = {
-        id: questionId,
-        answered,
-        answers: Array(4).fill(false),
-      };
-      newQuestion.answers[optionIndex] = true;
-      saveQuestions([...questionsStatus, newQuestion]);
-      return;
+    setQuestionStatus(questionStatusStorage);
+    if (!completionSet.has(id) && questionStatusStorage.isCorrect) {
+      const completionSetCopy = new Set(completionSet);
+      completionSetCopy.add(id);
+      setCompletionSet(completionSetCopy);
     }
+  }, [completionSet, id, questionStatusStorage, setCompletionSet]);
 
-    const newQuestion = questionsStatus[questionIndex];
-    newQuestion.answered = answered;
-    newQuestion.answers[optionIndex] = true;
-    saveQuestions([...questionsStatus]);
+  function handleAnswer(index: number) {
+    const isCorrect = index === correctAnswer;
+
+    const newAnswers = questionStatusStorage.answers;
+    newAnswers[index] = true;
+    const newQuestion: QuestionStatus = {
+      id,
+      isCorrect: questionStatusStorage.isCorrect || isCorrect,
+      answers: newAnswers,
+    };
+    setSelectedAnswer(index);
+    saveQuestion(newQuestion);
   }
 
   return (
-    <article>
+    <div className='space-y-3'>
       <h3 className='text-xl font-semibold'>{question}</h3>
-      <div className='mt-3 flex flex-col gap-4'>
-        {answers.map((answer, index) => {
-          const isCorrect = index === correctAnswer;
-          const isAnswered = status?.answers[index] || false;
-
-          let variation: keyof typeof variations = 'neutral';
-          if (isAnswered && isCorrect) {
-            variation = 'correct';
-          } else if (isAnswered && !isCorrect) {
-            variation = 'incorrect';
-          }
-          const style = classNames(
-            'rounded-md border px-4 py-2 text-left shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
-            twMerge(variations[variation]),
-          );
-          return (
-            <button
-              key={index}
-              data-index={index}
-              onClick={handleAnswer}
-              className={style}
-            >
-              <p className='text-slate text-sm font-medium'>{answer}</p>
-            </button>
-          );
-        })}
-      </div>
-      {selectedAnswer !== null && (
+      {questionStatus && (
+        <Answers
+          questionStatus={questionStatus}
+          correctAnswer={correctAnswer}
+          handleAnswer={handleAnswer}
+          answers={answers}
+        />
+      )}
+      {selectedAnswer !== undefined && (
         <InformationBox title={question} className='mt-3'>
-          <Markdown className={'p-3'}>{feedbacks[selectedAnswer!]}</Markdown>
+          <Markdown className={'p-3'}>{feedbacks[selectedAnswer]}</Markdown>
         </InformationBox>
       )}
-    </article>
+    </div>
+  );
+}
+
+function Answers({
+  questionStatus,
+  correctAnswer,
+  handleAnswer,
+  answers,
+}: {
+  questionStatus: QuestionStatus;
+  correctAnswer: number;
+  handleAnswer: (index: number) => void;
+  answers: string[];
+}) {
+  return (
+    <div className='flex flex-col gap-4'>
+      {answers.map((answer, index) => {
+        const isAnswered = questionStatus.answers[index];
+        const isCorrect = isAnswered && index === correctAnswer;
+
+        let variation: keyof typeof variations = 'neutral';
+        if (isCorrect) {
+          variation = 'correct';
+        } else if (isAnswered) {
+          variation = 'incorrect';
+        }
+        const style = cn(
+          'rounded-md border px-4 py-2 text-left shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+          variations[variation],
+        );
+        return (
+          <button
+            key={answer}
+            onClick={() => handleAnswer(index)}
+            className={style}
+          >
+            <p className='text-slate text-sm font-medium'>{answer}</p>
+          </button>
+        );
+      })}
+    </div>
   );
 }

@@ -1,7 +1,6 @@
 'use client';
 
 import { useProvider } from '@/contexts/Provider';
-import { twMerge } from 'tailwind-merge';
 
 interface InformationBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: string;
@@ -17,22 +16,17 @@ export default function InformationBox({
   const { color: contextColor } = useProvider();
 
   return (
-    <div
-      className={twMerge(
-        `rounded-xl border border-${color || contextColor}`,
-        className,
-      )}
-    >
+    <section className={`rounded-xl border border-${color || contextColor}`}>
       {title && (
         <div
-          className={`rounded-tl-lg rounded-tr-lg rounded-br-none rounded-bl-none bg-${
+          className={`rounded-bl-none rounded-br-none rounded-tl-lg rounded-tr-lg bg-${
             color || contextColor
-          } text-center p-2 text-4xl text-white`}
+          } p-2 text-center text-4xl text-white`}
         >
           <h3>{title}</h3>
         </div>
       )}
-      {children}
-    </div>
+      <div className={className}>{children}</div>
+    </section>
   );
 }

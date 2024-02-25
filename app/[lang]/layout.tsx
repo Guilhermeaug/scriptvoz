@@ -10,7 +10,7 @@ export const metadata = {
   description: 'Simulador de casos clínicos em fonoaudiologia',
 };
 
-const inter = EB_Garamond({
+const garamond = EB_Garamond({
   subsets: ['latin'],
   display: 'auto',
 });
@@ -27,7 +27,7 @@ export default function RootLayout({
   params: { lang: string };
 }) {
   return (
-    <html lang={params.lang} className={inter.className}>
+    <html lang={params.lang} className={garamond.className}>
       <body>
         <NextAuthProvider>
           <Provider>{children}</Provider>

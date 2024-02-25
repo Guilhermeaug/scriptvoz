@@ -6,14 +6,14 @@ import { createContext, useContext, useState } from 'react';
 type Color = 'evaluation' | 'diagnostic' | 'therapeutic' | 'standard';
 interface Provider {
   color: Color;
-  isCompleted: boolean;
-  setIsCompleted: (isCompleted: boolean) => void;
+  completionSet: Set<number>;
+  setCompletionSet: (completionSet: Set<number>) => void;
 }
 
 const ProviderContext = createContext<Provider>({} as Provider);
 
 export default function Provider({ children }: { children: React.ReactNode }) {
-  const [isCompleted, setIsCompleted] = useState(false);
+  const [completionSet, setCompletionSet] = useState<Set<number>>(new Set());
   let color: Color = 'standard';
 
   const pathname = usePathname();
@@ -29,8 +29,8 @@ export default function Provider({ children }: { children: React.ReactNode }) {
     <ProviderContext.Provider
       value={{
         color,
-        isCompleted,
-        setIsCompleted,
+        completionSet,
+        setCompletionSet,
       }}
     >
       {children}

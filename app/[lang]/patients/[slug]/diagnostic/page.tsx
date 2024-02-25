@@ -52,17 +52,18 @@ export default async function EvaluationStep({
             <Markdown>{patient.summary}</Markdown>
           </section>
           <hr className='separator-line bg-diagnostic' />
-          <section>
+          <section className="p-3">
             <Markdown className={'mx-auto text-center'}>
               {pageAttributes.call_to_action}
             </Markdown>
-            <Pills pills={arrayShuffle(patient.pills)} />
+            <Pills patientId={patient.id} pills={arrayShuffle(patient.pills)} />
           </section>
         </InformationBox>
       </main>
       <ArrowNavigator
         href={`/${lang}/patients/${slug}/therapeutic`}
         direction='right'
+        ids={patient.pills.filter(pill => pill.correct).map((pill) => pill.id)}
       />
     </>
   );

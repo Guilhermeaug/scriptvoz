@@ -41,6 +41,11 @@ interface EvaluationPageAttributes {
   orl_report: string;
   call_to_action: string;
   collapse_text: string;
+  other_symptoms: string;
+  risk_factors: string;
+  vocal_trial: string;
+  ent_assessment: string;
+  questions_header: string;
 }
 
 interface TherapeuticPageAttributes {

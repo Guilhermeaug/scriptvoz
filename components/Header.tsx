@@ -28,7 +28,7 @@ export default function Header({ center = false, color }: Props) {
       ) : (
         <>
           <div className={'navbar-start space-x-2'}>
-            <Image src={CerebroBranco} alt={'Logo do Site'} width={80} />
+            <Image src={CerebroBranco} alt={'Logo do Site'} className="max-w-full" />
             <Link href={'/'} className={'text-3xl'}>
               Script VOZ
             </Link>

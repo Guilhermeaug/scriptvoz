@@ -1,101 +1,110 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import InformationBox from './InformationBox';
-import { Pill } from '@/types/global_types';
-import Markdown from './Markdown';
-import { useLocalStorage } from 'usehooks-ts';
-import classNames from 'classnames';
 import { useProvider } from '@/contexts/Provider';
+import { Pill } from '@/types/global_types';
+import { cn } from '@/util/cn';
+import { useEffect, useState } from 'react';
+import { useLocalStorage } from 'usehooks-ts';
+import InformationBox from './InformationBox';
+import Markdown from './Markdown';
 
-interface PillsStatus {
+interface PillStatus {
   id: number;
+  isCorrect: boolean;
   answered: boolean;
 }
 
 interface PillsProps {
+  patientId: number;
   pills: Pill[];
 }
 
 const variations = {
   correct: 'btn-success',
   incorrect: 'btn-error',
-  neutral: '',
+  neutral: 'btn-neutral',
 };
 
-export default function Pills({ pills }: PillsProps) {
-  const { setIsCompleted } = useProvider();
-  const [pillsStatus, savePills] = useLocalStorage<PillsStatus[]>('pills', []);
-  const [selected, setSelected] = useState<number>(-1);
-  const [status, setStatus] = useState<PillsStatus[] | undefined>();
+export default function Pills({ patientId, pills }: PillsProps) {
+  const { completionSet, setCompletionSet } = useProvider();
+  const [pillsStatusStorage, savePills] = useLocalStorage<PillStatus[]>(
+    `pills.${patientId}`,
+    [],
+  );
+  const [pillsStatus, setPillsStatus] = useState<PillStatus[]>([]);
+  const [selected, setSelected] = useState<number>();
 
   useEffect(() => {
-    setStatus(pillsStatus);
-    const isEveryPillAnsweredCorrectly = pills
-      .filter((pill) => pill.correct)
-      .every(
-        (pill) =>
-          pillsStatus.find((pillStatus) => pillStatus.id === pill.id)?.answered,
-      );
-    setIsCompleted(isEveryPillAnsweredCorrectly);
-  }, [pills, pillsStatus, setIsCompleted]);
+    setPillsStatus(pillsStatusStorage);
+    pillsStatusStorage.forEach((pill) => {
+      if (!completionSet.has(pill.id) && pill.isCorrect) {
+        const completionSetCopy = new Set(completionSet);
+        completionSetCopy.add(pill.id);
+        setCompletionSet(completionSetCopy);
+      }
+    });
+  }, [completionSet, pillsStatusStorage, setCompletionSet]);
 
-  const selectedDiagnostic = pills[selected];
+  function handleAnswer(index: number) {
+    setSelected(index);
 
-  function handleAnswer(e: React.MouseEvent<HTMLButtonElement>) {
-    const selected = e.currentTarget;
-    const selectedIndex = Number(selected.dataset.index);
-    setSelected(selectedIndex);
-    updatePillsStatus(pills[selectedIndex].id);
-  }
-
-  function updatePillsStatus(pillId: number) {
-    const pillIndex = pillsStatus.findIndex((pill) => pill.id === pillId);
-
-    if (pillIndex === -1) {
+    const pill = pills[index];
+    const pillStatus = pillsStatusStorage.find((p) => p.id === pill.id);
+    const pillStatusIndex = pillsStatusStorage.findIndex(
+      (p) => p.id === pill.id,
+    );
+    if (!pillStatus) {
       const newPill = {
-        id: pillId,
+        id: pill.id,
         answered: true,
+        isCorrect: pill.correct,
       };
       savePills([...pillsStatus, newPill]);
       return;
     }
 
-    const newPill = pillsStatus[pillIndex];
-    newPill.answered = true;
-    savePills([...pillsStatus]);
+    const pillsStatusCopy = [...pillsStatus];
+    pillsStatusCopy[pillStatusIndex] = {
+      ...pillStatus,
+      answered: true,
+      isCorrect: pill.correct,
+    };
+    savePills(pillsStatusCopy);
   }
 
+  const selectedDiagnostic = pills[selected as number] || null;
   return (
-    <div className='mt-6 space-y-6 p-3'>
-      <div className='grid grid-cols-2 gap-4 md:grid-cols-3 items-center'>
+    <article className='mt-6 space-y-6 p-3'>
+      <div className='grid grid-cols-2 gap-3 md:grid-cols-3'>
         {pills.map((pill, index) => {
           const { id, title, correct } = pill;
           const isAnswered =
-            status?.find((pill) => pill.id == id)?.answered || false;
+            pillsStatus?.find((pill) => pill.id == id)?.answered || false;
 
-          const pillClass = classNames(
-            'btn btn-rounded basis-1/2',
-            isAnswered && variations[correct ? 'correct' : 'incorrect'],
-          );
+          let variation: keyof typeof variations = 'neutral';
+          if (isAnswered && correct) {
+            variation = 'correct';
+          } else if (isAnswered) {
+            variation = 'incorrect';
+          }
+          const style = cn('btn btn-rounded basis-1/2', variations[variation]);
 
           return (
             <button
-              className={pillClass}
               key={id}
-              data-index={index}
-              onClick={handleAnswer}
+              className={style}
+              onClick={() => handleAnswer(index)}
             >
               {title}
             </button>
           );
         })}
       </div>
-      {selectedDiagnostic && (
+      {selectedDiagnostic !== null && (
         <InformationBox title={selectedDiagnostic.title}>
           <Markdown className={'p-3'}>{selectedDiagnostic.feedback}</Markdown>
         </InformationBox>
       )}
-    </div>
+    </article>
   );
 }

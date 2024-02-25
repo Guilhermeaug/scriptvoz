@@ -11,6 +11,7 @@ import { z } from 'zod';
 import { Form } from './Form';
 import Header from './Header';
 import InformationBox from './InformationBox';
+import { login } from '@/lib/auth';
 
 const FormSchema = z.object({
   email: z.string().email(),
