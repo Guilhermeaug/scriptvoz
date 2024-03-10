@@ -11,11 +11,10 @@ export function get(obj: Record<any, any>, path: string) {
       .filter(Boolean)
       .reduce(
         (res, key) => (res !== null && res !== undefined ? res[key] : res),
-        obj
+        obj,
       );
 
   const result = travel(/[,[\]]+?/) || travel(/[,[\].]+?/);
-
   return result;
 }
 
@@ -31,7 +30,7 @@ export default function ErrorMessage({ field }: ErrorMessageProps) {
   }
 
   return (
-    <span className='text-xs text-red-500 mt-1'>
+    <span className='mt-1 text-sm text-red-500'>
       {fieldError.message?.toString()}
     </span>
   );

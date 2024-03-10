@@ -16,7 +16,7 @@ export default function InformationBox({
   const { color: contextColor } = useProvider();
 
   return (
-    <section className={`rounded-xl border border-${color || contextColor}`}>
+    <section className={`w-full rounded-xl border border-${color || contextColor}`}>
       {title && (
         <div
           className={`rounded-bl-none rounded-br-none rounded-tl-lg rounded-tr-lg bg-${

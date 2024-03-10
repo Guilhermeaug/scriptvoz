@@ -1,51 +1,15 @@
-// @ts-nocheck
-
 import Header from '@/components/Header';
-import SignUpForm from '@/components/SignUpForm';
+import SignUpForm from '@/components/SignUpForm/SignUpForm';
 import { getPageData } from '@/lib/page_data';
-import {
-  SignUpFormModified,
-  SignUpFormDefault as SignUpFormType,
-} from '@/types/form_types';
 import { SignUpPage } from '@/types/page_types';
-
-function fixInput(formData: SignUpFormType) {
-  const copy = JSON.parse(JSON.stringify(formData)) as SignUpFormType;
-
-  copy.data.attributes.commom = copy.data.attributes.commom.reduce(
-    (acc, field) => {
-      acc[field.name] = field;
-      return acc;
-    },
-    {},
-  );
-  copy.data.attributes.teacherFields =
-    copy.data.attributes.teacherFields.reduce((acc, field) => {
-      acc[field.name] = field;
-      return acc;
-    }, {});
-  copy.data.attributes.studentFields =
-    copy.data.attributes.studentFields.reduce((acc, field) => {
-      acc[field.name] = field;
-      return acc;
-    }, {});
-  copy.data.attributes.professional = copy.data.attributes.professional.reduce(
-    (acc, field) => {
-      acc[field.name] = field;
-      return acc;
-    },
-    {},
-  );
-
-  return copy as SignUpFormModified;
-}
+import { SignUpFields } from '@/types/sign_up_types';
 
 export default async function RegisterPage({
   params: { lang },
 }: {
   params: { lang: string };
 }) {
-  const formData: SignUpFormType = await getPageData({
+  const formData: SignUpFields = await getPageData({
     path: 'sign-up',
     locale: lang,
   });
@@ -56,12 +20,12 @@ export default async function RegisterPage({
     locale: lang,
   });
 
-  const form = fixInput(formData);
-
   return (
     <>
       <Header color={'evaluation'} />
-      <SignUpForm formData={form} pageAttributes={pageAttributes} />
+      <main className='mx-auto mt-3 flex max-w-screen-md flex-col items-center space-y-4 p-3 md:pt-16'>
+        <SignUpForm formData={formData} pageAttributes={pageAttributes} />
+      </main>
     </>
   );
 }

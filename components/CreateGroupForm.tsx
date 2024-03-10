@@ -82,21 +82,21 @@ export default function CreateFormGroup({ patients }: CreateFormGroupProps) {
           </Dialog.Description>
           <FormProvider {...registerForm}>
             <form onSubmit={handleSubmit(onSubmit)} className='space-y-2'>
-              <Form.Field size={3}>
+              <Form.Field>
                 <Form.Label htmlFor='title'>
                   Dê um título para a nova turma
                 </Form.Label>
                 <Form.Input type='text' name='title' />
                 <Form.ErrorMessage field='title' />
               </Form.Field>
-              <Form.Field size={3}>
+              <Form.Field>
                 <Form.Label htmlFor='description'>
                   Dê uma descrição para a nova turma
                 </Form.Label>
                 <Form.TextArea name='description' />
                 <Form.ErrorMessage field='description' />
               </Form.Field>
-              <Form.Field size={3}>
+              <Form.Field>
                 <Form.Label htmlFor='patients'>
                   Escolha os pacientes da turma
                 </Form.Label>

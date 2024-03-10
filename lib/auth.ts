@@ -1,5 +1,5 @@
 import { Auth, SignUp, SignUpError } from '@/types/auth_types';
-import { AuthOptions } from 'next-auth';
+import { AuthOptions, getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { revalidatePath } from 'next/cache';
 
@@ -80,7 +80,7 @@ export async function login({
 
 export async function signUp(
   { username, email, password, isTeacher, fullName }: SignUp,
-  rest: any,
+  rest: Record<string, string | number>,
 ) {
   async function createUser() {
     const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`;
@@ -97,8 +97,8 @@ export async function signUp(
         isTeacher,
         fullName,
       }),
+      cache: 'no-cache',
     });
-
     const json = await res.json();
     if (res.ok) {
       return json as Auth;
@@ -121,6 +121,7 @@ export async function signUp(
           ...rest,
         },
       }),
+      cache: 'no-cache',
     });
 
     const json = await res.json();
@@ -172,6 +173,7 @@ export async function signUp(
       body: JSON.stringify({
         role: rolesMap[role],
       }),
+      cache: 'no-cache',
     });
 
     const json = await res.json();
@@ -186,3 +188,45 @@ export async function signUp(
   await connectUserToData(user.user.id, additionalData.id);
   await changeUserRole(user.user.id, isTeacher ? 'Teacher' : 'Student');
 }
+
+export async function sendResetPasswordCode(email: string) {
+  const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/forgot-password`;
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      email,
+    }),
+    cache: 'no-cache',
+  });
+  if (!res.ok) {
+    return {
+      error: 'Erro ao enviar email de recuperação de senha',
+    };
+  }
+}
+
+export async function resetPassword(code: string, password: string) {
+  const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/reset-password`;
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      code,
+      password,
+      passwordConfirmation: password,
+    }),
+    cache: 'no-cache',
+  });
+  if (!res.ok) {
+    return {
+      error: 'Erro ao trocar a senha',
+    };
+  }
+}
+
+export const useAuth = () => getServerSession(authOptions);
