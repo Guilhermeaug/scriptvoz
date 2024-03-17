@@ -1,8 +1,8 @@
 import ArrowNavigator from '@/components/ArrowNavigator';
+import BlocksRendererClient from '@/components/BlocksRendererClient';
 import BreadCrumb from '@/components/Breadcrumb';
 import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
-import Markdown from '@/components/Markdown';
 import Pills from '@/components/Pills';
 import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
@@ -46,24 +46,29 @@ export default async function EvaluationStep({
       <Header />
       <BreadCrumb />
       <h1 className='mt-3 text-center text-4xl'>{pageAttributes.header}</h1>
-      <main className={'mx-auto max-w-screen-md p-3'}>
+      <main className={'mx-auto max-w-screen-md p-3 md:pt-8'}>
         <InformationBox title={pageAttributes.summary}>
-          <section className='p-3'>
-            <Markdown>{patient.summary}</Markdown>
-          </section>
-          <hr className='separator-line bg-diagnostic' />
-          <section className="p-3">
-            <Markdown className={'mx-auto text-center'}>
-              {pageAttributes.call_to_action}
-            </Markdown>
-            <Pills patientId={patient.id} pills={arrayShuffle(patient.pills)} />
-          </section>
+          <div className='p-3'>
+            <BlocksRendererClient content={patient.summary} />
+            <hr className='separator-line bg-diagnostic' />
+            <div className='p-3'>
+              <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
+                {pageAttributes.call_to_action}
+              </p>
+              <Pills
+                patientId={patient.id}
+                pills={arrayShuffle(patient.pills)}
+              />
+            </div>
+          </div>
         </InformationBox>
       </main>
       <ArrowNavigator
         href={`/${lang}/patients/${slug}/therapeutic`}
         direction='right'
-        ids={patient.pills.filter(pill => pill.correct).map((pill) => pill.id)}
+        ids={patient.pills
+          .filter((pill) => pill.correct)
+          .map((pill) => pill.id)}
       />
     </>
   );

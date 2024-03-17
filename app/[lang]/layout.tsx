@@ -1,16 +1,16 @@
 import './globals.css';
 
-import { i18n } from '@/i18n-config';
-import { EB_Garamond } from 'next/font/google';
-import { NextAuthProvider } from '@/contexts/SessionProvider';
 import Provider from '@/contexts/Provider';
+import { NextAuthProvider } from '@/contexts/SessionProvider';
+import { i18n } from '@/i18n-config';
+import { Nunito_Sans } from 'next/font/google';
 
 export const metadata = {
   title: 'Simulador de casos clínicos',
   description: 'Simulador de casos clínicos em fonoaudiologia',
 };
 
-const garamond = EB_Garamond({
+const garamond = Nunito_Sans({
   subsets: ['latin'],
   display: 'auto',
 });

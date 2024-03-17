@@ -2,7 +2,7 @@ import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
 import { getPageData } from '@/lib/page_data';
 import { getPatients } from '@/lib/patients';
-import { PatientsPage } from '@/types/page_types';
+import { PatientsPage as PatientsPageType } from '@/types/page_types';
 import { PatientData } from '@/types/patients_types';
 import Link from 'next/link';
 
@@ -19,7 +19,7 @@ export default async function PatientsPage({
   const patientsData: Promise<PatientData> = getPatients({
     locale: lang,
   });
-  const pageData: Promise<PatientsPage> = getPageData({
+  const pageData: Promise<PatientsPageType> = getPageData({
     path: 'patients-page',
     locale: lang,
   });
@@ -38,7 +38,7 @@ export default async function PatientsPage({
         {pageAttributes.header}
       </h1>
       <main className='container mx-auto mt-8 p-3 max-w-screen-md'>
-        <InformationBox title='Casos Clínicos'>
+        <InformationBox title={pageAttributes.clinical_cases}>
           <section className='flex flex-wrap justify-center gap-2 p-4'>
             {patients.map((patient) => (
               <PatientItem

@@ -1,5 +1,7 @@
 import { QuestionType } from './global_types';
-
+import {
+  type BlocksContent}
+from '@strapi/blocks-react-renderer';
 export interface Media {
   id: number;
   attributes: {
@@ -13,19 +15,19 @@ export interface Media {
 
 export interface EvaluationAttributes {
   id: number;
-  personal_data: string;
-  history: string;
-  complaint: string;
-  behavior: string;
-  symptoms: string;
-  other_symptoms: string;
-  risk_factors: string;
-  investigation: string;
-  orl_report: string;
-  larynx_analysis: string;
-  self_evaluation: string;
-  breathing: string;
-  cpfa: string;
+  personal_data: BlocksContent;
+  history: BlocksContent;
+  complaint: BlocksContent;
+  behavior: BlocksContent;
+  symptoms: BlocksContent;
+  other_symptoms: BlocksContent;
+  risk_factors: BlocksContent;
+  investigation: BlocksContent;
+  orl_report: BlocksContent;
+  larynx_analysis: BlocksContent;
+  self_evaluation: BlocksContent;
+  breathing: BlocksContent;
+  cpfa: BlocksContent;
   audio_files: {
     data: Media[];
   };

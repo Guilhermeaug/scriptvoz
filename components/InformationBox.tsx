@@ -1,6 +1,7 @@
 'use client';
 
 import { useProvider } from '@/contexts/Provider';
+import { cn } from '@/util/cn';
 
 interface InformationBoxProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: string;
@@ -15,18 +16,20 @@ export default function InformationBox({
 }: InformationBoxProps) {
   const { color: contextColor } = useProvider();
 
+  const style = cn("rounded-xl border", `border-${color || contextColor}`, className)
+
   return (
-    <section className={`w-full rounded-xl border border-${color || contextColor}`}>
+    <article className={style}>
       {title && (
         <div
           className={`rounded-bl-none rounded-br-none rounded-tl-lg rounded-tr-lg bg-${
             color || contextColor
           } p-2 text-center text-4xl text-white`}
         >
-          <h3>{title}</h3>
+          <h2>{title}</h2>
         </div>
       )}
-      <div className={className}>{children}</div>
-    </section>
+      {children}
+    </article>
   );
 }

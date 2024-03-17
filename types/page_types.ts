@@ -7,13 +7,15 @@ interface Page<T = Record<string, string>> {
 
 interface HomePageAttributes {
   front_text: string;
-  call_text: string;
-  button_text: string;
+  start_button_text: string;
+  login_button_text: string;
+  groups_button_text: string;
   title: string;
 }
 
 interface PatientsPageAttributes {
   header: string;
+  clinical_cases: string;
 }
 
 interface DiagnosticPageAttributes {
@@ -57,12 +59,12 @@ interface TherapeuticPageAttributes {
 interface SignInPageAttributes {
   title: string;
   call_text: string;
-  signup: string;
+  sign_in: string;
 }
 
 interface SignUpPageAttributes {
   title: string;
-  signup: string;
+  sign_up: string;
 }
 
 export type HomePage = Page<HomePageAttributes>;

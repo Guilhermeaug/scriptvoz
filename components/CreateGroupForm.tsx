@@ -1,17 +1,17 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { FormProvider, useForm, Controller } from 'react-hook-form';
-import { z } from 'zod';
-import { Form } from './Form';
 import { createGroup } from '@/lib/groups';
 import { PatientAttributes } from '@/types/patients_types';
-import Select from 'react-select';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
 import * as Dialog from '@radix-ui/react-dialog';
+import { useSession } from 'next-auth/react';
 import { CloseIcon } from 'next/dist/client/components/react-dev-overlay/internal/icons/CloseIcon';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
+import Select from 'react-select';
+import { z } from 'zod';
+import { Form } from './Form';
 
 interface CreateFormGroupProps {
   patients: PatientAttributes[];
@@ -73,11 +73,11 @@ export default function CreateFormGroup({ patients }: CreateFormGroupProps) {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className='bg-blackA6 data-[state=open]:animate-overlayShow fixed inset-0' />
-        <Dialog.Content className='data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none'>
+        <Dialog.Content className='data-[state=open]:animate-contentShow fixed left-[50%] top-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-white p-[25px] shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] focus:outline-none'>
           <Dialog.Title className='text-mauve12 m-0 text-[17px] font-medium'>
             Adicionar Turma
           </Dialog.Title>
-          <Dialog.Description className='text-mauve11 mt-[10px] mb-5 text-[15px] leading-normal'>
+          <Dialog.Description className='text-mauve11 mb-5 mt-[10px] text-[15px] leading-normal'>
             Preencha os campos para criar uma nova turma sob seu controle.
           </Dialog.Description>
           <FormProvider {...registerForm}>
@@ -121,7 +121,7 @@ export default function CreateFormGroup({ patients }: CreateFormGroupProps) {
                 <button
                   type={'submit'}
                   disabled={isSubmitting}
-                  className='btn btn-primary mt-4 btn-wide text-white'
+                  className='btn btn-primary btn-wide mt-4 text-white'
                 >
                   Cadastrar
                 </button>
@@ -129,7 +129,7 @@ export default function CreateFormGroup({ patients }: CreateFormGroupProps) {
               <Dialog.Close asChild>
                 <button
                   type={'button'}
-                  className='text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute top-[10px] right-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none'
+                  className='text-violet11 hover:bg-violet4 focus:shadow-violet7 absolute right-[10px] top-[10px] inline-flex h-[25px] w-[25px] appearance-none items-center justify-center rounded-full focus:shadow-[0_0_0_2px] focus:outline-none'
                   aria-label='Close'
                 >
                   <CloseIcon />

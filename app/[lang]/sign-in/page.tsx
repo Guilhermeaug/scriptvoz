@@ -20,14 +20,14 @@ export default async function LoginPage({
   return (
     <>
       <Header color={'evaluation'} />
-      <main className='mx-auto flex max-w-screen-md flex-col items-center space-y-4 p-2 md:p-5 md:pt-16'>
+      <main className='mx-auto max-w-screen-md space-y-4 p-3 md:pt-8'>
         <SignInForm lang={lang} pageAttributes={pageAttributes} />
         <section className={'text-center text-xl'}>
           <div>
             <span>{pageAttributes.call_text}</span>
             <Link href={`sign-up`} locale={lang} className={'text-primary'}>
               {' '}
-              {pageAttributes.signup}
+              {pageAttributes.sign_in}
             </Link>
           </div>
           <Modal />

@@ -34,6 +34,7 @@ async function verifyIfHasPatient({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
+    cache: 'no-cache',
     next: {
       tags: ['groups'],
     },
@@ -110,6 +111,7 @@ export async function createGroup(data: {
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER}`,
     },
     method: 'POST',
+    cache: 'no-cache',
     body: JSON.stringify({
       data: {
         ...data,
@@ -172,6 +174,7 @@ export async function applyStudent({
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER}`,
       },
       method: 'put',
+      cache: 'no-cache',
       next: {
         tags: ['groups'],
       },
@@ -209,6 +212,7 @@ export async function applyStudent({
             Authorization: `Bearer ${process.env.BEARER}`,
           },
           method: 'POST',
+          cache: 'no-cache',
           body: JSON.stringify({
             data: {
               patient: patientId,
@@ -252,6 +256,7 @@ export async function getGroupData({ slug }: { slug: string }) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
+    cache: 'no-cache',
     next: {
       tags: ['groups'],
     },
@@ -298,6 +303,7 @@ export async function getUserProgress({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
+    cache: 'no-cache',
     next: {
       tags: ['groups'],
     },
@@ -349,6 +355,7 @@ export async function getStudentStatus({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${process.env.BEARER}`,
     },
+    cache: 'no-cache',
     next: {
       tags: ['groups'],
     },

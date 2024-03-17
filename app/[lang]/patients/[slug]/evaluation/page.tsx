@@ -5,9 +5,9 @@ import VideoPlayer from '@/components/VideoPlayer';
 
 import ArrowNavigator from '@/components/ArrowNavigator';
 import AudioSample from '@/components/AudioSample';
+import BlocksRendererClient from '@/components/BlocksRendererClient';
 import BreadCrumb from '@/components/Breadcrumb';
 import Header from '@/components/Header';
-import Markdown from '@/components/Markdown';
 import Questions from '@/components/Questions';
 import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
@@ -51,94 +51,84 @@ export default async function EvaluationStep({
     <>
       <Header />
       <BreadCrumb />
-      <main className='mx-auto max-w-screen-md space-y-4 p-2 md:p-3 md:pt-8'>
-        <section>
-          <article className='space-y-4'>
-            <h2 className='text-center text-4xl'>{pageAttributes.header}</h2>
-            <InformationBox
-              className='space-y-4 p-3'
-              title={pageAttributes.anamnesis}
-            >
+      <main className='mx-auto max-w-screen-md space-y-4 p-3 md:pt-8'>
+        <section className='space-y-4'>
+          <h2 className='text-center text-4xl'>{pageAttributes.header}</h2>
+          <InformationBox title={pageAttributes.anamnesis}>
+            <div className='space-y-4 p-3'>
               <div>
                 <InformationHeader title={pageAttributes.personal_data} />
-                <Markdown>{patient.personal_data}</Markdown>
+                <BlocksRendererClient content={patient.personal_data} />
               </div>
               <div>
                 <InformationHeader title={pageAttributes.history} />
-                <Markdown>{patient.history}</Markdown>
+                <BlocksRendererClient content={patient.history} />
               </div>
               <div>
                 <InformationHeader title={pageAttributes.complaint} />
-                <Markdown>{patient.complaint}</Markdown>
+                <BlocksRendererClient content={patient.complaint} />
               </div>
               <div>
                 <InformationHeader title={pageAttributes.behavior} />
-                <Markdown>{patient.behavior}</Markdown>
+                <BlocksRendererClient content={patient.behavior} />
               </div>
               <div>
                 <InformationHeader title={pageAttributes.symptoms} />
-                <Markdown>{patient.symptoms}</Markdown>
+                <BlocksRendererClient content={patient.symptoms} />
               </div>
               <div>
                 <InformationHeader title={pageAttributes.other_symptoms} />
-                <Markdown>{patient.other_symptoms}</Markdown>
+                <BlocksRendererClient content={patient.other_symptoms} />
               </div>
               <div>
                 <InformationHeader title={pageAttributes.risk_factors} />
-                <Markdown>{patient.risk_factors}</Markdown>
+                <BlocksRendererClient content={patient.risk_factors} />
               </div>
               <div>
                 <InformationHeader title={pageAttributes.investigation} />
-                <Markdown>{patient.investigation}</Markdown>
+                <BlocksRendererClient content={patient.investigation} />
               </div>
-            </InformationBox>
-            <InformationBox
-              className='space-y-4 p-3'
-              title={pageAttributes.vocal_trial}
-            >
+            </div>
+          </InformationBox>
+          <InformationBox title={pageAttributes.vocal_trial}>
+            <div className='space-y-4 p-3'>
               <div className='space-y-4'>
                 <InformationHeader title={pageAttributes.voice_samples} />
                 <AudioSamples audios={patient.audio_files.data} />
               </div>
               <div>
                 <InformationHeader title={pageAttributes.breathing} />
-                <Markdown>{patient.breathing}</Markdown>
+                <BlocksRendererClient content={patient.breathing} />
               </div>
               <div>
                 <InformationHeader title={pageAttributes.cpfa} />
-                <Markdown>{patient.cpfa}</Markdown>
+                <BlocksRendererClient content={patient.cpfa} />
               </div>
               <div className='mx-auto w-[180px] max-w-full'>
                 <VideoPlayer url={patient.personal_video.data.attributes.url} />
               </div>
-            </InformationBox>
-            <InformationBox
-              className='space-y-4 p-3'
-              title={pageAttributes.acoustic_analysis}
-            >
-              <ComplementaryFiles files={patient.complementary_files.data} />
-            </InformationBox>
-            <InformationBox
-              className='space-y-4 p-3'
-              title={pageAttributes.larynx_analysis}
-            >
-              <Markdown>{patient.larynx_analysis}</Markdown>
-            </InformationBox>
-            <InformationBox
-              className='space-y-4 p-3'
-              title={pageAttributes.self_evaluation}
-            >
-              <Markdown>{patient.self_evaluation}</Markdown>
-            </InformationBox>
-          </article>
-          <article className='space-y-4'>
-            <h2 className='text-center text-4xl'>
-              {pageAttributes.ent_assessment}
-            </h2>
-            <InformationBox
-              className='space-y-4 p-3'
-              title={pageAttributes.videolaryngostroboscopy}
-            >
+            </div>
+          </InformationBox>
+          <InformationBox title={pageAttributes.acoustic_analysis}>
+            <ComplementaryFiles files={patient.complementary_files.data} />
+          </InformationBox>
+          <InformationBox title={pageAttributes.larynx_analysis}>
+            <div className='space-y-4 p-3'>
+              <BlocksRendererClient content={patient.larynx_analysis} />
+            </div>
+          </InformationBox>
+          <InformationBox title={pageAttributes.self_evaluation}>
+            <div className='space-y-4 p-3'>
+              <BlocksRendererClient content={patient.self_evaluation} />
+            </div>
+          </InformationBox>
+        </section>
+        <section className='space-y-4'>
+          <h2 className='text-center text-4xl'>
+            {pageAttributes.ent_assessment}
+          </h2>
+          <InformationBox title={pageAttributes.videolaryngostroboscopy}>
+            <div className='space-y-4 p-3'>
               <div className={'mx-auto w-[400px] max-w-full'}>
                 <VideoPlayer url={patient.exam_video.data.attributes.url} />
               </div>
@@ -151,21 +141,24 @@ export default async function EvaluationStep({
                   </div>
                   <div className='collapse-content'>
                     <InformationBox title='Laudo ORL'>
-                      <Markdown>{patient.orl_report}</Markdown>
+                      <div className='p-3'>
+                        <BlocksRendererClient content={patient.orl_report} />
+                      </div>
                     </InformationBox>
                   </div>
                 </div>
               </div>
-            </InformationBox>
-          </article>
+            </div>
+          </InformationBox>
         </section>
-        <InformationBox
-          className='h-min space-y-4 p-3'
-          title={pageAttributes.questions_header}
-        >
-          <InformationHeader title={pageAttributes.call_to_action} />
-          <Questions questions={patient.questions} />
-        </InformationBox>
+        <section>
+          <InformationBox title={pageAttributes.questions_header}>
+            <div className='h-min space-y-4 p-3'>
+              <InformationHeader title={pageAttributes.call_to_action} />
+              <Questions questions={patient.questions} />
+            </div>
+          </InformationBox>
+        </section>
       </main>
       <ArrowNavigator
         href={`/${lang}/patients/${slug}/diagnostic`}
@@ -192,7 +185,7 @@ function AudioSamples({ audios }: { audios: Media[] }) {
 
 function ComplementaryFiles({ files }: { files: Media[] }) {
   return (
-    <div className='mx-auto mt-3 flex max-w-full flex-col gap-4 md:max-w-screen-md'>
+    <div className='mx-auto mt-3 flex max-w-full flex-col gap-4 space-y-4 p-3 md:max-w-screen-md'>
       {files.map(({ attributes: file }, id) => {
         const url = `${process.env.NEXT_PUBLIC_API_URL}${file.url}`;
         return (

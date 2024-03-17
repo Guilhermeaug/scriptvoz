@@ -2,7 +2,7 @@ import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
 import StudentStatus from '@/components/StudentStatus';
 import { getGroupData, toggleGroup } from '@/lib/groups';
-import { Group } from '@/types/group_types';
+import { Group as GroupType } from '@/types/group_types';
 import { BookmarkSlashIcon } from '@heroicons/react/24/solid';
 import { redirect } from 'next/navigation';
 
@@ -16,7 +16,7 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
       id,
       attributes: { title, students, patients },
     },
-  }: Group = await getGroupData({
+  }: GroupType = await getGroupData({
     slug,
   });
 

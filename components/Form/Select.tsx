@@ -9,11 +9,13 @@ interface SelectProps extends React.InputHTMLAttributes<HTMLSelectElement> {
 export default function Select(props: SelectProps) {
   const {
     register,
-    formState: { errors },
+    formState: { errors, touchedFields },
   } = useFormContext();
   const fieldError = get(errors, props.name);
-  const style = classNames('select select-bordered select-primary w-full', {
+  const fieldTouched = get(touchedFields, props.name);
+  const style = classNames('select select-bordered w-full', {
     'select-error': Boolean(fieldError),
+    'select-success': Boolean(fieldTouched) && !Boolean(fieldError),
   });
   let isNumber = props.type === 'number';
 

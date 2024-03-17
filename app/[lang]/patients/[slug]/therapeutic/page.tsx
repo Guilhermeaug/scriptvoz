@@ -1,8 +1,8 @@
 import ArrowNavigator from '@/components/ArrowNavigator';
+import BlocksRendererClient from '@/components/BlocksRendererClient';
 import BreadCrumb from '@/components/Breadcrumb';
 import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
-import Markdown from '@/components/Markdown';
 import Questions from '@/components/Questions';
 import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
@@ -45,18 +45,18 @@ export default async function TherapeuticStep({
       <Header />
       <BreadCrumb />
       <h1 className='mt-3 text-center text-4xl'>{pageAttributes.header}</h1>
-      <main className={'mx-auto max-w-screen-md p-3'}>
+      <main className="mx-auto max-w-screen-md p-3 md:pt-8">
         <InformationBox title={pageAttributes.summary}>
-          <section className='p-3'>
-            <Markdown>{patient.summary}</Markdown>
-          </section>
-          <hr className='separator-line bg-therapeutic' />
-          <section className='space-y-4 p-3'>
-            <Markdown className={'mx-auto text-center'}>
-              {pageAttributes.call_to_action}
-            </Markdown>
-            <Questions questions={patient.questions} />
-          </section>
+          <div className='p-3'>
+            <BlocksRendererClient content={patient.summary} />
+            <hr className='separator-line bg-therapeutic' />
+            <div className='space-y-4 p-3'>
+              <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
+                {pageAttributes.call_to_action}
+              </p>
+              <Questions questions={patient.questions} />
+            </div>
+          </div>
         </InformationBox>
       </main>
       <ArrowNavigator

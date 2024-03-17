@@ -1,8 +1,8 @@
-import Image from 'next/image';
-import Logo from '@/public/cerebro.png';
 import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
+import Logo from '@/public/cerebro.png';
+import Image from 'next/image';
 
 export default async function AboutUs({
   params: { lang },
@@ -12,7 +12,7 @@ export default async function AboutUs({
   return (
     <>
       <Header color={'evaluation'} center />
-      <main className='mx-auto p-3 mt-3 flex flex-col items-center max-w-screen-md'>
+      <main className='mx-auto mt-3 flex max-w-screen-md flex-col items-center p-3'>
         <Image src={Logo} alt='Cérebro humano' />
         <InformationBox title={'Sobre nós'}>
           <article className={'p-4 text-xl '}>

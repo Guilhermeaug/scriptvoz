@@ -3,7 +3,7 @@ import InformationBox from '@/components/InformationBox';
 import InviteButton from '@/components/InviteButton';
 import StudentStatus from '@/components/StudentStatus';
 import { getGroupData, toggleGroup } from '@/lib/groups';
-import { Group } from '@/types/group_types';
+import { Group as GroupType } from '@/types/group_types';
 import { BookmarkSlashIcon } from '@heroicons/react/24/solid';
 import { revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -18,7 +18,7 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
       id,
       attributes: { title, students, patients, isActive },
     },
-  }: Group = await getGroupData({
+  }: GroupType = await getGroupData({
     slug,
   });
 

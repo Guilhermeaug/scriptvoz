@@ -29,9 +29,7 @@ export default function SignUpForm({
 
   const registerForm = useForm<FormData>({
     resolver: zodResolver(schema),
-    defaultValues: {
-      role: roleOptions[0],
-    },
+    mode: 'onBlur',
     shouldUnregister: true,
   });
   const {
@@ -45,13 +43,9 @@ export default function SignUpForm({
     try {
       await signUp(
         {
-          username: data.username,
-          fullName: data.fullName,
-          email: data.email,
-          password: data.password,
+          ...data,
           isTeacher: data.role === roleOptions[2],
         },
-        data,
       );
       await signIn('credentials', {
         email: data.email,
@@ -78,7 +72,7 @@ export default function SignUpForm({
   return (
     <>
       {error && (
-        <div className='alert alert-error'>
+        <div className='alert alert-error mb-2'>
           <svg
             xmlns='http://www.w3.org/2000/svg'
             className='h-6 w-6 shrink-0 stroke-current'
@@ -106,9 +100,9 @@ export default function SignUpForm({
             <button
               type='submit'
               disabled={isSubmitting}
-              className='btn btn-primary btn-block col-span-3 mt-4 text-white'
+              className='btn btn-primary btn-block mt-4 uppercase text-white'
             >
-              {pageAttributes.signup}
+              {pageAttributes.sign_up}
             </button>
           </form>
         </FormProvider>

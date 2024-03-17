@@ -79,114 +79,25 @@ export async function login({
 }
 
 export async function signUp(
-  { username, email, password, isTeacher, fullName }: SignUp,
-  rest: Record<string, string | number>,
+  data: Record<string, unknown>,
 ) {
-  async function createUser() {
-    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`;
-    const res = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username,
-        email,
-        password,
-        isTeacher,
-        fullName,
-      }),
-      cache: 'no-cache',
-    });
-    const json = await res.json();
-    if (res.ok) {
-      return json as Auth;
-    } else {
-      const error = json as SignUpError;
-      return Promise.reject(error);
-    }
+  const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`;
+  const res = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+    cache: 'no-cache',
+  });
+  const json = await res.json();
+  if (res.ok) {
+    return json as Auth;
+  } else {
+    const error = json as SignUpError;
+    return Promise.reject(error);
   }
-
-  async function createAdditionalData() {
-    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/additional-datas`;
-    const res = await fetch(endpoint, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER}`,
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        data: {
-          ...rest,
-        },
-      }),
-      cache: 'no-cache',
-    });
-
-    const json = await res.json();
-    if (res.ok) {
-      return {
-        id: json.data.id as string,
-      };
-    } else {
-      const error = json as SignUpError;
-      return Promise.reject(error);
-    }
-  }
-
-  async function connectUserToData(userId: string, dataId: string) {
-    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/users/${userId}`;
-    const res = await fetch(endpoint, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER}`,
-      },
-      method: 'PUT',
-      body: JSON.stringify({
-        additionalData: {
-          connect: [dataId],
-        },
-      }),
-    });
-
-    const json = await res.json();
-    if (!res.ok) {
-      const error = json as SignUpError;
-      return Promise.reject(error);
-    }
-  }
-
-  async function changeUserRole(id: string, role: 'Student' | 'Teacher') {
-    const rolesMap = {
-      Student: 3,
-      Teacher: 4,
-    };
-
-    const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/users/${id}`;
-    const res = await fetch(endpoint, {
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.NEXT_PUBLIC_BEARER}`,
-      },
-      method: 'PUT',
-      body: JSON.stringify({
-        role: rolesMap[role],
-      }),
-      cache: 'no-cache',
-    });
-
-    const json = await res.json();
-    if (!res.ok) {
-      const error = json as SignUpError;
-      return Promise.reject(error);
-    }
-  }
-
-  const user = await createUser();
-  const additionalData = await createAdditionalData();
-  await connectUserToData(user.user.id, additionalData.id);
-  await changeUserRole(user.user.id, isTeacher ? 'Teacher' : 'Student');
 }
 
 export async function sendResetPasswordCode(email: string) {

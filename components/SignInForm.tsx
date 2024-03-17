@@ -67,9 +67,9 @@ export default function SignInForm({ lang, pageAttributes }: Props) {
           <span>{error}</span>
         </div>
       )}
-      <InformationBox title={pageAttributes.title} className='p-4'>
+      <InformationBox title={pageAttributes.title}>
         <FormProvider {...registerForm}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} className='p-3'>
             <Form.Field>
               <Form.Label htmlFor='email'>Qual seu email?</Form.Label>
               <Form.Input type='email' name='email' />

@@ -16,14 +16,14 @@ export default async function RegisterPage({
   const {
     data: { attributes: pageAttributes },
   }: SignUpPage = await getPageData({
-    path: 'sign-in-page',
+    path: 'sign-up-page',
     locale: lang,
   });
 
   return (
     <>
       <Header color={'evaluation'} />
-      <main className='mx-auto mt-3 flex max-w-screen-md flex-col items-center space-y-4 p-3 md:pt-16'>
+      <main className='mx-auto max-w-screen-md p-3 md:pt-8'>
         <SignUpForm formData={formData} pageAttributes={pageAttributes} />
       </main>
     </>

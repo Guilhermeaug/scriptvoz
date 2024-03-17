@@ -9,22 +9,10 @@ export function CommonFields({
   const roleOptions = attributes.role.values.split(';');
   const genderOptions = attributes.gender.values.split(';');
   const genderPlaceholder = attributes.gender.field.validation;
+  const rolePlaceholder = attributes.role.field.validation;
 
   return (
     <>
-      <Form.Field>
-        <Form.Label htmlFor='role'>{attributes.role.field.label}</Form.Label>
-        <Form.Select type='text' name='role'>
-          {roleOptions.map((value) => {
-            return (
-              <option key={value} value={value}>
-                {value}
-              </option>
-            );
-          })}
-        </Form.Select>
-        <Form.ErrorMessage field='role' />
-      </Form.Field>
       <Form.Field>
         <Form.Label htmlFor='username'>{attributes.username.label}</Form.Label>
         <Form.Input type='text' name='username' />
@@ -75,6 +63,20 @@ export function CommonFields({
         <Form.Label htmlFor='country'>{attributes.country.label}</Form.Label>
         <Form.Input type='text' name='country' />
         <Form.ErrorMessage field='country' />
+      </Form.Field>
+      <Form.Field>
+        <Form.Label htmlFor='role'>{attributes.role.field.label}</Form.Label>
+        <Form.Select type='text' name='role'>
+          <option value=''>{rolePlaceholder}</option>
+          {roleOptions.map((value) => {
+            return (
+              <option key={value} value={value}>
+                {value}
+              </option>
+            );
+          })}
+        </Form.Select>
+        <Form.ErrorMessage field='role' />
       </Form.Field>
     </>
   );

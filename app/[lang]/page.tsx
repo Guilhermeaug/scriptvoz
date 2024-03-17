@@ -1,7 +1,6 @@
 import Markdown from '@/components/Markdown';
 import { useAuth } from '@/lib/auth';
 import { getPageData } from '@/lib/page_data';
-import { HomePage } from '@/types/page_types';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -9,6 +8,7 @@ import InformationBox from '@/components/InformationBox';
 import CEFETMG from '@/public/cefet.png';
 import Logo from '@/public/cerebro-branco.png';
 import UFMG from '@/public/logo-medicina.png';
+import { HomePage as HomePageType } from '@/types/page_types';
 
 export default async function HomePage({
   params: { lang },
@@ -17,16 +17,18 @@ export default async function HomePage({
 }) {
   const {
     data: { attributes: pageAttributes },
-  }: HomePage = await getPageData({
+  }: HomePageType = await getPageData({
     path: 'home-page',
     locale: lang,
   });
 
   const session = await useAuth();
 
+  const buttonStyle = 'btn btn-primary text-white';
+
   return (
     <>
-      <header className='grid justify-items-center bg-standard p-1 md:grid-cols-3'>
+      <header className='bg-standard p-1 md:grid md:grid-cols-3'>
         <div className='flex items-center justify-center gap-2 md:col-span-2'>
           <Image
             src={Logo}
@@ -46,45 +48,37 @@ export default async function HomePage({
           />
         </div>
       </header>
-      <main className='m-auto max-w-screen-md p-2 md:pt-16'>
-        <InformationBox title={pageAttributes.title} color={'diagnostic'}>
-          <article className='p-4'>
-            <Markdown className='prose lg:prose-xl'>
-              {pageAttributes.front_text}
-            </Markdown>
-            <Markdown className='prose lg:prose-xl'>
-              {pageAttributes.call_text}
-            </Markdown>
+      <main className='mx-auto max-w-screen-md p-3 md:pt-8'>
+        <InformationBox title={pageAttributes.title} color='diagnostic'>
+          <div className='p-4'>
+            <Markdown>{pageAttributes.front_text}</Markdown>
             <div className='mt-2 flex justify-end gap-2'>
               {session ? (
                 <>
                   {session.user.isTeacher && (
-                    <Link href={'groups'} locale={lang}>
-                      <button className='btn btn-primary text-white'>
-                        TURMAS
+                    <Link href='groups' locale={lang}>
+                      <button className={buttonStyle}>
+                        {pageAttributes.groups_button_text}
                       </button>
                     </Link>
                   )}
-                  <Link href={'patients'} locale={lang}>
-                    <button className='btn btn-primary text-white'>
-                      {pageAttributes.button_text}
+                  <Link href='patients' locale={lang}>
+                    <button className={buttonStyle}>
+                      {pageAttributes.start_button_text}
                     </button>
                   </Link>
                 </>
               ) : (
-                <Link href={'sign-in'} locale={lang}>
-                  <button className='btn btn-primary text-white'>
-                    Fazer login
+                <Link href='sign-in' locale={lang}>
+                  <button className={buttonStyle}>
+                    {pageAttributes.login_button_text}
                   </button>
                 </Link>
               )}
             </div>
-          </article>
+          </div>
         </InformationBox>
       </main>
-      {/* <footer className={'flex items-center justify-center'}>
-       
-      </footer> */}
     </>
   );
 }

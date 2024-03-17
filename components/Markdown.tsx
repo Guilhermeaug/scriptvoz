@@ -1,6 +1,6 @@
+import { cn } from '@/util/cn';
 import Image from 'next/image';
 import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 
 const MarkdownComponents: object = {
   p: (paragraph: { children?: boolean; node?: any }) => {
@@ -47,9 +47,8 @@ export default function Markdown({
 }) {
   return (
     <ReactMarkdown
-      className={`prose max-w-4xl text-lg ${className}`}
+      className={cn('prose max-w-4xl md:prose-xl', className)}
       components={MarkdownComponents}
-      remarkPlugins={[remarkGfm]}
     >
       {children}
     </ReactMarkdown>
