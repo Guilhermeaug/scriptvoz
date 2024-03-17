@@ -1,5 +1,3 @@
-import InformationHeader from '@/components/InformationHeader';
-
 import InformationBox from '@/components/InformationBox';
 import VideoPlayer from '@/components/VideoPlayer';
 
@@ -8,6 +6,7 @@ import AudioSample from '@/components/AudioSample';
 import BlocksRendererClient from '@/components/BlocksRendererClient';
 import BreadCrumb from '@/components/Breadcrumb';
 import Header from '@/components/Header';
+import InformationHeader from '@/components/InformationHeader';
 import Questions from '@/components/Questions';
 import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
@@ -53,7 +52,9 @@ export default async function EvaluationStep({
       <BreadCrumb />
       <main className='mx-auto max-w-screen-md space-y-4 p-3 md:pt-8'>
         <section className='space-y-4'>
-          <h2 className='text-center text-4xl'>{pageAttributes.header}</h2>
+          <h2 className='text-wrap break-words text-center text-2xl md:text-4xl'>
+            {pageAttributes.header}
+          </h2>
           <InformationBox title={pageAttributes.anamnesis}>
             <div className='space-y-4 p-3'>
               <div>
@@ -110,7 +111,9 @@ export default async function EvaluationStep({
             </div>
           </InformationBox>
           <InformationBox title={pageAttributes.acoustic_analysis}>
-            <ComplementaryFiles files={patient.complementary_files.data} />
+            <div className='space-y-4 p-3'>
+              <ComplementaryFiles files={patient.complementary_files.data} />
+            </div>
           </InformationBox>
           <InformationBox title={pageAttributes.larynx_analysis}>
             <div className='space-y-4 p-3'>
@@ -124,16 +127,15 @@ export default async function EvaluationStep({
           </InformationBox>
         </section>
         <section className='space-y-4'>
-          <h2 className='text-center text-4xl'>
+          <h2 className='text-wrap break-words text-center text-2xl md:text-4xl'>
             {pageAttributes.ent_assessment}
           </h2>
           <InformationBox title={pageAttributes.videolaryngostroboscopy}>
             <div className='space-y-4 p-3'>
-              <div className={'mx-auto w-[400px] max-w-full'}>
+              <div className='mx-auto w-[400px] max-w-full'>
                 <VideoPlayer url={patient.exam_video.data.attributes.url} />
               </div>
               <div className='mx-auto mt-3 flex max-w-screen-md flex-col items-center justify-center gap-6'>
-                <div className={'flex items-center justify-center gap-4'}></div>
                 <div className='collapse collapse-arrow'>
                   <input type='checkbox' />
                   <div className='collapse-title text-xl font-medium'>
@@ -151,7 +153,7 @@ export default async function EvaluationStep({
             </div>
           </InformationBox>
         </section>
-        <section>
+        <section className='space-y-4'>
           <InformationBox title={pageAttributes.questions_header}>
             <div className='h-min space-y-4 p-3'>
               <InformationHeader title={pageAttributes.call_to_action} />
@@ -195,6 +197,7 @@ function ComplementaryFiles({ files }: { files: Media[] }) {
             alt={file.caption || ''}
             width={file.width}
             height={file.height}
+            quality={100}
           />
         );
       })}

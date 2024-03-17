@@ -16,7 +16,11 @@ export default function InformationBox({
 }: InformationBoxProps) {
   const { color: contextColor } = useProvider();
 
-  const style = cn("rounded-xl border", `border-${color || contextColor}`, className)
+  const style = cn(
+    'rounded-xl border',
+    `border-${color || contextColor}`,
+    className,
+  );
 
   return (
     <article className={style}>
@@ -24,9 +28,9 @@ export default function InformationBox({
         <div
           className={`rounded-bl-none rounded-br-none rounded-tl-lg rounded-tr-lg bg-${
             color || contextColor
-          } p-2 text-center text-4xl text-white`}
+          } p-2 text-center text-white`}
         >
-          <h2>{title}</h2>
+          <h3 className='break-words text-lg md:text-3xl'>{title}</h3>
         </div>
       )}
       {children}

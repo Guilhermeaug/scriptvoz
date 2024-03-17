@@ -30,12 +30,12 @@ export default function ArrowNavigator({
   );
 
   return (
-    <nav className={navClasses}>
+    <div className={navClasses}>
       <Link href={href}>
         <button className='btn btn-square btn-ghost'>
           {direction == 'left' ? <ArrowLeftIcon /> : <ArrowRightIcon />}
         </button>
       </Link>
-    </nav>
+    </div>
   );
 }
