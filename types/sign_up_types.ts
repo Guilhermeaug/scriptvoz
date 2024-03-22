@@ -9,6 +9,7 @@ interface Field {
   id: number;
   label: string;
   validation: string;
+  placeholder: string;
 }
 
 interface FieldWithValues {

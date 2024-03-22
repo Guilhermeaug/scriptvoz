@@ -1,6 +1,5 @@
 'use client';
 
-import InformationBox from '@/components/InformationBox';
 import { signUp } from '@/lib/auth';
 import { SignUpError } from '@/types/auth_types';
 import { SignUpPage } from '@/types/page_types';
@@ -31,6 +30,9 @@ export default function SignUpForm({
     resolver: zodResolver(schema),
     mode: 'onBlur',
     shouldUnregister: true,
+    defaultValues: {
+      role: roleOptions[0],
+    },
   });
   const {
     handleSubmit,
@@ -41,12 +43,10 @@ export default function SignUpForm({
   const [error, setError] = useState<string | null>(null);
   async function onSubmit(data: FormData) {
     try {
-      await signUp(
-        {
-          ...data,
-          isTeacher: data.role === roleOptions[2],
-        },
-      );
+      await signUp({
+        ...data,
+        isTeacher: data.role === roleOptions[2],
+      });
       await signIn('credentials', {
         email: data.email,
         password: data.password,
@@ -70,7 +70,7 @@ export default function SignUpForm({
   const watchRole = watch('role');
 
   return (
-    <>
+    <div className='lg:p-6'>
       {error && (
         <div className='alert alert-error mb-2'>
           <svg
@@ -89,24 +89,22 @@ export default function SignUpForm({
           <span>{error}</span>
         </div>
       )}
-      <InformationBox title={pageAttributes.title}>
-        <FormProvider {...registerForm}>
-          <form onSubmit={handleSubmit(onSubmit)} className='p-3'>
-            <CommonFields attributes={formData.data.attributes} />
-            <SpecializedFields
-              attributes={formData.data.attributes}
-              role={watchRole}
-            />
-            <button
-              type='submit'
-              disabled={isSubmitting}
-              className='btn btn-primary btn-block mt-4 uppercase text-white'
-            >
-              {pageAttributes.sign_up}
-            </button>
-          </form>
-        </FormProvider>
-      </InformationBox>
-    </>
+      <FormProvider {...registerForm}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <CommonFields attributes={formData.data.attributes} />
+          <SpecializedFields
+            attributes={formData.data.attributes}
+            role={watchRole}
+          />
+          <button
+            type='submit'
+            disabled={isSubmitting}
+            className='btn btn-primary btn-block mt-4 uppercase text-white'
+          >
+            {pageAttributes.sign_up}
+          </button>
+        </form>
+      </FormProvider>
+    </div>
   );
 }

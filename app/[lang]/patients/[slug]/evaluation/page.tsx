@@ -97,6 +97,9 @@ export default async function EvaluationStep({
                 <InformationHeader title={pageAttributes.voice_samples} />
                 <AudioSamples audios={patient.audio_files.data} />
               </div>
+              <div className='mx-auto w-[180px] max-w-full'>
+                <VideoPlayer url={patient.personal_video.data.attributes.url} />
+              </div>
               <div>
                 <InformationHeader title={pageAttributes.breathing} />
                 <BlocksRendererClient content={patient.breathing} />
@@ -104,9 +107,6 @@ export default async function EvaluationStep({
               <div>
                 <InformationHeader title={pageAttributes.cpfa} />
                 <BlocksRendererClient content={patient.cpfa} />
-              </div>
-              <div className='mx-auto w-[180px] max-w-full'>
-                <VideoPlayer url={patient.personal_video.data.attributes.url} />
               </div>
             </div>
           </InformationBox>
@@ -187,11 +187,12 @@ function AudioSamples({ audios }: { audios: Media[] }) {
 
 function ComplementaryFiles({ files }: { files: Media[] }) {
   return (
-    <div className='mx-auto mt-3 flex max-w-full flex-col gap-4 space-y-4 p-3 md:max-w-screen-md'>
+    <div className='mt-3 max-w-full gap-4 space-y-10 p-3'>
       {files.map(({ attributes: file }, id) => {
         const url = `${process.env.NEXT_PUBLIC_API_URL}${file.url}`;
         return (
           <Image
+            className='block mx-auto'
             key={id}
             src={url}
             alt={file.caption || ''}

@@ -1,5 +1,6 @@
 import { Form } from '@/components/Form';
 import { SignUpFields } from '@/types/sign_up_types';
+import { useFormContext } from 'react-hook-form';
 
 export function CommonFields({
   attributes,
@@ -9,33 +10,54 @@ export function CommonFields({
   const roleOptions = attributes.role.values.split(';');
   const genderOptions = attributes.gender.values.split(';');
   const genderPlaceholder = attributes.gender.field.validation;
-  const rolePlaceholder = attributes.role.field.validation;
+
+  const { register } = useFormContext();
 
   return (
     <>
       <Form.Field>
         <Form.Label htmlFor='username'>{attributes.username.label}</Form.Label>
-        <Form.Input type='text' name='username' />
+        <Form.Input
+          type='text'
+          name='username'
+          placeholder={attributes.username.placeholder}
+        />
         <Form.ErrorMessage field='username' />
       </Form.Field>
       <Form.Field>
         <Form.Label htmlFor='email'>{attributes.email.label}</Form.Label>
-        <Form.Input type='text' name='email' />
+        <Form.Input
+          type='text'
+          name='email'
+          placeholder={attributes.email.placeholder}
+        />
         <Form.ErrorMessage field='email' />
       </Form.Field>
       <Form.Field>
         <Form.Label htmlFor='password'>{attributes.password.label}</Form.Label>
-        <Form.Input type='password' name='password' />
+        <Form.Input
+          type='password'
+          name='password'
+          placeholder={attributes.password.placeholder}
+        />
         <Form.ErrorMessage field='password' />
       </Form.Field>
       <Form.Field>
         <Form.Label htmlFor='fullName'>{attributes.fullName.label}</Form.Label>
-        <Form.Input type='text' name='fullName' />
+        <Form.Input
+          type='text'
+          name='fullName'
+          placeholder={attributes.fullName.placeholder}
+        />
         <Form.ErrorMessage field='fullName' />
       </Form.Field>
       <Form.Field>
         <Form.Label htmlFor='age'>{attributes.age.label}</Form.Label>
-        <Form.Input type='text' name='age' />
+        <Form.Input
+          type='text'
+          name='age'
+          placeholder={attributes.age.placeholder}
+        />
         <Form.ErrorMessage field='age' />
       </Form.Field>
       <Form.Field>
@@ -55,27 +77,39 @@ export function CommonFields({
         <Form.ErrorMessage field='gender' />
       </Form.Field>
       <Form.Field>
+        <Form.Field>
+          <Form.Label htmlFor='country'>{attributes.country.label}</Form.Label>
+          <Form.Input
+            type='text'
+            name='country'
+            placeholder={attributes.country.placeholder}
+          />
+          <Form.ErrorMessage field='country' />
+        </Form.Field>
         <Form.Label htmlFor='city'>{attributes.city.label}</Form.Label>
-        <Form.Input type='text' name='city' />
+        <Form.Input
+          type='text'
+          name='city'
+          placeholder={attributes.city.placeholder}
+        />
         <Form.ErrorMessage field='city' />
       </Form.Field>
       <Form.Field>
-        <Form.Label htmlFor='country'>{attributes.country.label}</Form.Label>
-        <Form.Input type='text' name='country' />
-        <Form.ErrorMessage field='country' />
-      </Form.Field>
-      <Form.Field>
         <Form.Label htmlFor='role'>{attributes.role.field.label}</Form.Label>
-        <Form.Select type='text' name='role'>
-          <option value=''>{rolePlaceholder}</option>
+        <div className='join'>
           {roleOptions.map((value) => {
             return (
-              <option key={value} value={value}>
-                {value}
-              </option>
+              <input
+                key={value}
+                className='btn join-item'
+                type='radio'
+                aria-label={value}
+                value={value}
+                {...register('role')}
+              />
             );
           })}
-        </Form.Select>
+        </div>
         <Form.ErrorMessage field='role' />
       </Form.Field>
     </>

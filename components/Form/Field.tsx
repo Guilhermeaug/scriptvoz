@@ -1,9 +1,12 @@
 'use client';
 
+import { cn } from '@/util/cn';
 import { HTMLAttributes } from 'react';
 
 interface FieldProps extends HTMLAttributes<HTMLDivElement> {}
 
 export default function Field({ ...props }: FieldProps) {
-  return <div className={props.className}>{props.children}</div>;
+  const style = cn('flex-1', props.className);
+
+  return <div className={style}>{props.children}</div>;
 }
