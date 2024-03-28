@@ -1,4 +1,3 @@
-import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
 import { getPageData } from '@/lib/page_data';
 import { getPatients } from '@/lib/patients';
@@ -33,11 +32,8 @@ export default async function PatientsPage({
 
   return (
     <>
-      <Header color='evaluation' />
-      <h1 className='mt-6 text-center text-5xl'>
-        {pageAttributes.header}
-      </h1>
-      <main className='container mx-auto mt-8 p-3 max-w-screen-md'>
+      <h1 className='mt-6 text-center text-5xl'>{pageAttributes.header}</h1>
+      <main className='container mx-auto mt-8 max-w-screen-md p-3'>
         <InformationBox title={pageAttributes.clinical_cases}>
           <section className='flex flex-wrap justify-center gap-2 p-4'>
             {patients.map((patient) => (

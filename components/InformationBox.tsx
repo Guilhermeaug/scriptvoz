@@ -13,6 +13,7 @@ export default function InformationBox({
   color,
   title,
   children,
+  ...props
 }: InformationBoxProps) {
   const { color: contextColor } = useProvider();
 
@@ -23,7 +24,7 @@ export default function InformationBox({
   );
 
   return (
-    <article className={style}>
+    <article className={style} {...props}>
       {title && (
         <div
           className={`rounded-bl-none rounded-br-none rounded-tl-lg rounded-tr-lg bg-${

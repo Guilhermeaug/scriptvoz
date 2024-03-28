@@ -47,7 +47,10 @@ export default function Markdown({
 }) {
   return (
     <ReactMarkdown
-      className={cn('prose max-w-4xl md:prose-xl', className)}
+      className={cn(
+        'prose prose-stone max-w-4xl text-justify md:prose-xl',
+        className,
+      )}
       components={MarkdownComponents}
     >
       {children}

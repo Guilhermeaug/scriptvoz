@@ -1,39 +1,36 @@
 import ArrowNavigator from '@/components/ArrowNavigator';
 import BlocksRendererClient from '@/components/BlocksRendererClient';
-import BreadCrumb from '@/components/Breadcrumb';
-import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
-import Pills from '@/components/Pills';
+import Questions from '@/components/Questions';
 import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
-import { DiagnosticPage } from '@/types/page_types';
+import { TherapeuticPage } from '@/types/page_types';
 import { Patient } from '@/types/patients_types';
-import arrayShuffle from 'array-shuffle';
 
 export const metadata = {
-  title: 'Diagnóstico fonoaudiológico',
+  title: 'Decisão Terapéutica',
   description: 'Projeto de pesquisa em Fonoaudiologia',
 };
 
-interface DiagnosticStepProps {
+interface TherapeuticStepProps {
   params: { lang: string; slug: string };
 }
 
-export default async function EvaluationStep({
+export default async function TherapeuticStep({
   params: { lang, slug },
-}: DiagnosticStepProps) {
+}: TherapeuticStepProps) {
   const patientPromise: Promise<Patient> = getPatient({
     locale: lang,
     slug,
   });
-  const pagePromise: Promise<DiagnosticPage> = getPageData({
-    path: 'diagnostic-page',
+  const pagePromise: Promise<TherapeuticPage> = getPageData({
+    path: 'therapeutic-page',
     locale: lang,
   });
   const [
     {
       data: {
-        attributes: { diagnostic: patient },
+        attributes: { therapeutic: patient },
       },
     },
     {
@@ -43,32 +40,25 @@ export default async function EvaluationStep({
 
   return (
     <>
-      <Header />
-      <BreadCrumb />
       <h1 className='mt-3 text-center text-4xl'>{pageAttributes.header}</h1>
-      <main className={'mx-auto max-w-screen-md p-3 md:pt-8'}>
+      <div className='mx-auto max-w-screen-md p-3 md:pt-8'>
         <InformationBox title={pageAttributes.summary}>
           <div className='p-3'>
             <BlocksRendererClient content={patient.summary} />
-            <hr className='separator-line bg-diagnostic' />
-            <div className='p-3'>
+            <hr className='separator-line bg-therapeutic' />
+            <div className='space-y-4 p-3'>
               <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
                 {pageAttributes.call_to_action}
               </p>
-              <Pills
-                patientId={patient.id}
-                pills={arrayShuffle(patient.pills)}
-              />
+              <Questions questions={patient.questions} />
             </div>
           </div>
         </InformationBox>
-      </main>
+      </div>
       <ArrowNavigator
-        href={`/${lang}/patients/${slug}/therapeutic`}
+        href={`/${lang}/patients/${slug}/finished`}
         direction='right'
-        ids={patient.pills
-          .filter((pill) => pill.correct)
-          .map((pill) => pill.id)}
+        ids={patient.questions.map((q) => q.id)}
       />
     </>
   );

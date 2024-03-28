@@ -32,7 +32,7 @@ export default function Modal() {
   return (
     <>
       <button
-        className='btn btn-link text-xl'
+        className='btn btn-link block text-xl'
         onClick={() => dialog?.current?.showModal()}
       >
         Esqueci minha senha

@@ -1,6 +1,5 @@
 'use client';
 
-import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
 import { resetPassword } from '@/lib/auth';
 import { useRouter } from 'next/navigation';
@@ -33,7 +32,6 @@ export default function ResetPasswordPage({
 
   return (
     <>
-      <Header color={'evaluation'} />
       <main className='mx-auto flex max-w-screen-md flex-col items-center space-y-4 p-2 md:p-5 md:pt-16'>
         <InformationBox title='Recuperação de Senha' className='p-3'>
           <div className='flex flex-col items-center space-y-8 py-4'>

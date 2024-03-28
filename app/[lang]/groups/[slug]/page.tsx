@@ -1,4 +1,3 @@
-import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
 import InviteButton from '@/components/InviteButton';
 import StudentStatus from '@/components/StudentStatus';
@@ -35,7 +34,6 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
 
   return (
     <>
-      <Header color={'evaluation'} />
       <h1 className={'p-3 text-center text-4xl'}>Docente</h1>
       <main className='mx-auto mt-4 flex max-w-screen-md flex-col space-y-4 p-3'>
         <InformationBox title='Alunos'>

@@ -5,9 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import InformationBox from '@/components/InformationBox';
-import CEFETMG from '@/public/cefet.png';
-import Logo from '@/public/cerebro-branco.png';
-import UFMG from '@/public/logo-medicina.png';
+
 import { HomePage as HomePageType } from '@/types/page_types';
 
 export default async function HomePage({
@@ -28,26 +26,6 @@ export default async function HomePage({
 
   return (
     <>
-      <header className='bg-standard p-1 md:grid md:grid-cols-3'>
-        <div className='flex items-center justify-center gap-2 md:col-span-2'>
-          <Image
-            src={Logo}
-            alt='Cérebro humano'
-            className='hidden max-w-full md:block'
-          />
-          <h1 className='text-center text-5xl text-white md:text-6xl'>
-            Script Voz
-          </h1>
-        </div>
-        <div className='flex items-center justify-end gap-4 pr-4'>
-          <Image src={UFMG} alt={'Logo da UFMG'} className='w-28 md:w-48' />
-          <Image
-            src={CEFETMG}
-            alt={'Logo do CEFETMG'}
-            className='w-16 md:w-28'
-          />
-        </div>
-      </header>
       <main className='mx-auto max-w-screen-md p-3 md:pt-8'>
         <InformationBox title={pageAttributes.title} color='diagnostic'>
           <div className='p-4'>

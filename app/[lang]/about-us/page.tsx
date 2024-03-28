@@ -1,4 +1,3 @@
-import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
 import Logo from '@/public/cerebro.png';
@@ -11,7 +10,6 @@ export default async function AboutUs({
 }) {
   return (
     <>
-      <Header color={'evaluation'} center />
       <main className='mx-auto mt-3 flex max-w-screen-md flex-col items-center p-3'>
         <Image src={Logo} alt='Cérebro humano' />
         <InformationBox title={'Sobre nós'}>

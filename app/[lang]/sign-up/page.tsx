@@ -1,4 +1,3 @@
-import Header from '@/components/Header';
 import SignUpForm from '@/components/SignUpForm/SignUpForm';
 import { getPageData } from '@/lib/page_data';
 import ScriptVozImage from '@/public/faviconImage.png';
@@ -25,8 +24,7 @@ export default async function RegisterPage({
 
   return (
     <>
-      <Header color={'evaluation'} />
-      <main className='mx-auto lg:grid lg:grid-cols-2 lg:gap-6'>
+      <main className='mx-auto lg:grid lg:min-h-[calc(100vh-7rem)] lg:grid-cols-2 lg:gap-6'>
         <div
           className='hidden lg:mx-auto lg:block lg:h-full lg:w-full lg:space-y-3 lg:p-7'
           style={{

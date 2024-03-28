@@ -1,3 +1,4 @@
+import Navbar from '@/components/Navbar';
 import './globals.css';
 
 import Provider from '@/contexts/Provider';
@@ -30,7 +31,10 @@ export default function RootLayout({
     <html lang={params.lang} className={garamond.className}>
       <body>
         <NextAuthProvider>
-          <Provider>{children}</Provider>
+          <Provider>
+            <Navbar />
+            {children}
+          </Provider>
         </NextAuthProvider>
       </body>
     </html>

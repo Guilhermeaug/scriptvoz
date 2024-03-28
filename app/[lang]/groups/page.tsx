@@ -1,6 +1,5 @@
 import CreateFormGroup from '@/components/CreateGroupForm';
 import GroupCard from '@/components/GroupCard';
-import Header from '@/components/Header';
 import InformationBox from '@/components/InformationBox';
 import { authOptions } from '@/lib/auth';
 import { getGroups } from '@/lib/groups';
@@ -41,7 +40,6 @@ export default async function GroupPage({ params: { lang } }: GroupProps) {
 
   return (
     <>
-      <Header />
       <h1 className={'p-3 text-center text-4xl'}>Docente</h1>
       <main className='mx-auto mt-4 flex max-w-screen-md flex-col space-y-4 p-3'>
         <InformationBox title={'Turmas'} color={'diagnostic'}>
