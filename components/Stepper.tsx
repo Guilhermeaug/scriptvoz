@@ -19,9 +19,6 @@ function buildStepper(p: keyof typeof stepsObj) {
         Diagnóstico
       </li>
       <li className={`step ${value >= 3 ? 'step-primary' : ''}`}>Terapia</li>
-      <li className={`step ${value >= 4 ? 'step-primary' : ''}`}>
-        Agradecimento
-      </li>
     </>
   );
 }
