@@ -79,6 +79,10 @@ export default async function EvaluationStep({
                 <BlocksRendererClient content={patient.risk_factors} />
               </div>
               <div>
+                <InformationHeader title={pageAttributes.vocal_quality} />
+                <BlocksRendererClient content={patient.vocal_quality} />
+              </div>
+              <div>
                 <InformationHeader title={pageAttributes.investigation} />
                 <BlocksRendererClient content={patient.investigation} />
               </div>

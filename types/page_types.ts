@@ -49,6 +49,7 @@ interface EvaluationPageAttributes {
   ent_assessment: string;
   questions_header: string;
   see_results: string;
+  vocal_quality: string;
 }
 
 interface TherapeuticPageAttributes {

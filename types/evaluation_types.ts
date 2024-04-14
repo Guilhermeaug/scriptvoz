@@ -28,6 +28,7 @@ export interface EvaluationAttributes {
   self_evaluation: BlocksContent;
   breathing: BlocksContent;
   cpfa: BlocksContent;
+  vocal_quality: BlocksContent;
   audio_files: {
     data: Media[];
   };
