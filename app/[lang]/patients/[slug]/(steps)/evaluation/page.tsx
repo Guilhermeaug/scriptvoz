@@ -90,7 +90,7 @@ export default async function EvaluationStep({
                 <InformationHeader title={pageAttributes.voice_samples} />
                 <AudioSamples audios={patient.audio_files.data} />
               </div>
-              <div className='mx-auto w-[40ch] max-w-full'>
+              <div className='mx-auto w-[25ch]'>
                 <VideoPlayer url={patient.personal_video.data.attributes.url} />
               </div>
               <div>
@@ -109,7 +109,7 @@ export default async function EvaluationStep({
                 <div className='collapse-content'>
                   <div className='p-3'>
                     <BlocksRendererClient
-                      content={patient.see_evaluation_results}
+                      content={patient.see_vocal_results}
                     />
                   </div>
                 </div>
