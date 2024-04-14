@@ -40,6 +40,8 @@ export interface EvaluationAttributes {
   personal_video: {
     data: Media;
   };
+  see_evaluation_results: BlocksContent;
+  see_vocal_results: BlocksContent;
   questions: QuestionType[];
   createdAt: string;
   updatedAt: string;

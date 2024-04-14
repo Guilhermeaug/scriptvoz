@@ -12,7 +12,6 @@ import { getPatient } from '@/lib/patients';
 import { Media } from '@/types/evaluation_types';
 import { EvaluationPage } from '@/types/page_types';
 import { Patient } from '@/types/patients_types';
-import Link from 'next/link';
 
 export const metadata = {
   title: 'Avaliação Fonoaudiológica',
@@ -73,9 +72,6 @@ export default async function EvaluationStep({
               <div>
                 <InformationHeader title={pageAttributes.symptoms} />
                 <BlocksRendererClient content={patient.symptoms} />
-              </div>
-              <div>
-                <InformationHeader title={pageAttributes.other_symptoms} />
                 <BlocksRendererClient content={patient.other_symptoms} />
               </div>
               <div>
@@ -94,7 +90,7 @@ export default async function EvaluationStep({
                 <InformationHeader title={pageAttributes.voice_samples} />
                 <AudioSamples audios={patient.audio_files.data} />
               </div>
-              <div className='mx-auto w-[25ch] max-w-full'>
+              <div className='mx-auto w-[40ch] max-w-full'>
                 <VideoPlayer url={patient.personal_video.data.attributes.url} />
               </div>
               <div>
@@ -105,6 +101,19 @@ export default async function EvaluationStep({
                 <InformationHeader title={pageAttributes.cpfa} />
                 <BlocksRendererClient content={patient.cpfa} />
               </div>
+              <div className='collapse collapse-arrow'>
+                <input type='checkbox' />
+                <div className='collapse-title text-xl font-medium'>
+                  {pageAttributes.see_results}
+                </div>
+                <div className='collapse-content'>
+                  <div className='p-3'>
+                    <BlocksRendererClient
+                      content={patient.see_evaluation_results}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </InformationBox>
           <InformationBox
@@ -113,13 +122,19 @@ export default async function EvaluationStep({
           >
             <div className='space-y-4 p-3'>
               <ComplementaryFiles files={patient.complementary_files.data} />
-              <Link
-                href='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
-                target='_blank'
-                className='block pt-3 text-xl font-semibold text-sky-600 underline'
-              >
-                Visualize os resultados da avaliação
-              </Link>
+              <div className='collapse collapse-arrow'>
+                <input type='checkbox' />
+                <div className='collapse-title text-xl font-medium'>
+                  {pageAttributes.see_results}
+                </div>
+                <div className='collapse-content'>
+                  <div className='p-3'>
+                    <BlocksRendererClient
+                      content={patient.see_evaluation_results}
+                    />
+                  </div>
+                </div>
+              </div>
             </div>
           </InformationBox>
           <InformationBox

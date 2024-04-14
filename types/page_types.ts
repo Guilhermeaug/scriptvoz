@@ -48,6 +48,7 @@ interface EvaluationPageAttributes {
   vocal_trial: string;
   ent_assessment: string;
   questions_header: string;
+  see_results: string;
 }
 
 interface TherapeuticPageAttributes {
