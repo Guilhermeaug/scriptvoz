@@ -40,7 +40,7 @@ export default async function FinishPage({ params: { lang, slug } }: Props) {
         <header className='text-center text-3xl'>
           <h1>Parabéns por terminar o programa</h1>
         </header>
-        <main className='flex flex-col items-center space-y-8'>
+        <div className='flex flex-col items-center space-y-8'>
           <InformationHeader title='Resumo' />
           <InformationBox className='border-none'>
             <Markdown>
@@ -53,7 +53,7 @@ export default async function FinishPage({ params: { lang, slug } }: Props) {
               Salvar resultado
             </button>
           </form>
-        </main>
+        </div>
       </div>
     </>
   );

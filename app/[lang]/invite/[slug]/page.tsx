@@ -42,7 +42,7 @@ export default async function GroupInvite({
   }
 
   return (
-    <main
+    <div
       className={'flex h-screen flex-col items-center justify-center gap-8'}
     >
       <>
@@ -57,6 +57,6 @@ export default async function GroupInvite({
           </button>
         </form>
       </>
-    </main>
+    </div>
   );
 }

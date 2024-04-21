@@ -33,7 +33,7 @@ export default async function PatientsPage({
   return (
     <>
       <h1 className='mt-6 text-center text-5xl'>{pageAttributes.header}</h1>
-      <main className='container mx-auto mt-8 max-w-screen-md p-3'>
+      <div className='container mx-auto mt-8 max-w-screen-md p-3'>
         <InformationBox title={pageAttributes.clinical_cases}>
           <section className='flex flex-wrap justify-center gap-2 p-4'>
             {patients.map((patient) => (
@@ -45,7 +45,7 @@ export default async function PatientsPage({
             ))}
           </section>
         </InformationBox>
-      </main>
+      </div>
     </>
   );
 }

@@ -50,6 +50,9 @@ interface EvaluationPageAttributes {
   questions_header: string;
   see_results: string;
   vocal_quality: string;
+  vocal_evaluation: string;
+  symptoms_info: string;
+  symptoms_link: string;
 }
 
 interface TherapeuticPageAttributes {
@@ -69,6 +72,19 @@ interface SignUpPageAttributes {
   sign_up: string;
 }
 
+interface GeneralAttributes {
+  summary: string;
+  diagnostic: string;
+  evaluation: string;
+  therapeutic: string;
+}
+
+interface FooterAttributes {
+  about_us: string;
+  contact: string;
+  bibliographic_reference: string;
+}
+
 export type HomePage = Page<HomePageAttributes>;
 export type PatientsPage = Page<PatientsPageAttributes>;
 export type DiagnosticPage = Page<DiagnosticPageAttributes>;
@@ -76,3 +92,6 @@ export type EvaluationPage = Page<EvaluationPageAttributes>;
 export type TherapeuticPage = Page<TherapeuticPageAttributes>;
 export type SignInPage = Page<SignInPageAttributes>;
 export type SignUpPage = Page<SignUpPageAttributes>;
+export type GeneralPage = Page<GeneralAttributes>;
+export type FooterPage = Page<FooterAttributes>;
+

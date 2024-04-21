@@ -1,6 +1,7 @@
 import Navbar from '@/components/Navbar';
 import './globals.css';
 
+import Footer from '@/components/Footer';
 import Provider from '@/contexts/Provider';
 import { NextAuthProvider } from '@/contexts/SessionProvider';
 import { i18n } from '@/i18n-config';
@@ -11,7 +12,7 @@ export const metadata = {
   description: 'Simulador de casos clínicos em fonoaudiologia',
 };
 
-const garamond = Nunito_Sans({
+const nunito = Nunito_Sans({
   subsets: ['latin'],
   display: 'auto',
 });
@@ -28,12 +29,13 @@ export default function RootLayout({
   params: { lang: string };
 }) {
   return (
-    <html lang={params.lang} className={garamond.className}>
-      <body>
+    <html lang={params.lang} className={nunito.className}>
+      <body className='flex min-h-screen flex-col'>
         <NextAuthProvider>
           <Provider>
             <Navbar />
-            {children}
+            <main className='flex-grow'>{children}</main>
+            <Footer lang={params.lang} />
           </Provider>
         </NextAuthProvider>
       </body>

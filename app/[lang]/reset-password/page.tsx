@@ -32,7 +32,7 @@ export default function ResetPasswordPage({
 
   return (
     <>
-      <main className='mx-auto flex max-w-screen-md flex-col items-center space-y-4 p-2 md:p-5 md:pt-16'>
+      <div className='mx-auto flex max-w-screen-md flex-col items-center space-y-4 p-2 md:p-5 md:pt-16'>
         <InformationBox title='Recuperação de Senha' className='p-3'>
           <div className='flex flex-col items-center space-y-8 py-4'>
             {error && <p className='text-red-500'>{error}</p>}
@@ -52,7 +52,7 @@ export default function ResetPasswordPage({
             </button>
           </div>
         </InformationBox>
-      </main>
+      </div>
     </>
   );
 }

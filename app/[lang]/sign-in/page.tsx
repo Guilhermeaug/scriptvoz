@@ -21,7 +21,7 @@ export default async function LoginPage({
 
   return (
     <>
-      <main className='mx-auto lg:grid lg:h-full lg:min-h-[calc(100vh-7rem)] lg:grid-cols-2 lg:gap-6'>
+      <div className='mx-auto lg:grid lg:h-full lg:min-h-[calc(100vh-7rem)] lg:grid-cols-2 lg:gap-6'>
         <div
           className='hidden lg:mx-auto lg:block lg:h-full lg:w-full lg:space-y-3 lg:p-7'
           style={{
@@ -57,7 +57,7 @@ export default async function LoginPage({
             <Modal />
           </div>
         </div>
-      </main>
+      </div>
     </>
   );
 }

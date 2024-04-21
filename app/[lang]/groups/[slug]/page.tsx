@@ -33,9 +33,9 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
   }
 
   return (
-    <>
+    <div>
       <h1 className={'p-3 text-center text-4xl'}>Docente</h1>
-      <main className='mx-auto mt-4 flex max-w-screen-md flex-col space-y-4 p-3'>
+      <div className='mx-auto mt-4 flex max-w-screen-md flex-col space-y-4 p-3'>
         <InformationBox title='Alunos'>
           <article className='space-y-14 p-4'>
             <ul className={'join join-vertical w-full'}>
@@ -69,7 +69,7 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
             </div>
           </article>
         </InformationBox>
-      </main>
-    </>
+      </div>
+    </div>
   );
 }

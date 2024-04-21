@@ -45,7 +45,7 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
           </button>
         </form>
       </header>
-      <main className='mt-6'>
+      <div className='mt-6'>
         <section>
           <InformationHeader title='Relação dos estudantes' />
           <InformationBox title='Alunos'>
@@ -63,7 +63,7 @@ export default async function Group({ params: { lang, slug } }: GroupProps) {
             </div>
           </InformationBox>
         </section>
-      </main>
+      </div>
     </>
   );
 }
