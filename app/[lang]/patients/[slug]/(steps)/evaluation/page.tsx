@@ -44,7 +44,15 @@ export default async function EvaluationStep({
     },
   ] = await Promise.all([patientPromise, pagePromise]);
 
-  console.log(patient.questions)
+  const correctAmount = patient.questions.reduce(
+    (sum, q) =>
+      sum + q.test_cases.reduce((acc, ts) => acc + (ts.is_correct ? 1 : 0), 0),
+    0,
+  );
+  const correctIds = patient.questions
+    .flatMap((q) => q.test_cases)
+    .filter((ts) => ts.is_correct)
+    .map((ts) => ts.id);
 
   return (
     <div className='mx-auto mt-6 max-w-screen-md space-y-4 p-3'>
@@ -81,6 +89,7 @@ export default async function EvaluationStep({
               <InformationHeader
                 title={pageAttributes.symptoms}
                 subtitle={pageAttributes.symptoms_info}
+                subtitleLink={pageAttributes.symptoms_link}
               />
               <BlocksRendererClient content={patient.symptoms} />
               <BlocksRendererClient content={patient.other_symptoms} />
@@ -105,17 +114,6 @@ export default async function EvaluationStep({
               <InformationHeader title={pageAttributes.voice_samples} />
               <AudioSamples audios={patient.audio_files.data} />
             </div>
-            <div className='mx-auto w-[25ch]'>
-              <VideoPlayer url={patient.personal_video.data.attributes.url} />
-            </div>
-            <div>
-              <InformationHeader title={pageAttributes.breathing} />
-              <BlocksRendererClient content={patient.breathing} />
-            </div>
-            <div>
-              <InformationHeader title={pageAttributes.cpfa} />
-              <BlocksRendererClient content={patient.cpfa} />
-            </div>
             <div className='collapse collapse-arrow'>
               <input type='checkbox' />
               <div className='collapse-title text-xl font-medium'>
@@ -126,6 +124,17 @@ export default async function EvaluationStep({
                   <BlocksRendererClient content={patient.see_vocal_results} />
                 </div>
               </div>
+            </div>
+            <div className='mx-auto w-[25ch]'>
+              <VideoPlayer url={patient.personal_video.data.attributes.url} />
+            </div>
+            <div>
+              <InformationHeader title={pageAttributes.breathing} />
+              <BlocksRendererClient content={patient.breathing} />
+            </div>
+            <div>
+              <InformationHeader title={pageAttributes.cpfa} />
+              <BlocksRendererClient content={patient.cpfa} />
             </div>
           </div>
         </InformationBox>
@@ -201,15 +210,16 @@ export default async function EvaluationStep({
         <InformationBox title={pageAttributes.questions_header} id='questions'>
           <div className='h-min space-y-4 p-3'>
             <InformationHeader title={pageAttributes.call_to_action} />
-            <Questions patientId={patient.id} questions={patient.questions} />
+            <Questions questions={patient.questions} />
           </div>
         </InformationBox>
       </section>
-      {/* <ArrowNavigator
+      <ArrowNavigator
         href={`/${lang}/patients/${slug}/diagnostic`}
         direction='right'
-        ids={patient.questions.map((q) => q.id)}
-      /> */}
+        ids={correctIds}
+        correctAmount={correctAmount}
+      />
     </div>
   );
 }

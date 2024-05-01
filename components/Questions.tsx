@@ -2,9 +2,8 @@
 
 import { QuestionType, TestStatus, TestType } from '@/types/global_types';
 import { cn } from '@/util/cn';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
-import InformationBox from './InformationBox';
 import Markdown from './Markdown';
 
 const variations = {
@@ -19,29 +18,43 @@ interface QuestionStatus {
 }
 
 export default function Questions({
-  patientId,
   questions,
 }: {
-  patientId: number;
   questions: QuestionType[];
 }) {
-  const [questionStatusStorage = [], saveQuestion] = useLocalStorage<
+  const [questionStatusStorage = [], saveQuestions] = useLocalStorage<
     QuestionStatus[]
   >('questions', []);
 
-  function handleAnswer(testCaseId: number) {}
+  const [questionsStorage, setQuestionsStorage] = useState<QuestionStatus[]>(
+    [],
+  );
+  useEffect(() => {
+    setQuestionsStorage(questionStatusStorage);
+  }, [questionStatusStorage]);
+
+  function handleAnswer(questionStatus: QuestionStatus, testCaseId: number) {
+    questionStatus.testCasesStatus = questionStatus.testCasesStatus.map((ts) =>
+      ts.id === testCaseId ? { ...ts, answered: true } : ts,
+    );
+    const storageCopy = questionStatusStorage
+      .slice()
+      .filter((qs) => qs.id !== questionStatus.id);
+    storageCopy.push(questionStatus);
+    saveQuestions(storageCopy);
+  }
 
   return (
     <article className='space-y-8'>
       {questions.map((question) => {
-        let questionStatus = questionStatusStorage.find(
+        let questionStatus = questionsStorage.find(
           (qs) => qs.id === question.id,
         );
         if (!questionStatus) {
           questionStatus = {
             id: question.id,
-            testCasesStatus: question.test_cases.map((testCase) => ({
-              id: testCase.id,
+            testCasesStatus: question.test_cases.map((ts) => ({
+              id: ts.id,
               answered: false,
             })),
           };
@@ -66,11 +79,12 @@ interface QuestionProps {
   title: string;
   status: QuestionStatus;
   testCases: TestType[];
-  handleAnswer: (testCaseId: number) => void;
+  handleAnswer: (questionStatus: QuestionStatus, testCaseId: number) => void;
 }
 
 function Question({
-  title: question,
+  id,
+  title,
   testCases,
   status,
   handleAnswer,
@@ -79,63 +93,47 @@ function Question({
 
   return (
     <div className='space-y-3'>
-      <h3 className='text-xl font-semibold'>{question}</h3>
-      <Options
-        status={status}
-        testCases={testCases}
-        handleAnswer={handleAnswer}
-        setSelectedAnswer={setSelectedAnswer}
-      />
+      <h3 className='text-xl font-semibold'>
+        <Markdown>{title}</Markdown>
+      </h3>
+      <div className='flex flex-col gap-4'>
+        {testCases.map((testCase, index) => {
+          const testCaseStatus = status.testCasesStatus.find(
+            (t) => t.id === testCase.id,
+          )!;
+
+          const isAnswered = testCaseStatus.answered || false;
+          const isCorrect = isAnswered && testCase.is_correct;
+
+          let variation: keyof typeof variations = 'neutral';
+          if (isCorrect) {
+            variation = 'correct';
+          } else if (isAnswered) {
+            variation = 'incorrect';
+          }
+          const style = cn(
+            'rounded-md border px-4 py-2 text-left shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+            variations[variation],
+          );
+          return (
+            <button
+              key={testCase.id}
+              onClick={() => {
+                setSelectedAnswer(index);
+                handleAnswer(status, testCase.id);
+              }}
+              className={style}
+            >
+              <p className='text-slate text-sm font-medium'>{testCase.title}</p>
+            </button>
+          );
+        })}
+      </div>
       {selectedAnswer !== undefined && (
-        <InformationBox title={question} className='mt-3'>
-          <Markdown className={'p-3'}>{}</Markdown>
-        </InformationBox>
+        <Markdown className={'p-3'}>
+          {testCases[selectedAnswer].feedback}
+        </Markdown>
       )}
-    </div>
-  );
-}
-
-function Options({
-  status,
-  testCases,
-  handleAnswer,
-  setSelectedAnswer,
-}: {
-  status: QuestionStatus;
-  testCases: TestType[];
-  handleAnswer: (testCaseId: number) => void;
-  setSelectedAnswer: (index: number) => void;
-}) {
-  return (
-    <div className='flex flex-col gap-4'>
-      {testCases.map((testCase, index) => {
-        const testCaseStatus = status.testCasesStatus.find(
-          (t) => t.id === testCase.id,
-        )!;
-
-        const isAnswered = testCaseStatus.isAnswered || false;
-        const isCorrect = isAnswered && testCase.is_correct;
-
-        let variation: keyof typeof variations = 'neutral';
-        if (isCorrect) {
-          variation = 'correct';
-        } else if (isAnswered) {
-          variation = 'incorrect';
-        }
-        const style = cn(
-          'rounded-md border px-4 py-2 text-left shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
-          variations[variation],
-        );
-        return (
-          <button
-            key={testCase.id}
-            onClick={() => handleAnswer(testCase.id)}
-            className={style}
-          >
-            <p className='text-slate text-sm font-medium'>{testCase.title}</p>
-          </button>
-        );
-      })}
     </div>
   );
 }

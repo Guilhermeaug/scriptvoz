@@ -1,33 +1,46 @@
 'use client';
 
-import { useProvider } from '@/contexts/Provider';
+import { TestStatus } from '@/types/global_types';
+import { cn } from '@/util/cn';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
-import classNames from 'classnames';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { useReadLocalStorage } from 'usehooks-ts';
 
 interface ArrowNavigatorProps {
   direction: 'left' | 'right';
   href: string;
   ids?: number[];
+  correctAmount?: number;
+}
+
+interface QuestionStatus {
+  id: number;
+  testCasesStatus: TestStatus[];
 }
 
 export default function ArrowNavigator({
   direction,
   href,
   ids = [],
+  correctAmount = 0,
 }: ArrowNavigatorProps) {
-  const { color, completionSet } = useProvider();
+  const storage = useReadLocalStorage<QuestionStatus[]>('questions') || [];
+  let testCasesIdsLength = storage
+    .flatMap((qs) => qs.testCasesStatus)
+    .filter((ts) => ids.find((id) => id === ts.id))
+    .filter((ts) => ts.answered).length;
 
-  const isCompleted = ids.every((id) => completionSet.has(id));
+  const [isCompleted, setIsCompleted] = useState(false);
+  useEffect(() => {
+    setIsCompleted(testCasesIdsLength === correctAmount)
+  }, [correctAmount, storage, testCasesIdsLength])
 
-  const navClasses = classNames(
-    `w-24 rounded-br-lg bg-${color} p-2 text-white`,
-    {
-      'polygon-bl flex justify-end float-right mt-6': direction === 'right',
-      'polygon-tr': direction === 'left',
-      hidden: !isCompleted && direction === 'right',
-    },
-  );
+  const navClasses = cn(`w-24 rounded-br-lg bg-evaluation p-2 text-white`, {
+    'polygon-bl flex justify-end float-right mt-6': direction === 'right',
+    'polygon-tr': direction === 'left',
+    hidden: !isCompleted && direction === 'right',
+  });
 
   return (
     <div className={navClasses}>
