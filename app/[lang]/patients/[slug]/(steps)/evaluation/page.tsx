@@ -44,6 +44,8 @@ export default async function EvaluationStep({
     },
   ] = await Promise.all([patientPromise, pagePromise]);
 
+  console.log(patient)
+
   return (
     <div className='mx-auto mt-6 max-w-screen-md space-y-4 p-3'>
       <section className='space-y-4'>
@@ -141,7 +143,7 @@ export default async function EvaluationStep({
               <div className='collapse-content'>
                 <div className='p-3'>
                   <BlocksRendererClient
-                    content={patient.see_evaluation_results}
+                    content={patient.see_accoustic_results}
                   />
                 </div>
               </div>

@@ -1,15 +1,11 @@
 export interface QuestionType {
   id: number;
   question: string;
-  A: string;
-  B: string;
-  C: string;
-  D: string;
-  feedback_a: string;
-  feedback_b: string;
-  feedback_c: string;
-  feedback_d: string;
-  answer: number;
+  test_cases: {
+    title: string;
+    feedback: string;
+    is_correct: boolean;
+  }
 }
 
 export interface Pill {

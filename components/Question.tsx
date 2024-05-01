@@ -16,9 +16,11 @@ export interface QuestionStatus {
 interface QuestionProps {
   id: number;
   question: string;
-  answers: string[];
-  feedbacks: string[];
-  correctAnswer: number;
+  testCases: {
+    title: string;
+    feedback: string;
+    is_correct: boolean;
+  }
 }
 
 const variations = {
@@ -30,9 +32,7 @@ const variations = {
 export default function Question({
   id,
   question,
-  answers,
-  feedbacks,
-  correctAnswer,
+  testCases,
 }: QuestionProps) {
   const { completionSet, setCompletionSet } = useProvider();
   const [questionStatusStorage, saveQuestion] = useLocalStorage<QuestionStatus>(
@@ -55,24 +55,24 @@ export default function Question({
     }
   }, [completionSet, id, questionStatusStorage, setCompletionSet]);
 
-  function handleAnswer(index: number) {
-    const isCorrect = index === correctAnswer;
+  // function handleAnswer(index: number) {
+  //   const isCorrect = index === correctAnswer;
 
-    const newAnswers = questionStatusStorage.answers;
-    newAnswers[index] = true;
-    const newQuestion: QuestionStatus = {
-      id,
-      isCorrect: questionStatusStorage.isCorrect || isCorrect,
-      answers: newAnswers,
-    };
-    setSelectedAnswer(index);
-    saveQuestion(newQuestion);
-  }
+  //   const newAnswers = questionStatusStorage.answers;
+  //   newAnswers[index] = true;
+  //   const newQuestion: QuestionStatus = {
+  //     id,
+  //     isCorrect: questionStatusStorage.isCorrect || isCorrect,
+  //     answers: newAnswers,
+  //   };
+  //   setSelectedAnswer(index);
+  //   saveQuestion(newQuestion);
+  // }
 
   return (
     <div className='space-y-3'>
       <h3 className='text-xl font-semibold'>{question}</h3>
-      {questionStatus && (
+      {/* {questionStatus && (
         <Answers
           questionStatus={questionStatus}
           correctAnswer={correctAnswer}
@@ -84,7 +84,7 @@ export default function Question({
         <InformationBox title={question} className='mt-3'>
           <Markdown className={'p-3'}>{feedbacks[selectedAnswer]}</Markdown>
         </InformationBox>
-      )}
+      )} */}
     </div>
   );
 }
