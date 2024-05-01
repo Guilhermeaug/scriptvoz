@@ -44,7 +44,7 @@ export default async function EvaluationStep({
     },
   ] = await Promise.all([patientPromise, pagePromise]);
 
-  console.log(patient)
+  console.log(patient.questions)
 
   return (
     <div className='mx-auto mt-6 max-w-screen-md space-y-4 p-3'>
@@ -173,7 +173,7 @@ export default async function EvaluationStep({
         </h2>
         <InformationBox
           title={pageAttributes.videolaryngostroboscopy}
-          id='videolaryngostroboscopy'
+          id='videolaryngostroboscop'
         >
           <div className='space-y-4 p-3'>
             <div className='mx-auto w-[30ch] max-w-full'>
@@ -201,15 +201,15 @@ export default async function EvaluationStep({
         <InformationBox title={pageAttributes.questions_header} id='questions'>
           <div className='h-min space-y-4 p-3'>
             <InformationHeader title={pageAttributes.call_to_action} />
-            <Questions questions={patient.questions} />
+            <Questions patientId={patient.id} questions={patient.questions} />
           </div>
         </InformationBox>
       </section>
-      <ArrowNavigator
+      {/* <ArrowNavigator
         href={`/${lang}/patients/${slug}/diagnostic`}
         direction='right'
         ids={patient.questions.map((q) => q.id)}
-      />
+      /> */}
     </div>
   );
 }

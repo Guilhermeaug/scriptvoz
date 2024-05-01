@@ -17,10 +17,11 @@ interface QuestionProps {
   id: number;
   question: string;
   testCases: {
+    id: number;
     title: string;
     feedback: string;
     is_correct: boolean;
-  }
+  }[]
 }
 
 const variations = {

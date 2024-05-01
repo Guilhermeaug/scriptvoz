@@ -2,7 +2,6 @@ import Navbar from '@/components/Navbar';
 import './globals.css';
 
 import Footer from '@/components/Footer';
-import Provider from '@/contexts/Provider';
 import { NextAuthProvider } from '@/contexts/SessionProvider';
 import { i18n } from '@/i18n-config';
 import { Nunito_Sans } from 'next/font/google';
@@ -32,11 +31,9 @@ export default function RootLayout({
     <html lang={params.lang} className={nunito.className}>
       <body className='flex min-h-screen flex-col'>
         <NextAuthProvider>
-          <Provider>
-            <Navbar />
-            <main className='flex-grow'>{children}</main>
-            <Footer lang={params.lang} />
-          </Provider>
+          <Navbar />
+          <main className='flex-grow'>{children}</main>
+          <Footer lang={params.lang} />
         </NextAuthProvider>
       </body>
     </html>

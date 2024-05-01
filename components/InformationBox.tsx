@@ -15,8 +15,8 @@ export default function InformationBox({
   children,
   ...props
 }: InformationBoxProps) {
-  const { color: contextColor } = useProvider();
-
+  const contextColor = "evaluation";
+  
   const style = cn(
     'rounded-xl border',
     `border-${color || contextColor}`,
