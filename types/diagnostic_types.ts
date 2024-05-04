@@ -1,10 +1,10 @@
 import { type BlocksContent } from '@strapi/blocks-react-renderer';
-import { Pill } from './global_types';
+import { Pill, QuestionType } from './global_types';
 
 export interface DiagnosticAttributes {
   id: number;
   summary: BlocksContent;
-  pills: Pill[];
+  questions: QuestionType[];
   createdAt: string;
   updatedAt: string;
   publishedAt: string;

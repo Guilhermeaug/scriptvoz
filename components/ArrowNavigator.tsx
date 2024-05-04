@@ -25,6 +25,7 @@ export default function ArrowNavigator({
   ids = [],
   correctAmount = 0,
 }: ArrowNavigatorProps) {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const storage = useReadLocalStorage<QuestionStatus[]>('questions') || [];
   let testCasesIdsLength = storage
     .flatMap((qs) => qs.testCasesStatus)

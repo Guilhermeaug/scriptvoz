@@ -44,15 +44,24 @@ export default async function EvaluationStep({
     },
   ] = await Promise.all([patientPromise, pagePromise]);
 
-  const correctAmount = patient.questions.reduce(
-    (sum, q) =>
-      sum + q.test_cases.reduce((acc, ts) => acc + (ts.is_correct ? 1 : 0), 0),
-    0,
+  const { correctAmount, correctIds } = patient.questions.reduce(
+    (
+      acc: {
+        correctAmount: number;
+        correctIds: number[];
+      },
+      q,
+    ) => {
+      q.test_cases.forEach((ts) => {
+        if (ts.is_correct) {
+          acc.correctAmount += 1;
+          acc.correctIds.push(ts.id);
+        }
+      });
+      return acc;
+    },
+    { correctAmount: 0, correctIds: [] },
   );
-  const correctIds = patient.questions
-    .flatMap((q) => q.test_cases)
-    .filter((ts) => ts.is_correct)
-    .map((ts) => ts.id);
 
   return (
     <div className='mx-auto mt-6 max-w-screen-md space-y-4 p-3'>
@@ -60,7 +69,11 @@ export default async function EvaluationStep({
         <h2 className='text-wrap break-words text-center text-2xl md:text-4xl'>
           {pageAttributes.header}
         </h2>
-        <InformationBox title={pageAttributes.anamnesis} id='anamnesis'>
+        <InformationBox
+          color='evaluation'
+          title={pageAttributes.anamnesis}
+          id='anamnesis'
+        >
           <div className='space-y-4 p-3'>
             <div>
               <InformationHeader title={pageAttributes.personal_data} />
@@ -77,6 +90,7 @@ export default async function EvaluationStep({
           </div>
         </InformationBox>
         <InformationBox
+          color='evaluation'
           title={pageAttributes.vocal_evaluation}
           id='vocal_evaluation'
         >
@@ -108,7 +122,11 @@ export default async function EvaluationStep({
             </div>
           </div>
         </InformationBox>
-        <InformationBox title={pageAttributes.vocal_trial} id='vocal_trial'>
+        <InformationBox
+          color='evaluation'
+          title={pageAttributes.vocal_trial}
+          id='vocal_trial'
+        >
           <div className='space-y-4 p-3'>
             <div className='space-y-4'>
               <InformationHeader title={pageAttributes.voice_samples} />
@@ -139,6 +157,7 @@ export default async function EvaluationStep({
           </div>
         </InformationBox>
         <InformationBox
+          color='evaluation'
           title={pageAttributes.acoustic_analysis}
           id='acoustic_analysis'
         >
@@ -160,6 +179,7 @@ export default async function EvaluationStep({
           </div>
         </InformationBox>
         <InformationBox
+          color='evaluation'
           title={pageAttributes.larynx_analysis}
           id='larynx_analysis'
         >
@@ -168,6 +188,7 @@ export default async function EvaluationStep({
           </div>
         </InformationBox>
         <InformationBox
+          color='evaluation'
           title={pageAttributes.self_evaluation}
           id='self_evaluation'
         >
@@ -181,6 +202,7 @@ export default async function EvaluationStep({
           {pageAttributes.ent_assessment}
         </h2>
         <InformationBox
+          color='evaluation'
           title={pageAttributes.videolaryngostroboscopy}
           id='videolaryngostroboscop'
         >
@@ -195,7 +217,10 @@ export default async function EvaluationStep({
                   {pageAttributes.collapse_text}
                 </div>
                 <div className='collapse-content'>
-                  <InformationBox title={pageAttributes.orl_report}>
+                  <InformationBox
+                    color='evaluation'
+                    title={pageAttributes.orl_report}
+                  >
                     <div className='p-3'>
                       <BlocksRendererClient content={patient.orl_report} />
                     </div>
@@ -207,7 +232,11 @@ export default async function EvaluationStep({
         </InformationBox>
       </section>
       <section className='space-y-4'>
-        <InformationBox title={pageAttributes.questions_header} id='questions'>
+        <InformationBox
+          color='evaluation'
+          title={pageAttributes.questions_header}
+          id='questions'
+        >
           <div className='h-min space-y-4 p-3'>
             <InformationHeader title={pageAttributes.call_to_action} />
             <Questions questions={patient.questions} />
@@ -215,7 +244,7 @@ export default async function EvaluationStep({
         </InformationBox>
       </section>
       <ArrowNavigator
-        href={`/${lang}/patients/${slug}/diagnostic`}
+        href={'diagnostic'}
         direction='right'
         ids={correctIds}
         correctAmount={correctAmount}

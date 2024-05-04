@@ -1,12 +1,11 @@
 import ArrowNavigator from '@/components/ArrowNavigator';
 import BlocksRendererClient from '@/components/BlocksRendererClient';
 import InformationBox from '@/components/InformationBox';
-import Pills from '@/components/Pills';
+import Questions from '@/components/Questions';
 import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
 import { DiagnosticPage } from '@/types/page_types';
 import { Patient } from '@/types/patients_types';
-import arrayShuffle from 'array-shuffle';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
@@ -39,33 +38,46 @@ export default async function EvaluationStep({
     },
   ] = await Promise.all([patientPromise, pagePromise]);
 
+  const { correctAmount, correctIds } = patient.questions.reduce(
+    (
+      acc: {
+        correctAmount: number;
+        correctIds: number[];
+      },
+      q,
+    ) => {
+      q.test_cases.forEach((ts) => {
+        if (ts.is_correct) {
+          acc.correctAmount += 1;
+          acc.correctIds.push(ts.id);
+        }
+      });
+      return acc;
+    },
+    { correctAmount: 0, correctIds: [] },
+  );
+
   return (
-    <>
-      <h1 className='mt-3 text-center text-4xl'>{pageAttributes.header}</h1>
-      <div className={'mx-auto max-w-screen-md p-3 md:pt-8'}>
-        <InformationBox title={pageAttributes.summary}>
-          <div className='p-3'>
-            <BlocksRendererClient content={patient.summary} />
-            <hr className='separator-line bg-diagnostic' />
-            <div className='p-3'>
-              <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
-                {pageAttributes.call_to_action}
-              </p>
-              <Pills
-                patientId={patient.id}
-                pills={arrayShuffle(patient.pills)}
-              />
-            </div>
-          </div>
-        </InformationBox>
-      </div>
+    <div className='mx-auto mt-6 max-w-screen-md space-y-4 p-3'>
+      <h1 className='text-wrap break-words text-center text-2xl md:text-4xl'>
+        {pageAttributes.header}
+      </h1>
+      <InformationBox title={pageAttributes.summary} color='diagnostic'>
+        <div className='space-y-4 p-3'>
+          <BlocksRendererClient content={patient.summary} />
+          <hr className='separator-line bg-diagnostic' />
+          <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
+            {pageAttributes.call_to_action}
+          </p>
+          <Questions questions={patient.questions} />
+        </div>
+      </InformationBox>
       <ArrowNavigator
-        href={`/${lang}/patients/${slug}/therapeutic`}
+        href='therapeutic'
         direction='right'
-        ids={patient.pills
-          .filter((pill) => pill.correct)
-          .map((pill) => pill.id)}
+        ids={correctIds}
+        correctAmount={correctAmount}
       />
-    </>
+    </div>
   );
 }

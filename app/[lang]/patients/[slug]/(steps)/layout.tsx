@@ -43,19 +43,15 @@ export default async function StepsLayout({
   ]);
 
   return (
-    <div className='relative mx-auto max-w-screen-md lg:max-w-screen-xl'>
-      <div className='mx-auto lg:grid lg:grid-cols-7 lg:gap-4'>
-        <aside className='sticky left-4 top-2 col-span-2 mt-3 hidden h-screen self-start overflow-y-auto bg-stone-100 p-3 lg:flex lg:flex-col lg:gap-3'>
-          <div className='flex'>
-            <Stepper patient={title} generalAttributes={generalAttributes}/>
-          </div>
-          <SidebarShortcuts
-            evaluationAttributes={pageAttributes}
-            generalAttributes={generalAttributes}
-          />
-        </aside>
-        <div className='md:p-4 lg:col-span-5'>{children}</div>
-      </div>
+    <div className='mx:auto container relative lg:grid lg:grid-cols-7 lg:gap-4'>
+      <aside className='sticky left-0 top-0 col-span-2 hidden h-screen self-start overflow-y-auto bg-stone-100 p-3 lg:block'>
+        <Stepper patient={title} generalAttributes={generalAttributes} />
+        <SidebarShortcuts
+          evaluationAttributes={pageAttributes}
+          generalAttributes={generalAttributes}
+        />
+      </aside>
+      <div className='lg:col-span-5'>{children}</div>
     </div>
   );
 }

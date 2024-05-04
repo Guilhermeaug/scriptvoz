@@ -1,4 +1,3 @@
-import InformationBox from '@/components/InformationBox';
 import { getPageData } from '@/lib/page_data';
 import { getPatients } from '@/lib/patients';
 import { PatientsPage as PatientsPageType } from '@/types/page_types';
@@ -31,31 +30,22 @@ export default async function PatientsPage({
   ] = await Promise.all([patientsData, pageData]);
 
   return (
-    <>
-      <h1 className='mt-6 text-center text-5xl'>{pageAttributes.header}</h1>
-      <div className='container mx-auto mt-8 max-w-screen-md p-3'>
-        <InformationBox title={pageAttributes.clinical_cases}>
-          <section className='flex flex-wrap justify-center gap-2 p-4'>
-            {patients.map((patient) => (
-              <PatientItem
-                key={patient.id}
-                title={patient.attributes.title}
-                slug={patient.attributes.searchTitle}
-              />
-            ))}
-          </section>
-        </InformationBox>
-      </div>
-    </>
-  );
-}
-
-function PatientItem({ slug, title }: { slug: string; title: string }) {
-  return (
-    <Link href={`patients/${slug}/evaluation`}>
-      <div className='w-44 rounded-lg bg-orange p-3 text-center uppercase text-white'>
-        <h2>{title}</h2>
-      </div>
-    </Link>
+    <div className='space-y-6 p-4'>
+      <h1 className='text-3xl'>{pageAttributes.clinical_cases}</h1>
+      <section className='flex justify-center flex-wrap gap-4'>
+        {patients.map((patient, index) => (
+          <Link
+            key={patient.id}
+            href={`patients/${patient.attributes.searchTitle}/evaluation`}
+            className='card w-80 bg-base-100 text-left shadow-xl'
+          >
+            <figure className='h-40 bg-primary text-3xl'>{index + 1}</figure>
+            <div className='card-body'>
+              <h2 className='card-title'>{patient.attributes.title}</h2>
+            </div>
+          </Link>
+        ))}
+      </section>
+    </div>
   );
 }

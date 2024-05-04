@@ -49,7 +49,7 @@ export default function Stepper({ patient, generalAttributes }: Props) {
   );
 
   return (
-    <div className='grid h-min w-min flex-1 auto-cols-max items-center justify-center gap-2 p-1 text-center'>
+    <div className='mx-auto grid h-min w-min flex-1 auto-cols-max gap-2 p-1 text-center'>
       <div className='bg-stone-600 p-2'>
         <p className='text-xl font-semibold text-white'>{patient}</p>
       </div>

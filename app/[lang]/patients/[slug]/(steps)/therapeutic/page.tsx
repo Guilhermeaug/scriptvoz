@@ -1,4 +1,3 @@
-import ArrowNavigator from '@/components/ArrowNavigator';
 import BlocksRendererClient from '@/components/BlocksRendererClient';
 import InformationBox from '@/components/InformationBox';
 import Questions from '@/components/Questions';
@@ -39,27 +38,20 @@ export default async function TherapeuticStep({
   ] = await Promise.all([patientPromise, pagePromise]);
 
   return (
-    <>
-      <h1 className='mt-3 text-center text-4xl'>{pageAttributes.header}</h1>
-      <div className='mx-auto max-w-screen-md p-3 md:pt-8'>
-        <InformationBox title={pageAttributes.summary}>
-          <div className='p-3'>
-            <BlocksRendererClient content={patient.summary} />
-            <hr className='separator-line bg-therapeutic' />
-            <div className='space-y-4 p-3'>
-              <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
-                {pageAttributes.call_to_action}
-              </p>
-              <Questions questions={patient.questions} />
-            </div>
-          </div>
-        </InformationBox>
-      </div>
-      <ArrowNavigator
-        href={`/${lang}/patients/${slug}/finished`}
-        direction='right'
-        ids={patient.questions.map((q) => q.id)}
-      />
-    </>
+    <div className='mx-auto mt-6 max-w-screen-md space-y-4 p-3'>
+      <h1 className='text-wrap break-words text-center text-2xl md:text-4xl'>
+        {pageAttributes.header}
+      </h1>
+      <InformationBox color='therapeutic' title={pageAttributes.summary}>
+        <div className='space-y-4 p-3'>
+          <BlocksRendererClient content={patient.summary} />
+          <hr className='separator-line bg-therapeutic' />
+          <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
+            {pageAttributes.call_to_action}
+          </p>
+          <Questions questions={patient.questions} />
+        </div>
+      </InformationBox>
+    </div>
   );
 }

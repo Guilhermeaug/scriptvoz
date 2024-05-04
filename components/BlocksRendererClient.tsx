@@ -18,20 +18,20 @@ export default function BlocksRendererClient({ content }: Props) {
       content={content}
       blocks={{
         paragraph: ({ children }) => (
-          <p className='prose prose-stone text-justify max-w-prose lg:prose-lg'>
+          <p className='prose prose-stone max-w-prose text-justify lg:prose-lg'>
             {children}
           </p>
         ),
         list: ({ children, format }) => {
           if (format === 'ordered') {
             return (
-              <ol className='prose prose-stone text-justify max-w-prose list-inside list-decimal lg:prose-lg'>
+              <ol className='prose prose-stone max-w-prose list-inside list-decimal text-justify lg:prose-lg'>
                 {children}
               </ol>
             );
           } else {
             return (
-              <ul className='prose prose-stone text-justify max-w-prose list-inside list-disc lg:prose-lg'>
+              <ul className='prose prose-stone max-w-prose list-inside list-disc text-justify lg:prose-lg'>
                 {children}
               </ul>
             );
