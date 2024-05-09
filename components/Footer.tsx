@@ -17,9 +17,9 @@ export default async function Footer({ lang }: { lang: string }) {
           <Link href='/about-us' className='link-hover link'>
             {pageAttributes.about_us}
           </Link>
-          <Link href='/' className='link-hover link'>
+          {/* <Link href='/' className='link-hover link'>
             {pageAttributes.bibliographic_reference}
-          </Link>
+          </Link> */}
         </nav>
       </footer>
       <footer className='footer footer-center border-t border-base-300 bg-base-200 px-10 py-4 text-base-content'>

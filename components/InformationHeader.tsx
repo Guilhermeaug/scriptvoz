@@ -11,7 +11,7 @@ export default function InformationHeader({
     <>
       <h2 className='break-words text-xl font-bold md:text-3xl'>{title}</h2>
       {subtitle && (
-        <p className='float-right break-words text-sm md:text-base'>
+        <p className='break-words text-sm md:text-base'>
           {subtitle}
         </p>
       )}

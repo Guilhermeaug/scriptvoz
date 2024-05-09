@@ -140,7 +140,7 @@ export default async function EvaluationStep({
                 <BlocksRendererClient content={patient.see_vocal_results} />
               </div>
             </div>
-            <div className='mx-auto w-[35ch]'>
+            <div className='mx-auto w-[35ch] max-w-full'>
               <VideoPlayer url={patient.personal_video.data.attributes.url} />
             </div>
             <div>
