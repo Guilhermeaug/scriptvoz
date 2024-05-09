@@ -15,15 +15,15 @@ export default function AudioSample({ title, audio }: AudioSampleProps) {
   });
 
   return (
-    <div className='flex w-[80%] flex-initial flex-row items-center space-x-2 rounded-xl border border-evaluation md:w-[30%]'>
+    <div className='flex w-[80%] flex-initial flex-row items-center space-x-2 rounded-xl border md:w-[30%]'>
       <button
-        className='btn-primary btn basis-1/4 border-none bg-evaluation'
+        className='btn btn-primary basis-1/4 border-none'
         onMouseEnter={() => play()}
         onMouseLeave={() => stop()}
       >
-        <SpeakerWaveIcon className='h-10 w-10 text-white' />
+        <SpeakerWaveIcon className='h-10 w-10' />
       </button>
-      <h2 className='p-1 text-sm'>{title}</h2>
+      <span className='px-1 text-sm'>{title}</span>
     </div>
   );
 }

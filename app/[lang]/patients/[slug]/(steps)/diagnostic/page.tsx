@@ -65,7 +65,7 @@ export default async function EvaluationStep({
       <InformationBox title={pageAttributes.summary} color='diagnostic'>
         <div className='space-y-4 p-3'>
           <BlocksRendererClient content={patient.summary} />
-          <hr className='separator-line bg-diagnostic' />
+          <hr className='separator-line' />
           <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
             {pageAttributes.call_to_action}
           </p>

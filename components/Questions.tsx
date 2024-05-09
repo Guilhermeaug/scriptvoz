@@ -1,7 +1,9 @@
 'use client';
 
+import { Media } from '@/types/evaluation_types';
 import { QuestionType, TestStatus, TestType } from '@/types/global_types';
 import { cn } from '@/util/cn';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
 import Markdown from './Markdown';
@@ -64,6 +66,7 @@ export default function Questions({
             key={question.id}
             id={question.id}
             title={question.question}
+            images={question.images.data}
             testCases={question.test_cases}
             status={questionStatus}
             handleAnswer={handleAnswer}
@@ -80,6 +83,7 @@ interface QuestionProps {
   status: QuestionStatus;
   testCases: TestType[];
   handleAnswer: (questionStatus: QuestionStatus, testCaseId: number) => void;
+  images?: Media[];
 }
 
 function Question({
@@ -87,15 +91,34 @@ function Question({
   title,
   testCases,
   status,
+  images,
   handleAnswer,
 }: QuestionProps) {
   const [selectedAnswer, setSelectedAnswer] = useState<number | undefined>();
 
   return (
     <div className='space-y-3'>
-      <h3 className='text-xl font-semibold'>
-        <Markdown>{title}</Markdown>
-      </h3>
+      <div>
+        <h3 className='text-xl font-semibold'>
+          <Markdown>{title}</Markdown>
+        </h3>
+        <div className='flex gap-4'>
+          {images &&
+            images.map(({ attributes: file }, idx) => {
+              const url = `${process.env.NEXT_PUBLIC_API_URL}${file.url}`;
+              return (
+                <Image
+                  key={idx}
+                  src={url}
+                  alt={file.caption || file.name}
+                  width={160}
+                  height={160}
+                  className='h-40 w-40 max-w-full cursor-pointer rounded-md border object-cover shadow-sm'
+                />
+              );
+            })}
+        </div>
+      </div>
       <div className='flex flex-col gap-4'>
         {testCases.map((testCase, index) => {
           const testCaseStatus = status.testCasesStatus.find(

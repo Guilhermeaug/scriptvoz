@@ -42,10 +42,10 @@ export default async function TherapeuticStep({
       <h1 className='text-wrap break-words text-center text-2xl md:text-4xl'>
         {pageAttributes.header}
       </h1>
-      <InformationBox color='therapeutic' title={pageAttributes.summary}>
+      <InformationBox title={pageAttributes.summary} color='therapeutic'>
         <div className='space-y-4 p-3'>
           <BlocksRendererClient content={patient.summary} />
-          <hr className='separator-line bg-therapeutic' />
+          <hr className='separator-line' />
           <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
             {pageAttributes.call_to_action}
           </p>

@@ -39,7 +39,7 @@ export default function SidebarShortcuts({ evaluationAttributes, generalAttribut
         <li onClick={() => scrollToElement('self_evaluation')}>
           6. {evaluationAttributes.self_evaluation}
         </li>
-        <li onClick={() => scrollToElement('videolaryngostroboscopy')}>
+        <li onClick={() => scrollToElement('videolaryngostroboscop')}>
           7. {evaluationAttributes.videolaryngostroboscopy}
         </li>
         <li onClick={() => scrollToElement('questions')}>

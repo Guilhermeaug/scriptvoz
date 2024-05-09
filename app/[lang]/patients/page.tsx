@@ -32,7 +32,7 @@ export default async function PatientsPage({
   return (
     <div className='space-y-6 p-4'>
       <h1 className='text-3xl'>{pageAttributes.clinical_cases}</h1>
-      <section className='flex justify-center flex-wrap gap-4'>
+      <section className='flex flex-wrap gap-4'>
         {patients.map((patient, index) => (
           <Link
             key={patient.id}

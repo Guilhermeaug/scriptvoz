@@ -42,7 +42,7 @@ export default async function GroupPage({ params: { lang } }: GroupProps) {
     <div>
       <h1 className={'p-3 text-center text-4xl'}>Docente</h1>
       <div className='mx-auto mt-4 flex max-w-screen-md flex-col space-y-4 p-3'>
-        <InformationBox title={'Turmas'} color={'diagnostic'}>
+        <InformationBox title={'Turmas'}>
           <article className='space-y-14 p-4'>
             <ul>
               {groups.map((group) => {

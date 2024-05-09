@@ -103,7 +103,6 @@ export default async function EvaluationStep({
               <InformationHeader
                 title={pageAttributes.symptoms}
                 subtitle={pageAttributes.symptoms_info}
-                subtitleLink={pageAttributes.symptoms_link}
               />
               <BlocksRendererClient content={patient.symptoms} />
               <BlocksRendererClient content={patient.other_symptoms} />
@@ -138,12 +137,10 @@ export default async function EvaluationStep({
                 {pageAttributes.see_results}
               </div>
               <div className='collapse-content'>
-                <div className='p-3'>
-                  <BlocksRendererClient content={patient.see_vocal_results} />
-                </div>
+                <BlocksRendererClient content={patient.see_vocal_results} />
               </div>
             </div>
-            <div className='mx-auto w-[25ch]'>
+            <div className='mx-auto w-[35ch]'>
               <VideoPlayer url={patient.personal_video.data.attributes.url} />
             </div>
             <div>
@@ -169,11 +166,7 @@ export default async function EvaluationStep({
                 {pageAttributes.see_results}
               </div>
               <div className='collapse-content'>
-                <div className='p-3'>
-                  <BlocksRendererClient
-                    content={patient.see_accoustic_results}
-                  />
-                </div>
+                <BlocksRendererClient content={patient.see_accoustic_results} />
               </div>
             </div>
           </div>
@@ -207,7 +200,7 @@ export default async function EvaluationStep({
           id='videolaryngostroboscop'
         >
           <div className='space-y-4 p-3'>
-            <div className='mx-auto w-[30ch] max-w-full'>
+            <div className='mx-auto max-w-full'>
               <VideoPlayer url={patient.exam_video.data.attributes.url} />
             </div>
             <div className='mx-auto mt-3 flex max-w-screen-md flex-col items-center justify-center gap-6'>
@@ -279,7 +272,7 @@ function ComplementaryFiles({ files }: { files: Media[] }) {
             small={url}
             large={url}
             medium={url}
-            alt={file.caption || ''}
+            alt={file.caption || file.name}
           />
         );
       })}

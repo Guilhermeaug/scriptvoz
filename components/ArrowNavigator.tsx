@@ -34,14 +34,17 @@ export default function ArrowNavigator({
 
   const [isCompleted, setIsCompleted] = useState(false);
   useEffect(() => {
-    setIsCompleted(testCasesIdsLength === correctAmount)
-  }, [correctAmount, storage, testCasesIdsLength])
+    setIsCompleted(testCasesIdsLength === correctAmount);
+  }, [correctAmount, storage, testCasesIdsLength]);
 
-  const navClasses = cn(`w-24 rounded-br-lg bg-evaluation p-2 text-white`, {
-    'polygon-bl flex justify-end float-right mt-6': direction === 'right',
-    'polygon-tr': direction === 'left',
-    hidden: !isCompleted && direction === 'right',
-  });
+  const navClasses = cn(
+    `w-24 rounded-br-lg p-2 bg-primary text-primary-content`,
+    {
+      'polygon-bl flex justify-end float-right mt-6': direction === 'right',
+      'polygon-tr': direction === 'left',
+      hidden: !isCompleted && direction === 'right',
+    },
+  );
 
   return (
     <div className={navClasses}>

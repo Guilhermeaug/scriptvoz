@@ -22,7 +22,7 @@ export default async function StudentStatus({
   const total = data.length;
 
   return (
-    <div className='collapse join-item border border-diagnostic rounded-none'>
+    <div className='collapse join-item border rounded-none'>
       <input type='checkbox' />
       <div className='collapse-title text-xl font-medium flex justify-between'>
         <span>{fullName}</span>
