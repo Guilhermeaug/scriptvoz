@@ -102,7 +102,7 @@ function Question({
         <h3 className='text-xl font-semibold'>
           <Markdown>{title}</Markdown>
         </h3>
-        <div className='flex gap-4'>
+        <div className='flex gap-4 relative w-full'>
           {images &&
             images.map(({ attributes: file }, idx) => {
               const url = `${process.env.NEXT_PUBLIC_API_URL}${file.url}`;
@@ -111,9 +111,10 @@ function Question({
                   key={idx}
                   src={url}
                   alt={file.caption || file.name}
-                  width={160}
-                  height={160}
-                  className='h-40 w-40 max-w-full cursor-pointer rounded-md border object-cover shadow-sm'
+                  width="0"
+                  height="0"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className='w-full h-auto cursor-pointer rounded-md border shadow-sm'
                 />
               );
             })}
