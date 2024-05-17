@@ -65,7 +65,7 @@ export default async function HomePage({
             width='0'
             height='0'
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-            className='h-auto w-20 max-w-full flex-shrink-0 flex-grow-0 cursor-pointer lg:w-32'
+            className='h-auto w-20 max-w-full flex-shrink-0 flex-grow-0 lg:w-32'
           />
           <Image
             src={CEFETMG}
@@ -73,7 +73,7 @@ export default async function HomePage({
             width='0'
             height='0'
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
-            className='h-auto w-20 max-w-full flex-shrink-0 flex-grow-0 cursor-pointer lg:w-32'
+            className='h-auto w-20 max-w-full flex-shrink-0 flex-grow-0 lg:w-32'
           />
         </div>
       </div>

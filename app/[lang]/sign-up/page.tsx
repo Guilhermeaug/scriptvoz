@@ -29,8 +29,8 @@ export default async function RegisterPage({
           className='hidden lg:mx-auto lg:block lg:h-full lg:w-full lg:space-y-3 lg:p-7'
           style={{
             backgroundImage: `url(${LoginImage.src})`,
-            backgroundSize: 'cover',
             backgroundPosition: 'center',
+            backgroundSize: 'cover',
           }}
         >
           <div className='flex items-center gap-3 text-xl font-semibold'>
