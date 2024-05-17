@@ -15,6 +15,7 @@ interface HomePageAttributes {
   title: string;
   manual: string;
   bibliography: string;
+  about_us: string;
 }
 
 interface PatientsPageAttributes {
@@ -104,6 +105,21 @@ interface BibliographyAttributes {
   content: BlocksContent;
 }
 
+interface EndScreenAttributes {
+  message: string;
+  summary: BlocksContent;
+  button_text: string;
+}
+
+interface AboutUsAttributes {
+  text: BlocksContent;
+  authors: string;
+  contributors: string;
+  what_is: string;
+  maintainer: string;
+  developer: string;
+}
+
 export type HomePage = Page<HomePageAttributes>;
 export type PatientsPage = Page<PatientsPageAttributes>;
 export type DiagnosticPage = Page<DiagnosticPageAttributes>;
@@ -115,3 +131,5 @@ export type GeneralPage = Page<GeneralAttributes>;
 export type FooterPage = Page<FooterAttributes>;
 export type ManualPage = Page<ManualAttributes>;
 export type BibliographyPage = Page<BibliographyAttributes>;
+export type EndScreenPage = Page<EndScreenAttributes>;
+export type AboutUsPage = Page<AboutUsAttributes>;

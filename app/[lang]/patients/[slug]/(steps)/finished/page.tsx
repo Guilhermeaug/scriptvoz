@@ -1,58 +1,38 @@
+import BlocksRendererClient from '@/components/BlocksRendererClient';
 import InformationBox from '@/components/InformationBox';
 import InformationHeader from '@/components/InformationHeader';
-import Markdown from '@/components/Markdown';
-import { authOptions } from '@/lib/auth';
-import { endProgram } from '@/lib/groups';
-import { getPatient } from '@/lib/patients';
-import { Patient } from '@/types/patients_types';
-import { getServerSession } from 'next-auth';
-import { redirect } from 'next/navigation';
+import { getPageData } from '@/lib/page_data';
+import { EndScreenPage as EndScreenPageAttributes } from '@/types/page_types';
+import Link from 'next/link';
 
 interface Props {
   params: { lang: string; slug: string };
 }
 
-export default async function FinishPage({ params: { lang, slug } }: Props) {
-  const session = await getServerSession(authOptions);
-  const user = session!.user;
-
+export default async function EndScreenPage({ params: { lang, slug } }: Props) {
   const {
-    data: { id: patientId },
-  }: Patient = await getPatient({
+    data: { attributes: pageAttributes },
+  }: EndScreenPageAttributes = await getPageData({
+    path: 'end-screen',
     locale: lang,
-    slug,
   });
-
-  async function saveResult() {
-    'use server';
-
-    await endProgram({
-      patientId,
-      studentId: parseInt(user.id),
-    });
-
-    redirect('/');
-  }
 
   return (
     <>
       <div className='flex h-screen flex-col items-center justify-center'>
         <header className='text-center text-3xl'>
-          <h1>Parabéns por terminar o programa</h1>
+          <h1>{pageAttributes.message}</h1>
         </header>
         <div className='flex flex-col items-center space-y-8'>
           <InformationHeader title='Resumo' />
           <InformationBox className='border-none'>
-            <Markdown>
-              Você terminou o programa de acompanhamento. Obrigado por
-              participar!
-            </Markdown>
+            <BlocksRendererClient content={pageAttributes.summary} />
           </InformationBox>
-          <form>
-            <button className='btn btn-primary' formAction={saveResult}>
-              Salvar resultado
+          <Link href='/'>
+            <button className='btn btn-primary'>
+              {pageAttributes.button_text}
             </button>
-          </form>
+          </Link>
         </div>
       </div>
     </>

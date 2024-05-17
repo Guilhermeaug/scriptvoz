@@ -1,5 +1,4 @@
-import SidebarShortcuts from '@/components/SidebarShortcuts';
-import Stepper from '@/components/Stepper';
+import Sidebar from '@/components/Sidebar';
 import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
 import { EvaluationPage, GeneralPage } from '@/types/page_types';
@@ -44,13 +43,11 @@ export default async function StepsLayout({
 
   return (
     <div className='container relative lg:grid lg:grid-cols-7 lg:gap-4 xl:mx-auto'>
-      <aside className='sticky left-0 top-0 col-span-2 hidden h-screen self-start overflow-y-auto bg-stone-100 p-3 lg:block'>
-        <Stepper patient={title} generalAttributes={generalAttributes} />
-        <SidebarShortcuts
-          evaluationAttributes={pageAttributes}
-          generalAttributes={generalAttributes}
-        />
-      </aside>
+      <Sidebar
+        title={title}
+        generalAttributes={generalAttributes}
+        pageAttributes={pageAttributes}
+      />
       <div className='lg:col-span-5'>{children}</div>
     </div>
   );

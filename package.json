@@ -29,6 +29,7 @@
     "react-player": "^2.16.0",
     "react-select": "^5.8.0",
     "sharp": "^0.33.4",
+    "sonner": "^1.4.41",
     "tailwind-merge": "^2.3.0",
     "typescript": "5.4.5",
     "use-sound": "^4.0.1",

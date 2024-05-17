@@ -1,10 +1,10 @@
 import Navbar from '@/components/Navbar';
 import './globals.css';
 
-import Footer from '@/components/Footer';
 import { NextAuthProvider } from '@/contexts/SessionProvider';
 import { i18n } from '@/i18n-config';
 import { Nunito_Sans } from 'next/font/google';
+import { Toaster } from 'sonner';
 
 export const metadata = {
   title: 'Simulador de casos clínicos',
@@ -33,7 +33,7 @@ export default function RootLayout({
         <NextAuthProvider>
           <Navbar />
           <main className='relative flex-grow'>{children}</main>
-          <Footer lang={params.lang} />
+          <Toaster />
         </NextAuthProvider>
       </body>
     </html>

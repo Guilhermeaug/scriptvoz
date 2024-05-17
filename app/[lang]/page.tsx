@@ -36,6 +36,11 @@ export default async function HomePage({
             {pageAttributes.bibliography}
           </button>
         </Link>
+        <Link href='/about-us' className='link-hover link'>
+          <button className='btn btn-ghost w-full justify-start rounded-none uppercase'>
+            {pageAttributes.about_us}
+          </button>
+        </Link>
       </div>
       <div className='grid flex-grow place-items-center gap-4 bg-primary p-4'>
         <Markdown className='text-white'>{pageAttributes.front_text}</Markdown>
@@ -61,7 +66,7 @@ export default async function HomePage({
         <div className='relative flex justify-end gap-6'>
           <Image
             src={UFMG}
-            alt={'Logo da UFMG'}
+            alt=''
             width='0'
             height='0'
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
@@ -69,7 +74,7 @@ export default async function HomePage({
           />
           <Image
             src={CEFETMG}
-            alt={'Logo do CEFETMG'}
+            alt=''
             width='0'
             height='0'
             sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
