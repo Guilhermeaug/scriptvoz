@@ -77,7 +77,7 @@ export default function BlocksRendererClient({ content }: Props) {
               width={image.width}
               height={image.height}
               alt={image.alternativeText || ''}
-              className='mx-auto'
+              className='mx-auto max-w-full'
             />
           );
         },

@@ -1,3 +1,5 @@
+import { BlocksContent } from '@strapi/blocks-react-renderer';
+
 interface Page<T = Record<string, string>> {
   data: {
     id: number;
@@ -85,6 +87,14 @@ interface FooterAttributes {
   bibliographic_reference: string;
 }
 
+interface ManualAttributes {
+  content: BlocksContent;
+}
+
+interface BibliographyAttributes {
+  content: BlocksContent;
+}
+
 export type HomePage = Page<HomePageAttributes>;
 export type PatientsPage = Page<PatientsPageAttributes>;
 export type DiagnosticPage = Page<DiagnosticPageAttributes>;
@@ -94,4 +104,5 @@ export type SignInPage = Page<SignInPageAttributes>;
 export type SignUpPage = Page<SignUpPageAttributes>;
 export type GeneralPage = Page<GeneralAttributes>;
 export type FooterPage = Page<FooterAttributes>;
-
+export type ManualPage = Page<ManualAttributes>;
+export type BibliographyPage = Page<BibliographyAttributes>;

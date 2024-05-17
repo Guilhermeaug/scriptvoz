@@ -99,7 +99,7 @@ export default function SignUpForm({
           <button
             type='submit'
             disabled={isSubmitting}
-            className='btn btn-primary btn-block mt-4 uppercase text-white'
+            className='btn btn-primary btn-block mt-4 uppercase'
           >
             {pageAttributes.sign_up}
           </button>

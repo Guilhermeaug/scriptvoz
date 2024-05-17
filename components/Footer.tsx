@@ -12,14 +12,11 @@ export default async function Footer({ lang }: { lang: string }) {
 
   return (
     <>
-      <footer className='footer footer-center mt-10 rounded bg-base-200 p-10 text-base-content'>
+      <footer className='footer footer-center rounded bg-base-200 p-10 text-base-content'>
         <nav className='grid grid-flow-col gap-4'>
           <Link href='/about-us' className='link-hover link'>
             {pageAttributes.about_us}
           </Link>
-          {/* <Link href='/' className='link-hover link'>
-            {pageAttributes.bibliographic_reference}
-          </Link> */}
         </nav>
       </footer>
       <footer className='footer footer-center border-t border-base-300 bg-base-200 px-10 py-4 text-base-content'>

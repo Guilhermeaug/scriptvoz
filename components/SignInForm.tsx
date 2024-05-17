@@ -71,18 +71,26 @@ export default function SignInForm({ lang, pageAttributes }: Props) {
         <form onSubmit={handleSubmit(onSubmit)} className='p-3'>
           <Form.Field>
             <Form.Label htmlFor='email'>E-mail ou nome de usuário</Form.Label>
-            <Form.Input type='email' name='email' placeholder='Seu e-mail cadastrado' />
+            <Form.Input
+              type='email'
+              name='email'
+              placeholder='Seu e-mail cadastrado'
+            />
             <Form.ErrorMessage field='email' />
           </Form.Field>
           <Form.Field>
             <Form.Label htmlFor='password'>Senha</Form.Label>
-            <Form.Input type='password' name='password' placeholder='Sua senha'/>
+            <Form.Input
+              type='password'
+              name='password'
+              placeholder='Sua senha'
+            />
             <Form.ErrorMessage field='password' />
           </Form.Field>
           <button
             type='submit'
             disabled={isSubmitting}
-            className='btn btn-primary btn-block mt-4 uppercase text-white'
+            className='btn btn-primary btn-block mt-4 uppercase'
           >
             Fazer Login
           </button>

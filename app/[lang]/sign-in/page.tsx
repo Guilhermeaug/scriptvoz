@@ -51,7 +51,6 @@ export default async function LoginPage({
           <div className='grid auto-cols-fr text-center'>
             <span>{pageAttributes.call_text}</span>
             <Link href={`sign-up`} locale={lang} className={'text-primary'}>
-              {' '}
               {pageAttributes.sign_in}
             </Link>
             <Modal />
