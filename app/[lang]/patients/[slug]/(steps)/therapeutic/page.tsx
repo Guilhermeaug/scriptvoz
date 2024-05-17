@@ -1,10 +1,12 @@
+import ArrowNavigator from '@/components/ArrowNavigator';
 import BlocksRendererClient from '@/components/BlocksRendererClient';
 import InformationBox from '@/components/InformationBox';
 import Questions from '@/components/Questions';
 import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
-import { TherapeuticPage } from '@/types/page_types';
+import { GeneralPage, TherapeuticPage } from '@/types/page_types';
 import { Patient } from '@/types/patients_types';
+import { navigateTo } from '@/util/navigateTo';
 
 export const metadata = {
   title: 'Decisão Terapéutica',
@@ -26,6 +28,10 @@ export default async function TherapeuticStep({
     path: 'therapeutic-page',
     locale: lang,
   });
+  const generalPagePromise: Promise<GeneralPage> = getPageData({
+    path: 'general',
+    locale: lang,
+  });
   const [
     {
       data: {
@@ -35,7 +41,29 @@ export default async function TherapeuticStep({
     {
       data: { attributes: pageAttributes },
     },
-  ] = await Promise.all([patientPromise, pagePromise]);
+    {
+      data: { attributes: generalPageAttributes },
+    },
+  ] = await Promise.all([patientPromise, pagePromise, generalPagePromise]);
+
+  const { correctAmount, correctIds } = patient.questions.reduce(
+    (
+      acc: {
+        correctAmount: number;
+        correctIds: number[];
+      },
+      q,
+    ) => {
+      q.test_cases.forEach((ts) => {
+        if (ts.is_correct) {
+          acc.correctAmount += 1;
+          acc.correctIds.push(ts.id);
+        }
+      });
+      return acc;
+    },
+    { correctAmount: 0, correctIds: [] },
+  );
 
   return (
     <div className='mx-auto mt-6 max-w-screen-md space-y-4 p-3'>
@@ -52,6 +80,13 @@ export default async function TherapeuticStep({
           <Questions questions={patient.questions} />
         </div>
       </InformationBox>
+      <ArrowNavigator
+        href={navigateTo(lang, `patients/${slug}/finished`)}
+        direction='right'
+        ids={correctIds}
+        correctAmount={correctAmount}
+        message={generalPageAttributes.finished_questions_message}
+      />
     </div>
   );
 }

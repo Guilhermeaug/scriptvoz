@@ -1,6 +1,7 @@
 'use client';
 
 import { sendResetPasswordCode } from '@/lib/auth';
+import { GeneralPage } from '@/types/page_types';
 import { useRef, useState } from 'react';
 import { z } from 'zod';
 
@@ -8,7 +9,11 @@ const FormSchema = z.object({
   email: z.string().email(),
 });
 
-export default function Modal() {
+interface Props {
+  pageAttributes: GeneralPage['data']['attributes'];
+}
+
+export default function Modal({ pageAttributes }: Props) {
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string>();
   const [success, setSuccess] = useState<string>();
@@ -18,7 +23,7 @@ export default function Modal() {
   async function handleResetPassword() {
     const isValid = FormSchema.safeParse({ email }).success;
     if (!isValid) {
-      setError('Email inválido');
+      setError(pageAttributes.invalid_email);
       return;
     }
     const res = await sendResetPasswordCode(email);
@@ -26,7 +31,7 @@ export default function Modal() {
       setError(res.error);
       return;
     }
-    setSuccess('Email enviado com sucesso');
+    setSuccess(pageAttributes.success_email_message);
   }
 
   return (
@@ -35,13 +40,11 @@ export default function Modal() {
         className='btn btn-link block text-xl'
         onClick={() => dialog?.current?.showModal()}
       >
-        Esqueci minha senha
+        {pageAttributes.forgot_password}
       </button>
       <dialog ref={dialog} className='modal'>
         <div className='modal-box'>
-          <h3 className='text-lg font-bold'>
-            Informe seu email para resetar a sua senha.
-          </h3>
+          <h3 className='text-lg font-bold'>{pageAttributes.your_email}</h3>
           <div className='space-y-8 py-4'>
             {error && <p className='text-red-500'>{error}</p>}
             {success && <p className='text-green-500'>{success}</p>}
@@ -57,12 +60,12 @@ export default function Modal() {
               onClick={handleResetPassword}
               className='btn btn-primary w-full max-w-md text-white'
             >
-              Enviar
+              {pageAttributes.send}
             </button>
           </div>
         </div>
         <form method='dialog' className='modal-backdrop'>
-          <button>close</button>
+          <button>{pageAttributes.send}</button>
         </form>
       </dialog>
     </>

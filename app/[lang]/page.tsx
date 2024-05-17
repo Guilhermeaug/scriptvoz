@@ -8,6 +8,7 @@ import CEFETMG from '@/public/Logo_CEFET-MG-Colorida.png';
 import UFMG from '@/public/logo_ufmg.svg';
 
 import { HomePage as HomePageType } from '@/types/page_types';
+import { navigateTo } from '@/util/navigateTo';
 
 export default async function HomePage({
   params: { lang },
@@ -26,17 +27,17 @@ export default async function HomePage({
   return (
     <div className='mx-auto space-y-6'>
       <div className='mt-2 flex justify-end gap-2'>
-        <Link locale={lang} href='manual'>
+        <Link locale={lang} href={navigateTo(lang, 'manual')}>
           <button className='btn btn-ghost w-full justify-start rounded-none uppercase'>
             {pageAttributes.manual}
           </button>
         </Link>
-        <Link locale={lang} href='bibliography'>
+        <Link locale={lang} href={navigateTo(lang, 'bibliography')}>
           <button className='btn btn-ghost w-full justify-start rounded-none uppercase'>
             {pageAttributes.bibliography}
           </button>
         </Link>
-        <Link href='/about-us' className='link-hover link'>
+        <Link href={navigateTo(lang, 'about-us')} className='link-hover link'>
           <button className='btn btn-ghost w-full justify-start rounded-none uppercase'>
             {pageAttributes.about_us}
           </button>
@@ -47,14 +48,14 @@ export default async function HomePage({
         <div className='flex justify-end'>
           {session ? (
             <>
-              <Link href='patients' locale={lang}>
+              <Link href={navigateTo(lang, 'patients')}>
                 <button className='btn btn-lg w-64'>
                   {pageAttributes.start_button_text}
                 </button>
               </Link>
             </>
           ) : (
-            <Link href='sign-in' locale={lang}>
+            <Link href={navigateTo(lang, 'sign-in')}>
               <button className='btn btn-lg w-64'>
                 {pageAttributes.login_button_text}
               </button>

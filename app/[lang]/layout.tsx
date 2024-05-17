@@ -13,7 +13,7 @@ export const metadata = {
 
 const nunito = Nunito_Sans({
   subsets: ['latin'],
-  display: 'auto',
+  display: 'swap',
 });
 
 export async function generateStaticParams() {
@@ -22,16 +22,16 @@ export async function generateStaticParams() {
 
 export default function RootLayout({
   children,
-  params,
+  params: { lang },
 }: {
   children: React.ReactNode;
   params: { lang: string };
 }) {
   return (
-    <html lang={params.lang} className={nunito.className}>
+    <html lang={lang} className={nunito.className}>
       <body className='flex min-h-screen flex-col'>
         <NextAuthProvider>
-          <Navbar />
+          <Navbar lang={lang} />
           <main className='relative flex-grow'>{children}</main>
           <Toaster />
         </NextAuthProvider>

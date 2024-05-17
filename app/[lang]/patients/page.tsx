@@ -2,6 +2,7 @@ import { getPageData } from '@/lib/page_data';
 import { getPatients } from '@/lib/patients';
 import { PatientsPage as PatientsPageType } from '@/types/page_types';
 import { PatientData } from '@/types/patients_types';
+import { navigateTo } from '@/util/navigateTo';
 import Link from 'next/link';
 
 export const metadata = {
@@ -36,7 +37,10 @@ export default async function PatientsPage({
         {patients.map((patient, index) => (
           <Link
             key={patient.id}
-            href={`patients/${patient.attributes.searchTitle}/evaluation`}
+            href={navigateTo(
+              lang,
+              `patients/${patient.attributes.searchTitle}/evaluation`,
+            )}
             className='card w-80 bg-base-100 text-left shadow-xl'
           >
             <figure className='h-40 bg-primary text-3xl'>{index + 1}</figure>
@@ -45,6 +49,11 @@ export default async function PatientsPage({
             </div>
           </Link>
         ))}
+        {patients.length === 0 && (
+          <p className='text-center text-lg'>
+            {pageAttributes.no_patients_message}
+          </p>
+        )}
       </section>
     </div>
   );

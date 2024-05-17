@@ -21,6 +21,7 @@ interface HomePageAttributes {
 interface PatientsPageAttributes {
   header: string;
   clinical_cases: string;
+  no_patients_message: string;
 }
 
 interface DiagnosticPageAttributes {
@@ -90,6 +91,12 @@ interface GeneralAttributes {
   evaluation: string;
   therapeutic: string;
   finished_questions_message: string;
+  forgot_password: string;
+  your_email: string;
+  send: string;
+  close: string;
+  success_email_message: string;
+  invalid_email: string;
 }
 
 interface FooterAttributes {

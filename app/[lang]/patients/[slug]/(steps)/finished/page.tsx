@@ -1,8 +1,8 @@
 import BlocksRendererClient from '@/components/BlocksRendererClient';
 import InformationBox from '@/components/InformationBox';
-import InformationHeader from '@/components/InformationHeader';
 import { getPageData } from '@/lib/page_data';
 import { EndScreenPage as EndScreenPageAttributes } from '@/types/page_types';
+import { navigateTo } from '@/util/navigateTo';
 import Link from 'next/link';
 
 interface Props {
@@ -19,16 +19,15 @@ export default async function EndScreenPage({ params: { lang, slug } }: Props) {
 
   return (
     <>
-      <div className='flex h-screen flex-col items-center justify-center'>
+      <div className='container flex h-screen flex-col items-center justify-center'>
         <header className='text-center text-3xl'>
           <h1>{pageAttributes.message}</h1>
         </header>
         <div className='flex flex-col items-center space-y-8'>
-          <InformationHeader title='Resumo' />
           <InformationBox className='border-none'>
             <BlocksRendererClient content={pageAttributes.summary} />
           </InformationBox>
-          <Link href='/'>
+          <Link href={navigateTo(lang, '')}>
             <button className='btn btn-primary'>
               {pageAttributes.button_text}
             </button>

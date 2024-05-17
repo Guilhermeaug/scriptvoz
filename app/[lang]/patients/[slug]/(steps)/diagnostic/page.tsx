@@ -6,6 +6,7 @@ import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
 import { DiagnosticPage, GeneralPage } from '@/types/page_types';
 import { Patient } from '@/types/patients_types';
+import { navigateTo } from '@/util/navigateTo';
 
 export const metadata = {
   title: 'Diagnóstico fonoaudiológico',
@@ -80,7 +81,7 @@ export default async function EvaluationStep({
         </div>
       </InformationBox>
       <ArrowNavigator
-        href='therapeutic'
+        href={navigateTo(lang, `patients/${slug}/therapeutic`)}
         direction='right'
         ids={correctIds}
         correctAmount={correctAmount}
