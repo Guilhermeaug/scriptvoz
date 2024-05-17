@@ -97,12 +97,12 @@ function Question({
   const [selectedAnswer, setSelectedAnswer] = useState<number | undefined>();
 
   return (
-    <div className='space-y-3'>
-      <div>
+    <div className='space-y-6'>
+      <div className='space-y-6'>
         <h3 className='text-xl font-semibold'>
           <Markdown>{title}</Markdown>
         </h3>
-        <div className='flex gap-4 relative w-full'>
+        <div className='relative flex w-full gap-4'>
           {images &&
             images.map(({ attributes: file }, idx) => {
               const url = `${process.env.NEXT_PUBLIC_API_URL}${file.url}`;
@@ -111,10 +111,10 @@ function Question({
                   key={idx}
                   src={url}
                   alt={file.caption || file.name}
-                  width="0"
-                  height="0"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className='w-full h-auto cursor-pointer rounded-md border shadow-sm'
+                  width='0'
+                  height='0'
+                  sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
+                  className='h-auto w-full cursor-pointer rounded-md border shadow-sm'
                 />
               );
             })}

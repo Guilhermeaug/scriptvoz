@@ -13,6 +13,8 @@ interface HomePageAttributes {
   login_button_text: string;
   groups_button_text: string;
   title: string;
+  manual: string;
+  bibliography: string;
 }
 
 interface PatientsPageAttributes {
@@ -67,11 +69,18 @@ interface SignInPageAttributes {
   title: string;
   call_text: string;
   sign_in: string;
+  scriptvoz: string;
+  cta1: string;
+  cta2: string;
 }
 
 interface SignUpPageAttributes {
   title: string;
   sign_up: string;
+  scriptvoz: string;
+  cta1: string;
+  cta2: string;
+  cta3: string;
 }
 
 interface GeneralAttributes {

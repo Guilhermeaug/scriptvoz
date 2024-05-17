@@ -31,21 +31,16 @@ export default async function LoginPage({
           }}
         >
           <div className='flex items-center gap-3 text-xl font-semibold'>
-            <Image src={ScriptVozImage} alt='ScriptVoz' />
-            <p>Script Voz</p>
+            <Image src={ScriptVozImage} alt='' />
+            <p>{pageAttributes.scriptvoz}</p>
           </div>
-          <p className='text-3xl'>
-            Faça seu cadastro na plataforma Script Voz e comece a colocar em
-            prática o seu aprendizado.
-          </p>
-          <p className='text-2xl'>
-            Vamos juntos aprender sobre disfonias vocais
-          </p>
+          <p className='text-3xl'>{pageAttributes.cta1}</p>
+          <p className='text-2xl'>{pageAttributes.cta2}</p>
         </div>
         <div className='mx-auto mt-3 w-full space-y-3 p-3 md:max-w-[520px]'>
           <div className='flex items-center gap-3 text-xl font-semibold lg:hidden'>
-            <Image src={ScriptVozImage} alt='ScriptVoz' />
-            <p>Script Voz</p>
+            <Image src={ScriptVozImage} alt='' />
+            <p>{pageAttributes.scriptvoz}</p>
           </div>
           <SignInForm lang={lang} pageAttributes={pageAttributes} />
           <div className='grid auto-cols-fr text-center'>

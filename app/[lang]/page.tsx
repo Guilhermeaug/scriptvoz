@@ -28,12 +28,12 @@ export default async function HomePage({
       <div className='mt-2 flex justify-end gap-2'>
         <Link locale={lang} href='manual'>
           <button className='btn btn-ghost w-full justify-start rounded-none uppercase'>
-            Manual do Software
+            {pageAttributes.manual}
           </button>
         </Link>
-        <Link lang={lang} href='bibliography'>
+        <Link locale={lang} href='bibliography'>
           <button className='btn btn-ghost w-full justify-start rounded-none uppercase'>
-            Bibliografia do Trabalho
+            {pageAttributes.bibliography}
           </button>
         </Link>
       </div>
