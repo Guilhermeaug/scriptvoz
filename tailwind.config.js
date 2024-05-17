@@ -11,18 +11,25 @@ module.exports = {
       colors: {
         evaluation: '#f77f00',
         diagnostic: '#588157',
-        therapeutic: '#3a0ca3',
+        therapeutic: '#0A054C',
       },
     },
   },
   safelist: [
     {
-      pattern:
-        /(bg|text|border)-(evaluation|diagnostic|therapeutic)/,
+      pattern: /(bg|text|border)-(evaluation|diagnostic|therapeutic)/,
     },
   ],
   daisyui: {
-    themes: ['bumblebee'],
+    themes: [
+      {
+        bumblebee: {
+          ...require('daisyui/src/theming/themes')['bumblebee'],
+          primary: '#DC4D01',
+          secondary: '#0A054C',
+        },
+      },
+    ],
   },
   plugins: [require('@tailwindcss/typography'), require('daisyui')],
 };

@@ -32,7 +32,7 @@ export default function RootLayout({
       <body className='flex min-h-screen flex-col'>
         <NextAuthProvider>
           <Navbar />
-          <main className='flex-grow'>{children}</main>
+          <main className='relative flex-grow'>{children}</main>
           <Footer lang={params.lang} />
         </NextAuthProvider>
       </body>
