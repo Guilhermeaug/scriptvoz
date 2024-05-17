@@ -10,7 +10,7 @@ import Questions from '@/components/Questions';
 import { getPageData } from '@/lib/page_data';
 import { getPatient } from '@/lib/patients';
 import { Media } from '@/types/evaluation_types';
-import { EvaluationPage } from '@/types/page_types';
+import { EvaluationPage, GeneralPage } from '@/types/page_types';
 import { Patient } from '@/types/patients_types';
 
 export const metadata = {
@@ -33,6 +33,10 @@ export default async function EvaluationStep({
     path: 'evaluation-page',
     locale: lang,
   });
+  const generalPagePromise: Promise<GeneralPage> = getPageData({
+    path: 'general',
+    locale: lang,
+  });
   const [
     {
       data: {
@@ -42,7 +46,10 @@ export default async function EvaluationStep({
     {
       data: { attributes: pageAttributes },
     },
-  ] = await Promise.all([patientPromise, pagePromise]);
+    {
+      data: { attributes: generalPageAttributes },
+    },
+  ] = await Promise.all([patientPromise, pagePromise, generalPagePromise]);
 
   const { correctAmount, correctIds } = patient.questions.reduce(
     (
@@ -241,6 +248,7 @@ export default async function EvaluationStep({
         direction='right'
         ids={correctIds}
         correctAmount={correctAmount}
+        message={generalPageAttributes.finished_questions_message}
       />
     </div>
   );

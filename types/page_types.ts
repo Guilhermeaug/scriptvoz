@@ -89,6 +89,7 @@ interface GeneralAttributes {
   diagnostic: string;
   evaluation: string;
   therapeutic: string;
+  finished_questions_message: string;
 }
 
 interface FooterAttributes {
@@ -120,6 +121,14 @@ interface AboutUsAttributes {
   developer: string;
 }
 
+interface ResetPasswordAttributes {
+  title: string;
+  password: string;
+  button_text: string;
+  success_message: string;
+  error_message: string;
+}
+
 export type HomePage = Page<HomePageAttributes>;
 export type PatientsPage = Page<PatientsPageAttributes>;
 export type DiagnosticPage = Page<DiagnosticPageAttributes>;
@@ -133,3 +142,4 @@ export type ManualPage = Page<ManualAttributes>;
 export type BibliographyPage = Page<BibliographyAttributes>;
 export type EndScreenPage = Page<EndScreenAttributes>;
 export type AboutUsPage = Page<AboutUsAttributes>;
+export type ResetPasswordPage = Page<ResetPasswordAttributes>;

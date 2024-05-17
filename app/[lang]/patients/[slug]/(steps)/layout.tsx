@@ -42,7 +42,7 @@ export default async function StepsLayout({
   ]);
 
   return (
-    <div className='container relative lg:grid lg:grid-cols-7 lg:gap-4 xl:mx-auto'>
+    <div className='container relative lg:grid lg:grid-cols-7 lg:gap-4'>
       <Sidebar
         title={title}
         generalAttributes={generalAttributes}

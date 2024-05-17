@@ -5,6 +5,7 @@ import { cn } from '@/util/cn';
 import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { useReadLocalStorage } from 'usehooks-ts';
 
 interface ArrowNavigatorProps {
@@ -12,6 +13,7 @@ interface ArrowNavigatorProps {
   href: string;
   ids?: number[];
   correctAmount?: number;
+  message: string;
 }
 
 interface QuestionStatus {
@@ -24,6 +26,7 @@ export default function ArrowNavigator({
   href,
   ids = [],
   correctAmount = 0,
+  message,
 }: ArrowNavigatorProps) {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const storage = useReadLocalStorage<QuestionStatus[]>('questions') || [];
@@ -36,6 +39,12 @@ export default function ArrowNavigator({
   useEffect(() => {
     setIsCompleted(testCasesIdsLength === correctAmount);
   }, [correctAmount, storage, testCasesIdsLength]);
+
+  useEffect(() => {
+    if (isCompleted === true) {
+      toast.success(message);
+    }
+  }, [isCompleted, message]);
 
   const navClasses = cn(
     `w-24 rounded-br-lg p-2 bg-primary text-primary-content`,

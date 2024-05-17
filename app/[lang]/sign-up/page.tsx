@@ -42,7 +42,7 @@ export default async function RegisterPage({
       </div>
       <div className='mx-auto mt-3 w-full space-y-3 p-3 md:max-w-[520px]'>
         <div className='flex items-center gap-3 text-xl font-semibold lg:hidden'>
-          <Image src={ScriptVozImage} alt='ScriptVoz' />
+          <Image src={ScriptVozImage} alt='' />
           <p>{pageAttributes.scriptvoz}</p>
         </div>
         <SignUpForm formData={formData} pageAttributes={pageAttributes} />
