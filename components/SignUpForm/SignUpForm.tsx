@@ -1,24 +1,26 @@
 'use client';
 
 import { signUp } from '@/lib/auth';
-import { SignUpError } from '@/types/auth_types';
 import { SignUpPage } from '@/types/page_types';
 import { SignUpFields } from '@/types/sign_up_types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 import { CommonFields } from './CommonFields';
 import { SpecializedFields } from './SpecializedFields';
 import { getFieldsSchema } from './validation_schemas';
 
 interface SignUpFormProps {
+  lang: string;
   formData: SignUpFields;
   pageAttributes: SignUpPage['data']['attributes'];
 }
 
 export default function SignUpForm({
+  lang,
   formData,
   pageAttributes,
 }: SignUpFormProps) {
@@ -38,32 +40,55 @@ export default function SignUpForm({
     handleSubmit,
     formState: { isSubmitting },
     watch,
+    setError: setFormError,
   } = registerForm;
 
   const [error, setError] = useState<string | null>(null);
   async function onSubmit(data: FormData) {
-    try {
-      await signUp({
-        ...data,
-        isTeacher: data.role === roleOptions[2],
-      });
-      await signIn('credentials', {
-        email: data.email,
-        password: data.password,
-        callbackUrl: '/',
-      });
-    } catch (error) {
-      const { error: e } = error as SignUpError;
-      if (
-        e &&
-        e.message &&
-        e.message === 'Email or Username are already taken'
-      ) {
-        setError('Email ou nome de usuário já estão em uso');
-      } else {
-        setError('Ocorreu um erro ao realizar o cadastro');
+    const res = await signUp({
+      ...data,
+      isTeacher: data.role === roleOptions[2],
+    });
+
+    if ('error' in res) {
+      switch (res.error.message) {
+        case 'Email or Username are already taken': {
+          setError(formData.data.attributes.email_username_already_taken);
+          toast.error(formData.data.attributes.email_username_already_taken);
+          setFormError('email', {
+            type: 'required',
+          });
+          setFormError('username', {
+            type: 'required',
+          });
+          break;
+        }
+        default:
+          setError(formData.data.attributes.unknown_error);
+          toast.error(formData.data.attributes.unknown_error);
+          break;
       }
-      console.error(error);
+      return;
+    }
+
+    const loginResponse = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+
+    if (loginResponse?.ok) {
+      window.location.replace(`/${lang}`);
+      return;
+    }
+
+    switch (loginResponse?.error) {
+      case 'Your account email is not confirmed':
+        toast.message(formData.data.attributes.email_not_confirmed);
+        break;
+      default:
+        toast.error(formData.data.attributes.unknown_error);
+        break;
     }
   }
 
@@ -86,7 +111,7 @@ export default function SignUpForm({
               d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
             />
           </svg>
-          <span>{error}</span>
+          <span className='text-white'>{error}</span>
         </div>
       )}
       <FormProvider {...registerForm}>

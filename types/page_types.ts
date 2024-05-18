@@ -1,4 +1,5 @@
 import { BlocksContent } from '@strapi/blocks-react-renderer';
+import { Field } from './sign_up_types';
 
 interface Page<T = Record<string, string>> {
   data: {
@@ -68,12 +69,17 @@ interface TherapeuticPageAttributes {
 }
 
 interface SignInPageAttributes {
-  title: string;
+  button_text: string;
   call_text: string;
   sign_in: string;
   scriptvoz: string;
   cta1: string;
   cta2: string;
+  email_not_confirmed: string;
+  unknown_error: string;
+  invalid_credentials: string;
+  email: Field;
+  password: Field;
 }
 
 interface SignUpPageAttributes {

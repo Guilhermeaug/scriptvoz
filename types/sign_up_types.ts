@@ -5,14 +5,14 @@ interface Page<T = Record<string, string>> {
   };
 }
 
-interface Field {
+export interface Field {
   id: number;
   label: string;
   validation: string;
   placeholder: string;
 }
 
-interface FieldWithValues {
+export interface FieldWithValues {
   id: number;
   values: string;
   field: Field;
@@ -31,6 +31,9 @@ interface SignUp {
   graduationStep: Field;
   institution: Field;
   timeSinceGraduation: FieldWithValues;
+  email_username_already_taken: string;
+  unknown_error: string;
+  email_not_confirmed: string;
 }
 
 export type SignUpFields = Page<SignUp>;

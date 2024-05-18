@@ -50,7 +50,7 @@ export default function Modal({ pageAttributes }: Props) {
             {success && <p className='text-green-500'>{success}</p>}
             <input
               type='email'
-              id='email'
+              id='email-modal'
               placeholder='Email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}

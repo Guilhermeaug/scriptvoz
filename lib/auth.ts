@@ -1,4 +1,4 @@
-import { Auth, SignUp, SignUpError } from '@/types/auth_types';
+import { Auth, SignUpError } from '@/types/auth_types';
 import { AuthOptions, getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { revalidatePath } from 'next/cache';
@@ -18,7 +18,7 @@ export const authOptions: AuthOptions = {
             email: credentials.email,
             password: credentials.password,
           });
-          revalidatePath('/');
+          revalidatePath('/', 'layout');
           return { ...user, jwt };
         } catch (error) {
           const { error: e } = error as SignUpError;
@@ -78,25 +78,25 @@ export async function login({
   }
 }
 
-export async function signUp(
-  data: Record<string, unknown>,
-) {
+export async function signUp(data: Record<string, unknown>) {
   const endpoint = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/local/register`;
-  const res = await fetch(endpoint, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-    cache: 'no-cache',
-  });
-  const json = await res.json();
-  if (res.ok) {
+  try {
+    const res = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+      cache: 'no-cache',
+    });
+    if (!res.ok) {
+      return signUpError(res);
+    }
+    const json = await res.json();
     return json as Auth;
-  } else {
-    const error = json as SignUpError;
-    return Promise.reject(error);
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 }
 
@@ -137,6 +137,25 @@ export async function resetPassword(code: string, password: string) {
     return {
       error: 'Erro ao trocar a senha',
     };
+  }
+}
+
+async function signUpError(res: Response): Promise<SignUpError> {
+  switch (res.status) {
+    case 400: {
+      return (await res.json()) as SignUpError;
+    }
+    default: {
+      return {
+        data: null,
+        error: {
+          status: res.status,
+          name: 'UnknownError',
+          message: 'An Unknown Error Occurred',
+          details: {},
+        },
+      };
+    }
   }
 }
 

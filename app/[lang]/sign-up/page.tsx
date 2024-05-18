@@ -45,7 +45,11 @@ export default async function RegisterPage({
           <Image src={ScriptVozImage} alt='' />
           <p>{pageAttributes.scriptvoz}</p>
         </div>
-        <SignUpForm formData={formData} pageAttributes={pageAttributes} />
+        <SignUpForm
+          lang={lang}
+          formData={formData}
+          pageAttributes={pageAttributes}
+        />
       </div>
     </div>
   );

@@ -3,18 +3,11 @@
 import { SignInPage } from '@/types/page_types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 import { Form } from './Form';
-
-const FormSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8).max(255),
-});
-
-type FormData = z.infer<typeof FormSchema>;
 
 interface Props extends React.HTMLAttributes<HTMLDivElement> {
   lang: string;
@@ -22,8 +15,15 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export default function SignInForm({ lang, pageAttributes }: Props) {
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+
+  const FormSchema = z.object({
+    email: z.string().min(3, pageAttributes.email.validation),
+    password: z.string().min(8, pageAttributes.password.validation).max(255),
+  });
+
+  type FormData = z.infer<typeof FormSchema>;
+
   const registerForm = useForm<FormData>({
     resolver: zodResolver(FormSchema),
     mode: 'onBlur',
@@ -35,16 +35,32 @@ export default function SignInForm({ lang, pageAttributes }: Props) {
 
   async function onSubmit(data: FormData) {
     const res = await signIn('credentials', {
-      callbackUrl: '/',
       email: data.email,
       password: data.password,
       redirect: false,
     });
-    if (res?.error) {
-      setError(res.error);
+
+    if (res?.ok) {
+      window.location.replace(`/${lang}`);
       return;
     }
-    router.push('/');
+
+    switch (res?.error) {
+      case 'Your account email is not confirmed': {
+        setError(pageAttributes.email_not_confirmed);
+        toast.error(pageAttributes.email_not_confirmed);
+        break;
+      }
+      case 'Invalid identifier or password': {
+        setError(pageAttributes.invalid_credentials);
+        toast.error(pageAttributes.invalid_credentials);
+        break;
+      }
+      default: {
+        setError(pageAttributes.unknown_error);
+        toast.error(pageAttributes.unknown_error);
+      }
+    }
   }
 
   return (
@@ -64,26 +80,29 @@ export default function SignInForm({ lang, pageAttributes }: Props) {
               d='M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
             />
           </svg>
-          <span>{error}</span>
+          <span className='text-white'>{error}</span>
         </div>
       )}
       <FormProvider {...registerForm}>
         <form onSubmit={handleSubmit(onSubmit)} className='p-3'>
           <Form.Field>
-            <Form.Label htmlFor='email'>E-mail ou nome de usuário</Form.Label>
+            <Form.Label htmlFor='email'>
+              {pageAttributes.email.label}
+            </Form.Label>
             <Form.Input
-              type='email'
               name='email'
-              placeholder='Seu e-mail cadastrado'
+              placeholder={pageAttributes.email.placeholder}
             />
             <Form.ErrorMessage field='email' />
           </Form.Field>
           <Form.Field>
-            <Form.Label htmlFor='password'>Senha</Form.Label>
+            <Form.Label htmlFor='password'>
+              {pageAttributes.password.label}
+            </Form.Label>
             <Form.Input
               type='password'
               name='password'
-              placeholder='Sua senha'
+              placeholder={pageAttributes.password.placeholder}
             />
             <Form.ErrorMessage field='password' />
           </Form.Field>
@@ -92,7 +111,7 @@ export default function SignInForm({ lang, pageAttributes }: Props) {
             disabled={isSubmitting}
             className='btn btn-primary btn-block mt-4 uppercase'
           >
-            Fazer Login
+            {pageAttributes.button_text}
           </button>
         </form>
       </FormProvider>
