@@ -24,7 +24,7 @@ module.exports = {
     themes: [
       {
         bumblebee: {
-          ...require('daisyui/src/theming/themes')['bumblebee'],
+          ...require('daisyui/src/theming/themes')['light'],
           primary: '#DC4D01',
           secondary: '#0A054C',
           'primary-content': 'white',

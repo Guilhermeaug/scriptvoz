@@ -26,7 +26,7 @@ export default async function HomePage({
 
   return (
     <div className='mx-auto space-y-6'>
-      <div className='mt-2 flex justify-end gap-2'>
+      <div className='mt-2 flex flex-col flex-wrap items-end justify-end gap-2 md:flex-row'>
         <Link locale={lang} href={navigateTo(lang, 'manual')}>
           <button className='btn btn-ghost w-full justify-start rounded-none uppercase'>
             {pageAttributes.manual}
@@ -40,6 +40,14 @@ export default async function HomePage({
         <Link href={navigateTo(lang, 'about-us')} className='link-hover link'>
           <button className='btn btn-ghost w-full justify-start rounded-none uppercase'>
             {pageAttributes.about_us}
+          </button>
+        </Link>
+        <Link
+          href={navigateTo(lang, 'about-us#authors')}
+          className='link-hover link'
+        >
+          <button className='btn btn-ghost w-full justify-start rounded-none uppercase'>
+            {pageAttributes.contact_us}
           </button>
         </Link>
       </div>

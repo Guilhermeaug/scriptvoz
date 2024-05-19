@@ -1,5 +1,6 @@
 'use client';
 
+import { cn } from '@/util/cn';
 import {
   BlocksRenderer,
   type BlocksContent,
@@ -9,64 +10,48 @@ import Link from 'next/link';
 
 type Props = {
   readonly content: BlocksContent;
+  readonly className?: string;
 };
 
-export default function BlocksRendererClient({ content }: Props) {
+export default function BlocksRendererClient({ content, className }: Props) {
+  const style = cn(
+    'prose prose-stone max-w-prose text-justify lg:prose-lg',
+    className,
+  );
+
   if (!content) return null;
   return (
     <BlocksRenderer
       content={content}
       blocks={{
-        paragraph: ({ children }) => (
-          <p className='prose prose-stone max-w-prose text-justify lg:prose-lg'>
-            {children}
-          </p>
-        ),
+        paragraph: ({ children }) => <p className={style}>{children}</p>,
         list: ({ children, format }) => {
           if (format === 'ordered') {
             return (
-              <ol className='prose prose-stone max-w-prose list-inside list-decimal text-justify lg:prose-lg'>
+              <ol className={`list-inside list-decimal ${style}`}>
                 {children}
               </ol>
             );
           } else {
             return (
-              <ul className='prose prose-stone max-w-prose list-inside list-disc text-justify lg:prose-lg'>
-                {children}
-              </ul>
+              <ul className={`list-inside list-disc ${style}`}>{children}</ul>
             );
           }
         },
         heading: ({ children, level }) => {
           switch (level) {
             case 1:
-              return (
-                <h1 className='prose prose-stone max-w-prose text-3xl lg:prose-lg'>
-                  {children}
-                </h1>
-              );
+              return <h1 className={`${style} text-3xl`}>{children}</h1>;
             case 2:
-              return (
-                <h2 className='prose prose-stone max-w-prose text-2xl lg:prose-lg'>
-                  {children}
-                </h2>
-              );
+              return <h2 className={`${style} text-2xl`}>{children}</h2>;
             case 3:
-              return (
-                <h3 className='prose prose-stone max-w-prose text-xl lg:prose-lg'>
-                  {children}
-                </h3>
-              );
+              return <h3 className={`${style} text-lg`}>{children}</h3>;
             default:
-              return (
-                <h3 className='prose prose-stone max-w-prose text-xl lg:prose-lg'>
-                  {children}
-                </h3>
-              );
+              return <h3 className={`${style} text-xl`}>{children}</h3>;
           }
         },
         link: ({ children, url }) => (
-          <Link href={url} className='prose prose-stone prose-a:text-blue-600'>
+          <Link href={url} className={`${style} prose-a:text-blue-600`}>
             {children}
           </Link>
         ),

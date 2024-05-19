@@ -17,6 +17,7 @@ interface HomePageAttributes {
   manual: string;
   bibliography: string;
   about_us: string;
+  contact_us: string;
 }
 
 interface PatientsPageAttributes {
@@ -132,6 +133,11 @@ interface AboutUsAttributes {
   what_is: string;
   maintainer: string;
   developer: string;
+  about_us: string;
+  author: string;
+  authora: string;
+  tech_team: string;
+  designer: string;
 }
 
 interface ResetPasswordAttributes {
