@@ -15,7 +15,7 @@ export default async function ManualPage({
   });
 
   return (
-    <div className='container mx-auto p-4 md:pt-8'>
+    <div className='flex flex-col items-center justify-center p-4 md:pt-8'>
       <BlocksRendererClient content={pageAttributes.content} />
     </div>
   );

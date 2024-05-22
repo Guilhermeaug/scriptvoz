@@ -1,11 +1,15 @@
 import BlocksRendererClient from '@/components/BlocksRendererClient';
 import { getPageData } from '@/lib/page_data';
 import GithubIcon from '@/public/icons/Github_icon.svg';
+import LattesIcon from '@/public/icons/Lattes_icon.png';
+import InstagramIcon from '@/public/icons/Instagram_icon.svg';
 import LinkedinIcon from '@/public/icons/Linkedin_icon.svg';
 import MailIcon from '@/public/icons/Mail_icon.svg';
 import Female from '@/public/people/Female.svg';
 import Guilherme from '@/public/people/GuilhermeAugusto.jpg';
+import Lorena from '@/public/people/Lorena.jpeg';
 import Male from '@/public/people/Male.svg';
+import Sandro from '@/public/people/Sandro.jpeg';
 import { AboutUsPage as AboutUsPageAttributes } from '@/types/page_types';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
@@ -23,7 +27,7 @@ export default async function AboutUsPage({
   });
 
   return (
-    <div className='container mx-auto space-y-4'>
+    <div className='mx-auto space-y-4'>
       <div>
         <h1 className='p-3 text-3xl font-bold'>{pageAttributes.about_us}</h1>
         <section className='grid place-items-center bg-secondary p-4 text-white'>
@@ -38,7 +42,7 @@ export default async function AboutUsPage({
           <h2 className='mb-4 text-3xl font-bold'>{pageAttributes.authors}</h2>
           <div className='grid place-items-center gap-x-4 gap-y-8 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-3'>
             <Member
-              photo={Female}
+              photo={Lorena}
               name='Lorena Luiza Costa Rosa Nogueira'
               role={pageAttributes.authora}
               icons={[
@@ -46,13 +50,26 @@ export default async function AboutUsPage({
                   iconName: 'mail',
                   href: 'mailto:lorenabemdito@gmail.com',
                 },
+                {
+                  iconName: 'instagram',
+                  href: 'https://www.instagram.com/bemdito_com/',
+                },
               ]}
             />
             <Member
-              photo={Male}
+              photo={Sandro}
               name='Sandro Renato Dias'
               role={pageAttributes.author}
-              icons={[]}
+              icons={[
+                {
+                  iconName: 'linkedin',
+                  href: 'https://www.linkedin.com/in/sandrord',
+                },
+                {
+                  iconName: 'lattes',
+                  href: 'http://lattes.cnpq.br/5300421458375793'
+                }
+              ]}
             />
             <Member
               photo={Female}
@@ -132,12 +149,14 @@ export default async function AboutUsPage({
   );
 }
 
-type Icons = 'linkedin' | 'github' | 'mail';
+type Icons = 'linkedin' | 'github' | 'mail' | 'instagram' | 'lattes';
 
 const iconsSrc = {
   linkedin: LinkedinIcon,
   github: GithubIcon,
   mail: MailIcon,
+  instagram: InstagramIcon,
+  lattes: LattesIcon
 } as Record<Icons, StaticImageData>;
 
 function Member({

@@ -81,7 +81,7 @@ export default async function TherapeuticStep({
         </div>
       </InformationBox>
       <ArrowNavigator
-        href={navigateTo(lang, `patients/${slug}/finished`)}
+        href={navigateTo(lang, `finished`)}
         direction='right'
         ids={correctIds}
         correctAmount={correctAmount}

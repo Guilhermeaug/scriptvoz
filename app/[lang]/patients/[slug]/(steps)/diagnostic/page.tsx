@@ -77,7 +77,7 @@ export default async function EvaluationStep({
           <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
             {pageAttributes.call_to_action}
           </p>
-          <Questions questions={patient.questions} />
+          <Questions showFeedbackOnTop questions={patient.questions} />
         </div>
       </InformationBox>
       <ArrowNavigator

@@ -29,7 +29,7 @@ export default function LocaleSwitcher({ className }: Props) {
         if (flagCode === 'un' && locale.split('-')[0] === 'en') flagCode = 'gb';
         return (
           <Link href={redirectedPathName(locale)} key={locale}>
-            <span className={`fi fi-${flagCode}`}></span>
+            <span className={`fi fi-${flagCode} text-xl`}></span>
           </Link>
         );
       })}

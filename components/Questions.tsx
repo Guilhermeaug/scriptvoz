@@ -3,6 +3,7 @@
 import { Media } from '@/types/evaluation_types';
 import { QuestionType, TestStatus, TestType } from '@/types/global_types';
 import { cn } from '@/util/cn';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { useLocalStorage } from 'usehooks-ts';
@@ -21,8 +22,10 @@ interface QuestionStatus {
 
 export default function Questions({
   questions,
+  showFeedbackOnTop = false,
 }: {
   questions: QuestionType[];
+  showFeedbackOnTop?: boolean;
 }) {
   const [questionStatusStorage = [], saveQuestions] = useLocalStorage<
     QuestionStatus[]
@@ -70,6 +73,7 @@ export default function Questions({
             testCases={question.test_cases}
             status={questionStatus}
             handleAnswer={handleAnswer}
+            showFeedbackOnTop={showFeedbackOnTop}
           />
         );
       })}
@@ -84,6 +88,7 @@ interface QuestionProps {
   testCases: TestType[];
   handleAnswer: (questionStatus: QuestionStatus, testCaseId: number) => void;
   images?: Media[];
+  showFeedbackOnTop?: boolean;
 }
 
 function Question({
@@ -93,7 +98,9 @@ function Question({
   status,
   images,
   handleAnswer,
+  showFeedbackOnTop = false,
 }: QuestionProps) {
+  const [parent, enableAnimations] = useAutoAnimate();
   const [selectedAnswer, setSelectedAnswer] = useState<number | undefined>();
 
   return (
@@ -120,44 +127,83 @@ function Question({
             })}
         </div>
       </div>
-      <div className='flex flex-col gap-4'>
+      <ul className='flex flex-col gap-4' ref={parent}>
         {testCases.map((testCase, index) => {
           const testCaseStatus = status.testCasesStatus.find(
             (t) => t.id === testCase.id,
           )!;
 
-          const isAnswered = testCaseStatus.answered || false;
-          const isCorrect = isAnswered && testCase.is_correct;
-
-          let variation: keyof typeof variations = 'neutral';
-          if (isCorrect) {
-            variation = 'correct';
-          } else if (isAnswered) {
-            variation = 'incorrect';
-          }
-          const style = cn(
-            'rounded-md border px-4 py-2 text-left shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
-            variations[variation],
-          );
           return (
-            <button
+            <TestCase
               key={testCase.id}
-              onClick={() => {
-                setSelectedAnswer(index);
-                handleAnswer(status, testCase.id);
-              }}
-              className={style}
-            >
-              <p className='text-slate text-sm font-medium'>{testCase.title}</p>
-            </button>
+              testCaseStatus={testCaseStatus}
+              isCorrect={testCase.is_correct}
+              setSelectedAnswer={() => setSelectedAnswer(index)}
+              handleAnswer={() => handleAnswer(status, testCase.id)}
+              title={testCase.title}
+              feedback={testCase.feedback}
+              isSelected={selectedAnswer === index}
+              showFeedbackOnTop={showFeedbackOnTop}
+            />
           );
         })}
-      </div>
-      {selectedAnswer !== undefined && (
+      </ul>
+      {!showFeedbackOnTop && selectedAnswer !== undefined && (
         <Markdown className={'p-3'}>
           {testCases[selectedAnswer].feedback}
         </Markdown>
       )}
     </div>
+  );
+}
+
+function TestCase({
+  setSelectedAnswer,
+  handleAnswer,
+  testCaseStatus,
+  title,
+  feedback,
+  isSelected,
+  showFeedbackOnTop,
+  isCorrect: isCorrectProps,
+}: {
+  testCaseStatus: TestStatus;
+  isCorrect: boolean;
+  setSelectedAnswer: () => void;
+  handleAnswer: () => void;
+  title: string;
+  feedback: string;
+  isSelected: boolean;
+  showFeedbackOnTop: boolean;
+}) {
+  const isAnswered = testCaseStatus.answered || false;
+  const isCorrect = isAnswered && isCorrectProps;
+
+  let variation: keyof typeof variations = 'neutral';
+  if (isCorrect) {
+    variation = 'correct';
+  } else if (isAnswered) {
+    variation = 'incorrect';
+  }
+  const style = cn(
+    'rounded-md border px-4 py-2 text-left shadow-sm w-full hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2',
+    variations[variation],
+  );
+
+  return (
+    <>
+      <button
+        onClick={() => {
+          setSelectedAnswer();
+          handleAnswer();
+        }}
+        className={style}
+      >
+        <p className='text-stone text-sm font-medium'>{title}</p>
+      </button>
+      {showFeedbackOnTop && isSelected && (
+        <Markdown className={'p-3'}>{feedback}</Markdown>
+      )}
+    </>
   );
 }
