@@ -12,7 +12,7 @@ import Lorena from '@/public/people/Lorena.jpeg';
 import Male from '@/public/people/Male.svg';
 import Renata from '@/public/people/Renata.jpeg';
 import Sandro from '@/public/people/Sandro.jpeg';
-import Julia from '@/public/people/julia.jpeg';
+import Julia from '@/public/people/Julia.jpeg';
 import { AboutUsPage as AboutUsPageAttributes } from '@/types/page_types';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
