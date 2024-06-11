@@ -1,15 +1,18 @@
 import BlocksRendererClient from '@/components/BlocksRendererClient';
 import { getPageData } from '@/lib/page_data';
 import GithubIcon from '@/public/icons/Github_icon.svg';
-import LattesIcon from '@/public/icons/Lattes_icon.png';
 import InstagramIcon from '@/public/icons/Instagram_icon.svg';
+import LattesIcon from '@/public/icons/Lattes_icon.png';
 import LinkedinIcon from '@/public/icons/Linkedin_icon.svg';
 import MailIcon from '@/public/icons/Mail_icon.svg';
-import Female from '@/public/people/Female.svg';
+import AnaCristina from '@/public/people/AnaCristina.jpeg';
+import AnnaAlice from '@/public/people/AnnaAlice.jpeg';
 import Guilherme from '@/public/people/GuilhermeAugusto.jpg';
 import Lorena from '@/public/people/Lorena.jpeg';
 import Male from '@/public/people/Male.svg';
+import Renata from '@/public/people/Renata.jpeg';
 import Sandro from '@/public/people/Sandro.jpeg';
+import Julia from '@/public/people/julia.jpeg';
 import { AboutUsPage as AboutUsPageAttributes } from '@/types/page_types';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
@@ -51,6 +54,10 @@ export default async function AboutUsPage({
                   href: 'mailto:lorenabemdito@gmail.com',
                 },
                 {
+                  iconName: 'lattes',
+                  href: 'http://lattes.cnpq.br/0897266899819446',
+                },
+                {
                   iconName: 'instagram',
                   href: 'https://www.instagram.com/bemdito_com/',
                 },
@@ -67,30 +74,44 @@ export default async function AboutUsPage({
                 },
                 {
                   iconName: 'lattes',
-                  href: 'http://lattes.cnpq.br/5300421458375793'
-                }
+                  href: 'http://lattes.cnpq.br/5300421458375793',
+                },
               ]}
             />
             <Member
-              photo={Female}
+              photo={AnnaAlice}
               name='Anna Alice Figueirêdo de Almeida'
               role={pageAttributes.authora}
-              icons={[]}
+              icons={[
+                {
+                  iconName: 'lattes',
+                  href: 'http://lattes.cnpq.br/8539341671152883',
+                },
+              ]}
             />
             <Member
-              photo={Female}
+              photo={Renata}
               name='Renata Rangel Azevedo'
               role={pageAttributes.authora}
-              icons={[]}
+              icons={[
+                {
+                  iconName: 'lattes',
+                  href: 'http://lattes.cnpq.br/1668260273015995',
+                },
+              ]}
             />
             <Member
-              photo={Female}
+              photo={AnaCristina}
               name='Ana Cristina Côrtes Gama'
               role={pageAttributes.authora}
               icons={[
                 {
                   iconName: 'mail',
                   href: 'mailto:anacgama@medicina.ufmg.br',
+                },
+                {
+                  iconName: 'lattes',
+                  href: 'http://lattes.cnpq.br/4598186599114774',
                 },
               ]}
             />
@@ -137,10 +158,15 @@ export default async function AboutUsPage({
               icons={[]}
             />
             <Member
-              photo={Female}
+              photo={Julia}
               name='Júlia de Oliveira Alves (UFMG)'
               role={pageAttributes.designer}
-              icons={[]}
+              icons={[
+                {
+                  iconName: 'lattes',
+                  href: 'https://lattes.cnpq.br/7456845142018209',
+                },
+              ]}
             />
           </div>
         </article>
@@ -156,7 +182,7 @@ const iconsSrc = {
   github: GithubIcon,
   mail: MailIcon,
   instagram: InstagramIcon,
-  lattes: LattesIcon
+  lattes: LattesIcon,
 } as Record<Icons, StaticImageData>;
 
 function Member({
