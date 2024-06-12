@@ -31,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang={lang} className={nunito.className}>
       <head>
-        <Script id="clarity-script" strategy="afterInteractive">
+        <Script id="clarity-script" strategy="beforeInteractive">
           {`
             (function(c,l,a,r,i,t,y){
                 c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
