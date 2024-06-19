@@ -47,7 +47,7 @@ export default function ArrowNavigator({
   }, [isCompleted, message]);
 
   const navClasses = cn(
-    `w-24 rounded-br-lg p-2 bg-primary text-primary-content`,
+    `w-24 rounded-br-lg p-2 bg-neutral text-neutral-content`,
     {
       'polygon-bl flex justify-end float-right mt-6': direction === 'right',
       'polygon-tr': direction === 'left',
