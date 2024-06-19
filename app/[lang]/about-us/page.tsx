@@ -8,11 +8,12 @@ import MailIcon from '@/public/icons/Mail_icon.svg';
 import AnaCristina from '@/public/people/AnaCristina.jpeg';
 import AnnaAlice from '@/public/people/AnnaAlice.jpeg';
 import Guilherme from '@/public/people/GuilhermeAugusto.jpg';
+import Julia from '@/public/people/Julia.jpeg';
 import Lorena from '@/public/people/Lorena.jpeg';
 import Male from '@/public/people/Male.svg';
 import Renata from '@/public/people/Renata.jpeg';
 import Sandro from '@/public/people/Sandro.jpeg';
-import Julia from '@/public/people/Julia.jpeg';
+import Vinicius from '@/public/people/Vinicius.jpg';
 import { AboutUsPage as AboutUsPageAttributes } from '@/types/page_types';
 import Image, { StaticImageData } from 'next/image';
 import Link from 'next/link';
@@ -138,10 +139,15 @@ export default async function AboutUsPage({
               ]}
             />
             <Member
-              photo={Male}
+              photo={Vinicius}
               name='Vinicius Ferreira Pinheiro'
               role={pageAttributes.maintainer}
-              icons={[]}
+              icons={[
+                {
+                  iconName: 'linkedin',
+                  href: 'https://www.linkedin.com/in/vin%C3%ADcius-pinheiro-356b4b208/',
+                },
+              ]}
             />
           </div>
         </article>
