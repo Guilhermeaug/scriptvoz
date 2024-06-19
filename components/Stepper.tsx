@@ -18,13 +18,13 @@ function buildStepper(
 
   return (
     <>
-      <li className={`step ${value >= 1 ? 'step-primary' : ''}`}>
+      <li className={`step ${value >= 1 ? 'step-neutral' : ''}`}>
         {generalAttributes.evaluation}
       </li>
-      <li className={`step ${value >= 2 ? 'step-primary' : ''}`}>
+      <li className={`step ${value >= 2 ? 'step-neutral' : ''}`}>
         {generalAttributes.diagnostic}
       </li>
-      <li className={`step ${value >= 3 ? 'step-primary' : ''}`}>
+      <li className={`step ${value >= 3 ? 'step-neutral' : ''}`}>
         {generalAttributes.therapeutic}
       </li>
     </>

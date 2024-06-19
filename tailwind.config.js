@@ -10,14 +10,14 @@ module.exports = {
     extend: {
       colors: {
         evaluation: '#f77f00',
-        diagnostic: '#588157',
+        diagnostic: '#6B7280',
         therapeutic: '#0A054C',
       },
     },
   },
   safelist: [
     {
-      pattern: /(bg|text|border)-(evaluation|diagnostic|therapeutic)/,
+      pattern: /(bg|text|border|step)-(evaluation|diagnostic|therapeutic)/,
     },
   ],
   daisyui: {
