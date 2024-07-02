@@ -25,8 +25,8 @@ export default async function HomePage({
   const session = await useAuth();
 
   return (
-    <div className='mx-auto space-y-6'>
-      <div className='mt-2 flex flex-col flex-wrap items-end justify-end gap-2 md:flex-row'>
+    <div className='space-y-6'>
+      <div className='mt-2 flex flex-col items-center justify-end gap-2 overflow-x-auto md:flex-row md:items-end'>
         <Link locale={lang} href={navigateTo(lang, 'manual')}>
           <button className='btn btn-ghost w-full justify-start rounded-none uppercase'>
             {pageAttributes.manual}
@@ -57,14 +57,14 @@ export default async function HomePage({
           {session ? (
             <>
               <Link href={navigateTo(lang, 'patients')}>
-                <button className='btn btn-lg w-64'>
+                <button className='btn md:btn-lg'>
                   {pageAttributes.start_button_text}
                 </button>
               </Link>
             </>
           ) : (
             <Link href={navigateTo(lang, 'sign-in')}>
-              <button className='btn btn-lg w-64'>
+              <button className='btn md:btn-lg'>
                 {pageAttributes.login_button_text}
               </button>
             </Link>

@@ -20,7 +20,7 @@ export default function LocaleSwitcher({ className }: Props) {
     return segments.join('/');
   };
 
-  const style = cn('flex gap-4 px-4', className);
+  const style = cn('flex flex-wrap gap-4', className);
 
   return (
     <div className={style}>
@@ -29,7 +29,7 @@ export default function LocaleSwitcher({ className }: Props) {
         if (flagCode === 'un' && locale.split('-')[0] === 'en') flagCode = 'gb';
         return (
           <Link href={redirectedPathName(locale)} key={locale}>
-            <span className={`fi fi-${flagCode} text-xl`}></span>
+            <span className={`fi fi-${flagCode} text-xl`} />
           </Link>
         );
       })}

@@ -15,12 +15,12 @@ interface Props extends React.HTMLAttributes<HTMLDivElement> {
 export default function Navbar({ lang, className, ...props }: Props) {
   const pathname = usePathname();
 
-  const style = cn('navbar bg-neutral text-neutral-content', className);
+  const style = cn('navbar bg-neutral text-neutral-content flex justify-between', className);
   const isInHomePage = pathname.split('/').length === 2;
 
   return (
     <div className={style} {...props}>
-      <div className='flex-1'>
+      <div>
         <Image
           src={Logo}
           alt={'Logo da UFMG'}
@@ -35,8 +35,8 @@ export default function Navbar({ lang, className, ...props }: Props) {
         >
           Script Voz
         </Link>
-        {isInHomePage && <LocaleSwitcher className='ml-auto' />}
       </div>
+      {isInHomePage && <LocaleSwitcher className='ml-auto' />}
     </div>
   );
 }
