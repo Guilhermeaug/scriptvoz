@@ -1,4 +1,5 @@
 import { Auth, SignUpError } from '@/types/auth_types';
+import * as Sentry from '@sentry/nextjs';
 import { AuthOptions, getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { revalidatePath } from 'next/cache';
@@ -12,17 +13,25 @@ export const authOptions: AuthOptions = {
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials, req) {
-        if (credentials == null) return null;
         try {
+          if (credentials == null) return null;
           const { user, jwt } = await login({
             email: credentials.email,
             password: credentials.password,
           });
           revalidatePath('/', 'layout');
           return { ...user, jwt };
-        } catch (error) {
-          const { error: e } = error as SignUpError;
-          throw new Error(e.message);
+        } catch (e) {
+          Sentry.captureException(e, {
+            tags: {
+              page: 'login',
+              type: 'credentials',
+            },
+          });
+          const error = e as SignUpError;
+          throw error.error.message
+            ? new Error(error.error.message)
+            : new Error('Unknown Error');
         }
       },
     }),
@@ -70,12 +79,10 @@ export async function login({
     cache: 'no-cache',
   });
   const json = await res.json();
-  if (res.ok) {
-    return json as Auth;
-  } else {
-    const error = json as SignUpError;
-    return Promise.reject(error);
+  if (!res.ok || !json.jwt || !json.user) {
+    throw json;
   }
+  return json;
 }
 
 export async function signUp(data: Record<string, unknown>) {
