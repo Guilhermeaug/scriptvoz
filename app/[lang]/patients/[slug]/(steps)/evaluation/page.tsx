@@ -41,6 +41,7 @@ export default async function EvaluationStep({
   const [
     {
       data: {
+        id,
         attributes: { evaluation: patient },
       },
     },
@@ -240,7 +241,7 @@ export default async function EvaluationStep({
         >
           <div className='h-min space-y-4 p-3'>
             <InformationHeader title={pageAttributes.call_to_action} />
-            <Questions questions={patient.questions} />
+            <Questions patientId={id} questions={patient.questions} />
           </div>
         </InformationBox>
       </section>

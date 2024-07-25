@@ -35,6 +35,7 @@ export default async function EvaluationStep({
   const [
     {
       data: {
+        id,
         attributes: { diagnostic: patient },
       },
     },
@@ -77,7 +78,7 @@ export default async function EvaluationStep({
           <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
             {pageAttributes.call_to_action}
           </p>
-          <Questions showFeedbackOnTop questions={patient.questions} />
+          <Questions patientId={id} showFeedbackOnTop questions={patient.questions} />
         </div>
       </InformationBox>
       <ArrowNavigator

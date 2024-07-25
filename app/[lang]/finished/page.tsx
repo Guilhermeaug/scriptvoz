@@ -1,14 +1,26 @@
 import BlocksRendererClient from '@/components/BlocksRendererClient';
 import { getPageData } from '@/lib/page_data';
+import { getPatient } from '@/lib/patients';
 import { EndScreenPage as EndScreenPageAttributes } from '@/types/page_types';
-import { navigateTo } from '@/util/navigateTo';
-import Link from 'next/link';
+import { Patient } from '@/types/patients_types';
+import ResetButton from './components/ResetButton';
 
 interface Props {
   params: { lang: string; slug: string };
+  searchParams: { slug: string };
 }
 
-export default async function EndScreenPage({ params: { lang, slug } }: Props) {
+export default async function EndScreenPage({
+  params: { lang },
+  searchParams: { slug },
+}: Props) {
+  const {
+    data: { id },
+  }: Patient = await getPatient({
+    locale: lang,
+    slug,
+  });
+
   const {
     data: { attributes: pageAttributes },
   }: EndScreenPageAttributes = await getPageData({
@@ -22,11 +34,11 @@ export default async function EndScreenPage({ params: { lang, slug } }: Props) {
         <h1>{pageAttributes.message}</h1>
       </header>
       <BlocksRendererClient content={pageAttributes.summary} />
-      <Link href={navigateTo(lang, '')}>
-        <button className='btn btn-primary btn-lg'>
-          {pageAttributes.button_text}
-        </button>
-      </Link>
+      <ResetButton
+        patientId={id}
+        lang={lang}
+        text={pageAttributes.button_text}
+      />
     </div>
   );
 }

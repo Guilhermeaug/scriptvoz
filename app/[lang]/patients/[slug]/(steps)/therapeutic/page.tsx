@@ -35,6 +35,7 @@ export default async function TherapeuticStep({
   const [
     {
       data: {
+        id,
         attributes: { therapeutic: patient },
       },
     },
@@ -77,11 +78,11 @@ export default async function TherapeuticStep({
           <p className='prose prose-stone mx-auto text-center lg:prose-lg'>
             {pageAttributes.call_to_action}
           </p>
-          <Questions questions={patient.questions} />
+          <Questions patientId={id} questions={patient.questions} />
         </div>
       </InformationBox>
       <ArrowNavigator
-        href={navigateTo(lang, `finished`)}
+        href={navigateTo(lang, `finished?slug=${slug}`)}
         direction='right'
         ids={correctIds}
         correctAmount={correctAmount}

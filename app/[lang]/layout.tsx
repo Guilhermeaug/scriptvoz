@@ -15,7 +15,6 @@ export const metadata = {
 
 const nunito = Nunito_Sans({
   subsets: ['latin'],
-  display: 'swap',
 });
 
 export async function generateStaticParams() {

@@ -17,13 +17,16 @@ const variations = {
 
 interface QuestionStatus {
   id: number;
+  patientId: number;
   testCasesStatus: TestStatus[];
 }
 
 export default function Questions({
+  patientId,
   questions,
   showFeedbackOnTop = false,
 }: {
+  patientId: number;
   questions: QuestionType[];
   showFeedbackOnTop?: boolean;
 }) {
@@ -58,6 +61,7 @@ export default function Questions({
         if (!questionStatus) {
           questionStatus = {
             id: question.id,
+            patientId: patientId,
             testCasesStatus: question.test_cases.map((ts) => ({
               id: ts.id,
               answered: false,
