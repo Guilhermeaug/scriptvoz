@@ -11,6 +11,9 @@ function getLocale(request: NextRequest): string | undefined {
   request.headers.forEach((value, key) => (negotiatorHeaders[key] = value));
 
   let languages = new Negotiator({ headers: negotiatorHeaders }).languages();
+  if (languages.length === 1 && languages[0] === "*") {
+    languages = ["pt-BR"];
+  }
   const locales: string[] = Array.from(i18n.locales);
   const matchedLocale = matchLocale(languages, locales, i18n.defaultLocale);
 
