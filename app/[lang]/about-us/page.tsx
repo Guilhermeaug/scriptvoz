@@ -65,6 +65,21 @@ export default async function AboutUsPage({
               ]}
             />
             <Member
+              photo={AnaCristina}
+              name='Ana Cristina Côrtes Gama'
+              role={pageAttributes.authora}
+              icons={[
+                {
+                  iconName: 'mail',
+                  href: 'mailto:anacgama@medicina.ufmg.br',
+                },
+                {
+                  iconName: 'lattes',
+                  href: 'http://lattes.cnpq.br/4598186599114774',
+                },
+              ]}
+            />
+            <Member
               photo={Sandro}
               name='Sandro Renato Dias'
               role={pageAttributes.author}
@@ -98,21 +113,6 @@ export default async function AboutUsPage({
                 {
                   iconName: 'lattes',
                   href: 'http://lattes.cnpq.br/1668260273015995',
-                },
-              ]}
-            />
-            <Member
-              photo={AnaCristina}
-              name='Ana Cristina Côrtes Gama'
-              role={pageAttributes.authora}
-              icons={[
-                {
-                  iconName: 'mail',
-                  href: 'mailto:anacgama@medicina.ufmg.br',
-                },
-                {
-                  iconName: 'lattes',
-                  href: 'http://lattes.cnpq.br/4598186599114774',
                 },
               ]}
             />
